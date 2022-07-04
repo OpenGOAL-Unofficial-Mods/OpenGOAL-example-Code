@@ -8,8 +8,25 @@
 ;;Randomizer
 ;; cell-interval serves as a counter, it counts up until it is raul to cells-needed-to-warp, then it warps jak and resets itself to count again
 (define *cell-interval* 0.0)
+(define *randomCheckpoint* (the continue-point #f))
 ;;cells-needed-to-warp can be set to any value you would like here, 1.0 will warp every cell 7.0 will warp every 7 cells.
 
+(defun makeRandomCheckpoint()
+
+(set! *randomCheckpoint* (get-continue-by-name *game-info* (-> *checkpoint-list* (rand-vu-int-range 0 61))))
+(checkRandomCheckpoint)
+(none)
+)
+
+(defun checkRandomCheckpoint()
+
+(if (and (not (task-closed? (game-task citadel-sage-green) (task-status need-hint))) (= *randomCheckpoint* (get-continue-by-name *game-info* "citadel-start")))
+(begin
+(makeRandomCheckpoint)
+)
+)
+(none)
+)
 ;;End Randomizer settings
 
 
@@ -1713,9 +1730,13 @@
     (if (-> *pc-settings* checkpoint-randomizer?)
       (begin
         (set! *cell-interval* (+ *cell-interval* 1))
+        
+        (makeRandomCheckpoint)
+        
+
         (if (>= *cell-interval* (-> *pc-settings* cells-needed-to-warp))
           (begin
-            (start 'play (get-continue-by-name *game-info* (-> *checkpoint-list* (rand-vu-int-range 0 61))))
+            (start 'play *randomCheckpoint*)
             (set! *cell-interval* 0.0)
           )
         )
