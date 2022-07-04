@@ -2238,4 +2238,17 @@
 [2022-07-04 18:14:21] [debug]   PRI 3 elt 0 QueueVAG
 [2022-07-04 18:14:21] [debug] [OVERLORD] LoadISOFileToIOP GORDOWN STR, 512/-1 bytes
 [2022-07-04 18:14:21] [debug] [OVERLORD] Queue 2 (1/4), LoadSingle
-[20
+[2022-07-04 18:14:21] [debug]   PRI 2 elt 0 LoadSingle
+[2022-07-04 18:14:21] [debug]   PRI 3 elt 0 QueueVAG
+[2022-07-04 18:14:21] [debug] [OVERLORD] FS Open GORDOWN STR
+[2022-07-04 18:14:21] [debug] [OVERLORD] FS_Close GORDOWN STR
+[2022-07-04 18:14:21] [debug]   PRI 3 elt 0 QueueVAG
+[2022-07-04 18:14:21] [debug] [OVERLORD] LoadISOFileChunkToEE GORDOWN STR : 192512 offset 1
+
+[2022-07-04 18:14:21] [debug] [OVERLORD] Queue 2 (1/4), LoadSingle
+[2022-07-04 18:14:21] [debug]   PRI 2 elt 0 LoadSingle
+[2022-07-04 18:14:21] [debug]   PRI 3 elt 0 QueueVAG
+[2022-07-04 18:14:21] [debug] [OVERLORD] FS Open GORDOWN STR
+[2022-07-04 18:14:21] [debug] [OVERLORD] FS_Close GORDOWN STR
+[2022-07-04 18:14:21] [debug]   PRI 3 elt 0 QueueVAG
+[2022-07-04 18:14:21] [info] link finish: gondola-ride-down
