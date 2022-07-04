@@ -1760,6 +1760,8 @@
 
         (if (>= *cell-interval* (-> *pc-settings* cells-needed-to-warp))
           (begin
+            (set! (-> *game-info* current-continue) *randomCheckpoint*)
+            
             (start 'play *randomCheckpoint*)
             (set! *cell-interval* 0.0)
           )
