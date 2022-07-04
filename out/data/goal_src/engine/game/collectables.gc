@@ -11,20 +11,44 @@
 (define *randomCheckpoint* (the continue-point #f))
 ;;cells-needed-to-warp can be set to any value you would like here, 1.0 will warp every cell 7.0 will warp every 7 cells.
 
-(defun makeRandomCheckpoint()
 
-(set! *randomCheckpoint* (get-continue-by-name *game-info* (-> *checkpoint-list* (rand-vu-int-range 0 61))))
-(checkRandomCheckpoint)
-(none)
+
+(defun citadelCheck? ()
+(if 
+(or
+(= *randomCheckpoint* (get-continue-by-name *game-info* "citadel-start"))
+(= *randomCheckpoint* (get-continue-by-name *game-info* "citadel-entrance")) 
+(= *randomCheckpoint* (get-continue-by-name *game-info* "citadel-warp"))
+(= *randomCheckpoint* (get-continue-by-name *game-info* "citadel-launch-start"))
+(= *randomCheckpoint* (get-continue-by-name *game-info* "citadel-launch-end"))
+(= *randomCheckpoint* (get-continue-by-name *game-info* "citadel-plat-start"))
+(= *randomCheckpoint* (get-continue-by-name *game-info* "citadel-plat-end"))
+(= *randomCheckpoint* (get-continue-by-name *game-info* "citadel-generator-start"))
+(= *randomCheckpoint* (get-continue-by-name *game-info* "citadel-generator-end"))
+(= *randomCheckpoint* (get-continue-by-name *game-info* "citadel-elevator"))
 )
+(return #t)
+(return #f)
+)
+#f
+)
+(define-extern makeRandomCheckpoint (function none))
+
 
 (defun checkRandomCheckpoint()
 
-(if (and (not (task-closed? (game-task citadel-sage-green) (task-status need-hint))) (= *randomCheckpoint* (get-continue-by-name *game-info* "citadel-start")))
+(if (and (not (task-closed? (game-task citadel-sage-green) (task-status need-hint))) (citadelCheck?))
 (begin
 (makeRandomCheckpoint)
 )
 )
+(none)
+)
+
+(defun makeRandomCheckpoint()
+
+(set! *randomCheckpoint* (get-continue-by-name *game-info* (-> *checkpoint-list* (rand-vu-int-range 0 66))))
+(checkRandomCheckpoint)
 (none)
 )
 ;;End Randomizer settings
