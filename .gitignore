@@ -1,0 +1,5 @@
+
+out/data/assets/*
+out/data/decompiler_out/*
+out/data/iso_data/*
+out/data/out/*
