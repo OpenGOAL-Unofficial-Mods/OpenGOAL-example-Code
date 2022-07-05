@@ -1720,13 +1720,17 @@
     
 
     (send-event *target* 'get-pickup (-> self fact pickup-type) (-> self fact pickup-amount))
-    (set! (-> self draw bounds w) 32768.0)
+    (if (not (-> *pc-settings* checkpoint-randomizer?))
+    (begin
+     (set! (-> self draw bounds w) 32768.0)
     (logior! (-> self skel status) (janim-status inited))
     (send-event *target* 'blend-shape #t)
     (add-setting! 'music-volume 'rel (-> *setting-control* current music-volume-movie) 0)
     (add-setting! 'sfx-volume 'rel (-> *setting-control* current sfx-volume-movie) 0)
     (add-setting! 'ambient-volume 'rel (-> *setting-control* current ambient-volume-movie) 0)
     (process-spawn othercam self 10 #f #t :to self)
+    ))
+   
     (auto-save-command 'auto-save 0 0 *default-pool*)
 
     ;; play powercell animation if randomizer disabled
