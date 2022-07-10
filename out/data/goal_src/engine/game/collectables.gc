@@ -1714,11 +1714,9 @@
         )
       )
     (spool-push *art-control* (-> self victory-anim name) 0 self (the-as float -99.0))
-
-    )
-    )
+  )
+)
     
-
     (send-event *target* 'get-pickup (-> self fact pickup-type) (-> self fact pickup-amount))
     (if (not (-> *pc-settings* checkpoint-randomizer?))
     (begin
@@ -1743,7 +1741,11 @@
         (the-as (function process-drawable symbol) false-func)
 
       )
-                  (remove-setting! 'music-volume)
+
+    )
+
+    )
+    (remove-setting! 'music-volume)
     (remove-setting! 'sfx-volume)
     (remove-setting! 'ambient-volume)
     (send-event *target* 'blend-shape #f)
@@ -1753,10 +1755,6 @@
     (ja-channel-set! 0)
     (suspend)
     (suspend)
-    )
-
-    )
-
 
     
     ;; warp to random checkpoint if randomizer enabled
@@ -1765,12 +1763,9 @@
         (set! *cell-interval* (+ *cell-interval* 1))
         
         (makeRandomCheckpoint)
-        
-
         (if (>= *cell-interval* (-> *pc-settings* cells-needed-to-warp))
           (begin
-            (set! (-> *game-info* current-continue) *randomCheckpoint*)
-            
+            (set! (-> *game-info* current-continue) *randomCheckpoint*)        
             (start 'play *randomCheckpoint*)
             (set! *cell-interval* 0.0)
           )
