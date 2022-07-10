@@ -82,6 +82,8 @@
 )
 )
 )
+ (define-extern racer? symbol)
+  (define-extern flutflut?  symbol)
 
 
 (defun set-letterbox-frames ((arg0 time-frame))

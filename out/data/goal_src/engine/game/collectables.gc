@@ -1750,7 +1750,8 @@
 
     )
 
- (if (and (not flutflut) (not racer)) (begin
+ (if (and (not flutflut?) (not racer?)) 
+ (begin
    (send-event *target* 'end-mode)
  ))
 
