@@ -206,12 +206,12 @@
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id options) :scale #t :param3 (game-option-menu settings-title))
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id secrets) :scale #t :param3 (game-option-menu secrets))
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id quit-game) :scale #t :param3 (game-option-menu quit-title))
-    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
     )
   )
 
 (define *secrets-options* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id music-player) :scale #t :param3 (game-option-menu music-player))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id checkpoint-randomizer) :scale #t :param3 (game-option-menu randomizer-options))
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
     )
   )
