@@ -514,7 +514,7 @@
 
     (format file "  (fps ~D)~%" (-> obj target-fps))
     (format file "  (cells-needed-to-warp ~F)~%" (the-as float(-> obj cells-needed-to-warp)))
-    (format file "  (Randomizer? ~D)~%" (-> obj checkpoint-randomizer?))
+    (format file "  (Randomizer? ~A)~%" (-> obj checkpoint-randomizer?))
   #|(format file "  (game-size ~D ~D)~%" (-> obj width) (-> obj height))
     (format file "  (window-size ~D ~D)~%" (-> obj win-width) (-> obj win-height))
     (format file "  (aspect ~D ~D)~%" (-> obj width) (-> obj height))
