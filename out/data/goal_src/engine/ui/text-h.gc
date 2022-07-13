@@ -597,15 +597,6 @@
   (hint-0                       #x1300)
   (hint-511                     #x14ff)
   (cell-count-to-trigger-warp  #x1301)
-  ;;Challenges
-  (custom-challenges  #x1302)
-  (challenges-orbless  #x1303)
-  (challenges-hardcore  #x1304)
-  (challenges-damageless  #x1305)
-  (challenges-bonkless  #x1306)
-  (challenges-casual  #x1307)
-  (challenges-mirrormode  #x1308)
-  (challenges-pacifist #x1309)
 ;; GAME-TEXT-ID ENUM ENDS
   )
 
