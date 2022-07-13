@@ -7,7 +7,6 @@
 
 ;;Randomizer
 ;; cell-interval serves as a counter, it counts up until it is raul to cells-needed-to-warp, then it warps jak and resets itself to count again
-(define-extern *randomizer-settings* randomizer-settings)
 (define *cell-interval* 0.0)
 (define *randomCheckpoint* (the continue-point #f))
 (define racer? #f) 
