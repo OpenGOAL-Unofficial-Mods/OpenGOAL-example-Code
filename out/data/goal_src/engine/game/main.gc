@@ -176,7 +176,7 @@
 
 (defun movie? ()
 
-(if (>= (-> *game-info* fuel) 20)
+(if (or (>= (-> *game-info* fuel) 20) (task-complete? *game-info* (game-task firecanyon-end)) )
 (begin
 (close-specific-task! (game-task firecanyon-assistant) (task-status need-reward-speech))
 ))
