@@ -393,6 +393,7 @@
 (defconstant PC_TEMP_STRING_LEN 512)
 (define *pc-temp-string* (new 'global 'string PC_TEMP_STRING_LEN (the-as string #f)))
 (define *pc-settings* (the-as pc-settings #f))
+(define *randomizer-settings* (the-as randomizer-settings #f))
 (format 0 "PC kernel version: ~D.~D~%" PC_KERNEL_VERSION_MAJOR PC_KERNEL_VERSION_MINOR)
 
 (define *pc-temp-string-1* (new 'global 'string 2048 (the-as string #f)))
