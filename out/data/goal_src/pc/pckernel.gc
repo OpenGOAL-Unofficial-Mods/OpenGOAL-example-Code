@@ -500,6 +500,76 @@
 
 
 
+
+
+(define *pc-cheat-temp* (the-as (pointer int32) (malloc 'global (* 4 7))))
+(defmacro pc-cheat-toggle-and-tune (obj cheat)
+  `(begin
+    (cpad-clear! 0 r1)
+    (logxor! (-> ,obj cheats) (pc-cheats ,cheat))
+    (cheats-sound-play (logtest? (-> ,obj cheats) (pc-cheats ,cheat)))
+    )
+  )
+
+ (deftype randomizer-settings (basic)
+    ((version uint64) ;; version of this settings
+(os symbol) ;; windows, linux, macos
+(target-fps int16) ;; the target framerate of the game
+    (cells-needed-to-warp float);; number of cells needed to trigger a random checkpoint warp
+    
+    (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
+    ;; TODO - save/restore original settings (language/sound/etc)
+    )
+
+    (:methods
+     (new (symbol type) _type_)
+       (update (_type_) none)
+    (update-from-os (_type_) none)
+    (update-to-os (_type_) none)
+      (reset (_type_) none)
+      (read-from-file (_type_ string) symbol)
+      (commit-to-file (_type_) none)
+      (write-to-file (_type_ string) symbol)
+      (load-settings (_type_) int)
+      )
+    )
+
+    (defmethod reset randomizer-settings ((obj randomizer-settings))
+  "Set the default settings"
+
+  ;(format #t "pc settings reset~%")
+
+  (set! (-> obj version) PC_KERNEL_VERSION)
+  #|
+
+  (set! (-> obj user) #f)
+  (set! (-> obj debug?) #f)
+  (set! (-> obj new-lb?) #f)
+  (set! (-> obj display-actor-bank) #f)
+  (set! (-> obj debug-pad-display) #f)
+  (set! (-> obj display-bug-report) #f)
+  (set! (-> obj display-heap-status) #f)
+  (set! (-> obj display-actor-counts) #f)
+  (set! (-> obj display-text-box) #f)
+  (set! (-> obj display-sha) *debug-segment*)
+  (set! (-> obj mood-override?) #f)
+  (set! (-> obj movie?) #f)
+  (set! (-> obj font-scale) 1.0)
+  (set! (-> obj aspect-custom-x) 4)
+  (set! (-> obj aspect-custom-y) 3)
+  (set! (-> obj discord-rpc?) #t)
+  (set! (-> obj cells-needed-to-warp) 1.0)
+  (set! (-> obj checkpoint-randomizer?) #t)
+  (set! (-> obj window-lock?) #t)
+
+  (reset-gfx obj)
+  (reset-audio obj)
+  (reset-input obj)
+  (reset-ps2 obj)
+  (reset-misc obj)
+  (reset-extra obj)
+|#
+  (none))
 (defmethod write-to-file randomizer-settings ((obj randomizer-settings) (filename string))
   "write settings to a file"
 
@@ -641,16 +711,8 @@
 
   (none))
 
-(define *pc-cheat-temp* (the-as (pointer int32) (malloc 'global (* 4 7))))
-(defmacro pc-cheat-toggle-and-tune (obj cheat)
-  `(begin
-    (cpad-clear! 0 r1)
-    (logxor! (-> ,obj cheats) (pc-cheats ,cheat))
-    (cheats-sound-play (logtest? (-> ,obj cheats) (pc-cheats ,cheat)))
-    )
-  )
 
-(defmethod update randomizer-settings ((obj randomizer-settings))
+  (defmethod update randomizer-settings ((obj randomizer-settings))
   "Update settings to/from PC kernel. Call this at the start of every frame.
    This will update things like the aspect-ratio, which will be used for graphics code later."
 
@@ -682,7 +744,6 @@
 |#
 
   (none))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; functions
