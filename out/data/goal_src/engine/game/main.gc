@@ -176,6 +176,7 @@
 
 (defun movie? ()
 
+;;This stuff is only in here so it runs all the time, there is probably a better or more correct way to accomplish this.
 (if (-> *randomizer-settings* checkpoint-randomizer?)
 (begin
 ;;Skip the keira cutscene into if the player has 20 or more cells, or if they have collected the end cell.
