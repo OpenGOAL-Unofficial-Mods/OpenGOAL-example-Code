@@ -121,6 +121,7 @@
       (quit-title)
       (flava-player)
       (randomizer-options)
+      (challenges-options)
     
 
       ;; the last one!
