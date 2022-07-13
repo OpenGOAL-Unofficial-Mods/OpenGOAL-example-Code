@@ -286,26 +286,6 @@
         "FLAVOUR 2")
 (#x1301 "CELLS NEEDED TO WARP"
         "CELLS NEEDED TO WARP")
-(#x1302 "TOGGLE CHALLENGES"
-        "TOGGLE CHALLENGES")
-(#x1303 "ORBLESS"
-        "ORBLESS")
-(#x1304 "HARDCORE"
-        "HARDCORE")
-(#x1305 "DAMAGELESS"
-        "DAMAGELESS")  
-(#x1306 "BONKLESS"
-        "BONKLESS")
-(#x1307 "CASUAL"
-        "CASUAL")
-(#x1308 "MIRROR MODE"
-        "MIRROR MODE")
-(#x1309 "PACIFIST"
-        "PACIFIST")
-
-
-
-
 
 ;; -----------------
 ;; test
