@@ -175,6 +175,12 @@
   )
 
 (defun movie? ()
+
+(if (>= (-> *game-info* fuel) 20)
+(begin
+(close-specific-task! (game-task firecanyon-assistant) (task-status need-reward-speech))
+))
+
 (set! racer? (aif *target* (case (-> it next-state name) (
                                       ('target-racing
                                        'target-racing-bounce
