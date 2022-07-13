@@ -136,6 +136,7 @@
 (define *misc-options* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id discord-rpc) :scale #t)
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id checkpoint-randomizer) :scale #t :param3 (game-option-menu randomizer-options))
+     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id custom-challenges) :scale #t :param3 (game-option-menu challenges-options))
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
    
     )
@@ -152,7 +153,24 @@
   )
 (define *randomizer-options* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id checkpoint-randomizer) :scale #t)
-    (new 'static 'game-option :name (game-text-id cell-count-to-trigger-warp) :scale #t :param2 102.0)
+    (new 'static 'game-option :name (game-text-id cell-count-to-trigger-warp) :scale #t :param1 1.0 :param2 102.0)
+    ;;(new 'static 'game-option :option-type (game-option-type normal-inverted) :name (game-text-id camera-controls-first-horz) :scale #t)
+    ;;(new 'static 'game-option :option-type (game-option-type normal-inverted) :name (game-text-id camera-controls-first-vert) :scale #t)
+    ;;(new 'static 'game-option :option-type (game-option-type normal-inverted) :name (game-text-id camera-controls-third-horz) :scale #t)
+    ;;(new 'static 'game-option :option-type (game-option-type normal-inverted) :name (game-text-id camera-controls-third-vert) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id restore-defaults) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
+    )
+  )
+(define *challenges-options* (new 'static 'boxed-array :type game-option
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-hardcore) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-orbless) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-damageless) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-pacifist) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-bonkless) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-casual) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-mirrormode) :scale #t)
+
     ;;(new 'static 'game-option :option-type (game-option-type normal-inverted) :name (game-text-id camera-controls-first-horz) :scale #t)
     ;;(new 'static 'game-option :option-type (game-option-type normal-inverted) :name (game-text-id camera-controls-first-vert) :scale #t)
     ;;(new 'static 'game-option :option-type (game-option-type normal-inverted) :name (game-text-id camera-controls-third-horz) :scale #t)
@@ -212,6 +230,7 @@
 (define *secrets-options* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id music-player) :scale #t :param3 (game-option-menu music-player))
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id checkpoint-randomizer) :scale #t :param3 (game-option-menu randomizer-options))
+     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id checkpoint-randomizer) :scale #t :param3 (game-option-menu challenges-options))
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
     )
   )
@@ -598,6 +617,7 @@
   (set! (-> *options-remap* (progress-screen aspect-msg))             *yes-no-options*)
   (set! (-> *options-remap* (progress-screen camera-options))         *camera-options*)
    (set! (-> *options-remap* (progress-screen randomizer-options))    *randomizer-options*)
+      (set! (-> *options-remap* (progress-screen challenges-options))    *challenges-options*)
   (set! (-> *options-remap* (progress-screen misc-options))           *misc-options*)
   (set! (-> *options-remap* (progress-screen accessibility-options))  *accessibility-options*)
   (set! (-> *options-remap* (progress-screen gfx-ps2-options))        *gfx-ps2-options*)
@@ -646,6 +666,18 @@
   (set! (-> *randomizer-options* 1 value-to-modify) (&-> *randomizer-settings* cells-needed-to-warp))
   (set! (-> *randomizer-options* 2 value-to-modify) (&-> *pc-settings* third-camera-h-inverted?))
   (set! (-> *randomizer-options* 3 value-to-modify) (&-> *pc-settings* third-camera-v-inverted?))
+
+  ;;Challenges menu
+  (set! (-> *challenges-options* 0 value-to-modify) (&-> *randomizer-settings* checkpoint-randomizer?))
+  (set! (-> *challenges-options* 1 value-to-modify) (&-> *randomizer-settings* cells-needed-to-warp))
+  (set! (-> *challenges-options* 2 value-to-modify) (&-> *pc-settings* third-camera-h-inverted?))
+  (set! (-> *challenges-options* 3 value-to-modify) (&-> *pc-settings* third-camera-v-inverted?))
+  (set! (-> *challenges-options* 4 value-to-modify) (&-> *pc-settings* third-camera-v-inverted?))
+  (set! (-> *challenges-options* 5 value-to-modify) (&-> *pc-settings* third-camera-v-inverted?))
+  (set! (-> *challenges-options* 6 value-to-modify) (&-> *pc-settings* third-camera-v-inverted?))
+  (set! (-> *challenges-options* 7 value-to-modify) (&-> *pc-settings* third-camera-v-inverted?))
+  (set! (-> *challenges-options* 8 value-to-modify) (&-> *pc-settings* third-camera-v-inverted?))
+
 
   (set! (-> *camera-options* 0 value-to-modify) (&-> *pc-settings* first-camera-h-inverted?))
   (set! (-> *camera-options* 1 value-to-modify) (&-> *pc-settings* first-camera-v-inverted?))
@@ -1940,6 +1972,11 @@
          (draw-options self 115 25 0.65)
          )
         (((progress-screen randomizer-options))
+         ;; camera options lines are a bit too big
+         (hide-progress-icons)
+         (draw-options self 115 25 0.65)
+         )
+           (((progress-screen challenges-options))
          ;; camera options lines are a bit too big
          (hide-progress-icons)
          (draw-options self 115 25 0.65)
