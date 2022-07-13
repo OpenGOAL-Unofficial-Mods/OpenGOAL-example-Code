@@ -38,8 +38,8 @@
 (defun checkRandomCheckpoint?()
   ;; returns whether the checkpoint is safe to use
   (if (and (not (task-closed? (game-task citadel-sage-green) (task-status need-hint))) (citadelCheck?))
-    (return #t)
     (return #f)
+    (return #t)
   )
   #f
 )
