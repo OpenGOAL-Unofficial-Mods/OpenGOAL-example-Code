@@ -49,8 +49,6 @@
   (define foundValid? #f) 
   (set! *randomCheckpointName* (-> *checkpoint-list* (rand-vu-int-range 0 66)))
   (while (not foundValid?)
-    (format 0 "RANDOMIZER: validating checkpoint ~A~%" *randomCheckpointName*)
-    
     ;; if checkpoint is valid, persist it, otherwise regenerate
     (if (checkRandomCheckpoint?)
       (begin 
