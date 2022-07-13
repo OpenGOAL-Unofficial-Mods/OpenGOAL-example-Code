@@ -1788,7 +1788,9 @@
         (makeRandomCheckpoint)
         (if (>= *cell-interval* (-> *randomizer-settings* cells-needed-to-warp))
           (begin
-            (set! (-> *game-info* current-continue) *randomCheckpoint*)        
+            (format 0 "RANDOMIZER: warping from ~A...~%" (-> *level* level 0 name))
+            (makeRandomCheckpoint)
+            (format 0 "RANDOMIZER: ...warping to ~A~%" *randomCheckpointName*)     
             (start 'play *randomCheckpoint*)
             (set! *cell-interval* 0.0)
           )
