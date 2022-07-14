@@ -180,8 +180,8 @@
       )
       (begin
         (format 0 "RANDOMIZER: checkpoint ~A is NOT valid, will grab the next~%" checkpointName)
-        (set! checkpointName (car *set-seed-checkpoint-list*))
-        (set! *set-seed-checkpoint-list* (cdr *set-seed-checkpoint-list*))
+        (set! checkpointName (car *next-set-seed-checkpoint-node*))
+        (set! *next-set-seed-checkpoint-node* (cdr *next-set-seed-checkpoint-node*))
       )
     )
   )
