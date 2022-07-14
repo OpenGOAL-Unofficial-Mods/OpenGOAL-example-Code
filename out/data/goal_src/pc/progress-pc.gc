@@ -658,13 +658,13 @@
 
   ;;Challenges menu
 
-  (set! (-> *challenges-options* 0 value-to-modify) (&-> *challenges-settings* orbless?))
-  (set! (-> *challenges-options* 1 value-to-modify) (&-> *challenges-settings* hardcore?))
-  (set! (-> *challenges-options* 2 value-to-modify) (&-> *challenges-settings* damageless?))
-  (set! (-> *challenges-options* 3 value-to-modify) (&-> *challenges-settings* bonkless?))
-  (set! (-> *challenges-options* 4 value-to-modify) (&-> *challenges-settings* casual?))
-  (set! (-> *challenges-options* 5 value-to-modify) (&-> *challenges-settings* mirrormode?))
-  (set! (-> *challenges-options* 6 value-to-modify) (&-> *challenges-settings* pacifist?))
+  (set! (-> *challenges-options* 0 value-to-modify) (&-> *challenges-settings* challenges-orbless?))
+  (set! (-> *challenges-options* 1 value-to-modify) (&-> *challenges-settings* challenges-hardcore?))
+  (set! (-> *challenges-options* 2 value-to-modify) (&-> *challenges-settings* challenges-damageless?))
+  (set! (-> *challenges-options* 3 value-to-modify) (&-> *challenges-settings* challenges-bonkless?))
+  (set! (-> *challenges-options* 4 value-to-modify) (&-> *challenges-settings* challenges-casual?))
+  (set! (-> *challenges-options* 5 value-to-modify) (&-> *challenges-settings* challenges-mirrormode?))
+  (set! (-> *challenges-options* 6 value-to-modify) (&-> *challenges-settings* challenges-pacifist?))
 
 
 
