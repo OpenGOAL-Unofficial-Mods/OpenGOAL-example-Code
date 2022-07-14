@@ -467,7 +467,6 @@
   (camera-controls-third-horz   #x1005)
   (camera-controls-third-vert   #x1006)
   (restore-defaults             #x1007)
-  (checkpoint-randomizer        #x1008)
   (misc-options                 #x100f)
   (accessibility-options        #x1010)
   (money-starburst              #x1011)
@@ -596,16 +595,23 @@
   (scene-255                    #x12ff)
   (hint-0                       #x1300)
   (hint-511                     #x14ff)
-  (cell-count-to-trigger-warp  #x1301)
-    ;;Challenges
-  (custom-challenges  #x1302)
-  (challenges-orbless  #x1303)
-  (challenges-hardcore  #x1304)
-  (challenges-damageless  #x1305)
-  (challenges-bonkless  #x1306)
-  (challenges-casual  #x1307)
-  (challenges-mirrormode  #x1308)
-  (challenges-pacifist #x1309)
+  
+  ;; Randomizer
+  (checkpoint-randomizer        #x1301)
+  (cell-count-to-trigger-warp   #x1302)
+  (randomizer-logic             #x1303)
+  (randomizer-seedless          #x1304)
+  (randomizer-set-seed          #x1305)
+
+  ;;Challenges
+  (custom-challenges            #x1402)
+  (challenges-orbless           #x1403)
+  (challenges-hardcore          #x1404)
+  (challenges-damageless        #x1405)
+  (challenges-bonkless          #x1406)
+  (challenges-casual            #x1407)
+  (challenges-mirrormode        #x1408)
+  (challenges-pacifist          #x1409)
 ;; GAME-TEXT-ID ENUM ENDS
   )
 
