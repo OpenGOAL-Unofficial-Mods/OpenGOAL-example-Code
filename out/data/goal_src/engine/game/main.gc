@@ -176,6 +176,7 @@
           )
   )
 (define-extern resetSetSeedList (function none))
+(define-extern generateSetSeedCheckpointList (function float none))
 
 (defun movie? ()
 
@@ -210,11 +211,19 @@
                                        'target-flut-stance
                                        'target-flut-start
                                        'target-flut-walk) #t))))
-
-                                       
-(if (and (= (-> *game-info* money-total)0.0) (= (-> *game-info* buzzer-total)0.0) (= (-> *game-info* fuel) 0.0))
+(clear *stdcon*)
+            (format *stdcon* " ~F~%"  (-> *randomizer-settings* randomizer-seed)) 
+                                  
+(if (and (= (-> *game-info* money)0.0) (= (-> *game-info* buzzer-total)0.0) (= (-> *game-info* fuel) 0.0))
 (begin
+
+ (if (-> *randomizer-settings* randomizer-logic)(begin
+ (set!   (-> *randomizer-settings* randomizer-seed) (rand-vu-float-range 0.0 10.0))
+ )(none))
+
+ ;;
  (resetSetSeedList)
+
 )
 )
 )
