@@ -499,7 +499,7 @@
 
 
 
-
+#|
 (defmethod write-to-file randomizer-settings ((obj randomizer-settings) (filename string))
   "write settings to a file"
 
@@ -523,7 +523,8 @@
   #t
   )
 
-
+|#
+#|
   (defmethod commit-to-file randomizer-settings ((obj randomizer-settings))
   "commits the current settings to the file"
   ;; auto load settings if available
@@ -532,7 +533,7 @@
   (pc-mkdir-file-path *pc-temp-string-1*)
   (write-to-file obj *pc-temp-string-1*)
   (none)) 
-
+|#
 (define *pc-cheat-temp* (the-as (pointer int32) (malloc 'global (* 4 7))))
 (defmacro pc-cheat-toggle-and-tune (obj cheat)
   `(begin
@@ -1085,6 +1086,7 @@
                 (("Randomizer?") (set! (-> obj checkpoint-randomizer?) (file-stream-read-symbol file)))
                 (("cells-needed-to-warp") (set! (-> obj cells-needed-to-warp) (file-stream-read-float file)))
                 (("randomizer-logic") (set! (-> obj randomizer-logic) (file-stream-read-symbol file)))
+                (("Seed") (set! (-> obj randomizer-seed) (file-stream-read-float file)))
                 )
               )
             )

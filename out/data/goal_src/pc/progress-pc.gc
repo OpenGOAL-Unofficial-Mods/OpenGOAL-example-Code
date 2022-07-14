@@ -649,7 +649,7 @@
   (set! (-> *graphic-options-no-frame-rate-pc* 4 value-to-modify) (&-> *progress-state* aspect-ratio-choice))
   ;(set! (-> *graphic-options-pc* 6 value-to-modify) (&-> *progress-carousell* int-backup))
   (set! (-> *misc-options* 0 value-to-modify) (&-> *pc-settings* discord-rpc?))
-  (set! (-> *misc-options* 1 value-to-modify) (&-> *pc-settings* checkpoint-randomizer?))
+  (set! (-> *misc-options* 1 value-to-modify) (&-> *randomizer-settings* checkpoint-randomizer?))
 
   ;;Randomizer menu
   (set! (-> *randomizer-options* 0 value-to-modify) (&-> *randomizer-settings* checkpoint-randomizer?))

@@ -306,7 +306,6 @@
 
    (flava-hack int64)
    
-   (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
    ;; TODO - save/restore original settings (language/sound/etc)
    )
 
@@ -438,6 +437,7 @@
          (randomizer-logic symbol) ;; boolean (#t = seedless / #f = set seed)
     
     (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
+    (randomizer-seed float) ;; Seed for Bargs logic 
     ;; TODO - save/restore original settings (language/sound/etc)
     )
 
@@ -466,9 +466,11 @@
 
     (format file "(settings #x~X~%" (-> *pc-settings* version))
 
-    (format file "  (fps ~D)~%" (-> obj target-fps))
+  
     (format file "  (cells-needed-to-warp ~F)~%" (the-as float(-> obj cells-needed-to-warp)))
     (format file "  (Randomizer? ~A)~%" (-> obj checkpoint-randomizer?))
+    (format file "  (randomizer-logic ~A)~%" (-> obj randomizer-logic))
+    (format file "  (Seed ~F)~%" (-> obj randomizer-seed))
 
     (format file "  )~%")
     (file-stream-close file)
@@ -546,6 +548,7 @@
   (set! (-> obj checkpoint-randomizer?) #t)
   (set! (-> obj cells-needed-to-warp) 1.0)
   (set! (-> obj randomizer-logic) #t) ;; seedless/classic
+  (set! (-> obj randomizer-seed) 432.32765492375) ;; seedless/classic
   (none))
 
  (deftype challenges-settings (basic)
@@ -730,7 +733,6 @@
   (set! (-> obj aspect-custom-y) 3)
   (set! (-> obj discord-rpc?) #t)
   (set! (-> obj cells-needed-to-warp) 1.0)
-  (set! (-> obj checkpoint-randomizer?) #t)
   (set! (-> obj window-lock?) #t)
 
   (reset-gfx obj)

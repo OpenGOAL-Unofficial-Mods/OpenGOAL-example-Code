@@ -143,10 +143,15 @@
   (set! *next-set-seed-checkpoint-node* *set-seed-checkpoint-list*)
 )
 
+
 ;; For set-seed category, provide the seed here where we generate the list up-front.
 ;; Any float should work. Use a whole number like 1.0 if you really love Geyser
-(generateSetSeedCheckpointList 1.418091058731079)
+(generateSetSeedCheckpointList (-> *randomizer-settings* randomizer-seed))
 
+(defun resetSetSeedList ()
+(set! *next-set-seed-checkpoint-node* *set-seed-checkpoint-list*)
+(none)
+)
 (defun warpToCheckpoint ((checkpointName string))
   ;; warps to checkpoint, assuming it is already safe to use
   (format 0 "RANDOMIZER: ...warping to ~A~%" checkpointName)
@@ -183,6 +188,31 @@
         (format 0 "RANDOMIZER: checkpoint ~A is NOT valid, will grab the next~%" checkpointName)
         (set! checkpointName (car *next-set-seed-checkpoint-node*))
         (set! *next-set-seed-checkpoint-node* (cdr *next-set-seed-checkpoint-node*))
+      )
+    )
+  )
+  ""
+)
+
+(defun getNextSetSeedCheckpointNoINC ()
+  (define checkpointName (car *next-set-seed-checkpoint-node*))
+  (set! *next-set-seed-checkpoint-node* (cdr *next-set-seed-checkpoint-node*))
+
+  (while #t
+    ;; if we're at end of list, reset pointer to head of list
+    (when (null? (car *next-set-seed-checkpoint-node*))
+      (set! *next-set-seed-checkpoint-node* *set-seed-checkpoint-list*)
+    )
+    
+    (if (checkRandomCheckpoint? (the-as string checkpointName))
+      (begin 
+        (format 0 "RANDOMIZER: checkpoint ~A is valid~%" checkpointName)
+        (return checkpointName) ;; break from while loop
+      )
+      (begin
+        (format 0 "RANDOMIZER: checkpoint ~A is NOT valid, will grab the next~%" checkpointName)
+        (set! checkpointName (car *next-set-seed-checkpoint-node*))
+
       )
     )
   )
@@ -472,10 +502,12 @@
   )
 
 (defmethod animate eco-collectable ((obj eco-collectable))
+
   0
   (none)
-  )
+  
 
+)
 (defun add-blue-shake ((arg0 vector) (arg1 vector) (arg2 vector))
   (let* ((f0-0 (vector-vector-distance arg1 arg2))
          (f30-0 (lerp-scale
@@ -1583,6 +1615,7 @@
   )
 
 (defbehavior fuel-cell-animate fuel-cell ()
+
   (let* ((gp-0 self)
          (s5-0 (if (and (nonzero? gp-0) (type-type? (-> gp-0 type) fuel-cell))
                    gp-0
