@@ -657,6 +657,7 @@
   (set! (-> *randomizer-options* 2 value-to-modify) (&-> *randomizer-settings* randomizer-logic))
 
   ;;Challenges menu
+
   (set! (-> *challenges-options* 0 value-to-modify) (&-> *challenges-settings* orbless?))
   (set! (-> *challenges-options* 1 value-to-modify) (&-> *challenges-settings* hardcore?))
   (set! (-> *challenges-options* 2 value-to-modify) (&-> *challenges-settings* damageless?))
@@ -664,6 +665,7 @@
   (set! (-> *challenges-options* 4 value-to-modify) (&-> *challenges-settings* casual?))
   (set! (-> *challenges-options* 5 value-to-modify) (&-> *challenges-settings* mirrormode?))
   (set! (-> *challenges-options* 6 value-to-modify) (&-> *challenges-settings* pacifist?))
+
 
 
   (set! (-> *camera-options* 0 value-to-modify) (&-> *pc-settings* first-camera-h-inverted?))
@@ -2086,8 +2088,7 @@
     (remove-setting! 'music)
     (apply-settings *setting-control*)
     (progress-reset-music-parms)
-    (commit-to-file *pc-settings*)
-    (commit-to-file *randomizer-settings*)
+    (commit-all-files)
     (set! (-> self particles 3 init-pos x) -320.0)
     (set! (-> self particles 4 init-pos x) -320.0)
     (set! (-> self particles 32 init-pos x) -320.0)
