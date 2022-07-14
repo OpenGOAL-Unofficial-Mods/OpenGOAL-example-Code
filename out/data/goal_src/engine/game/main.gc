@@ -8,6 +8,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Letterbox and blackout
 ;;;;;;;;;;;;;;;;;;;;;;;;;;s
+
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
                                              'boxed-array
@@ -84,6 +85,7 @@
 )
  (define-extern racer? symbol)
   (define-extern flutflut?  symbol)
+
 
 
 (defun set-letterbox-frames ((arg0 time-frame))
