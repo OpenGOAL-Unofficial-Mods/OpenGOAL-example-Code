@@ -1,7 +1,7 @@
-data/assets/*
-data/decompiler_out/*
-data/iso_data/*
-data/out/*
-data/log/*
+Checkpoint randomizer/data/assets/*
+Checkpoint randomizer/data/decompiler_out/*
+Checkpoint randomizer/data/iso_data/*
+Checkpoint randomizer/data/out/*
+Checkpoint randomizer/data/log/*
 
-data/log/game.txt
+Checkpoint randomizer/data/log/game.txt
