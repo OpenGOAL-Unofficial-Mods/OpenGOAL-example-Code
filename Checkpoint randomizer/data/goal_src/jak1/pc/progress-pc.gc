@@ -102,7 +102,6 @@
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id sound-options) :scale #t :param3 (game-option-menu sound-settings))
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id load-game) :scale #t :param3 (game-option-menu load-game))
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id save-game) :scale #t :param3 (game-option-menu save-game))
-    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id disable-auto-save) :scale #t :param3 (game-option-menu memcard-disable-auto-save))
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id quit-game) :scale #t :param3 (game-option-menu quit))
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
     )
@@ -142,9 +141,10 @@
   )
 
 (define *misc-options* (new 'static 'boxed-array :type game-option
-    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id discord-rpc) :scale #t)
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id checkpoint-randomizer) :scale #t :param3 (game-option-menu randomizer-options))
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id custom-challenges) :scale #t :param3 (game-option-menu challenges-options))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id disable-auto-save) :scale #t :param3 (game-option-menu memcard-disable-auto-save))
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id discord-rpc) :scale #t)
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
    
     )
@@ -656,7 +656,7 @@
   (set! (-> *graphic-options-no-frame-rate-pc* 1 value-to-modify) (&-> *progress-carousell* int-backup))
   (set! (-> *graphic-options-no-frame-rate-pc* 2 value-to-modify) (&-> *pc-settings* vsync?))
   ;(set! (-> *graphic-options-pc* 4 value-to-modify) (&-> *progress-carousell* int-backup))
-  (set! (-> *misc-options* 0 value-to-modify) (&-> *pc-settings* discord-rpc?))
+  (set! (-> *misc-options* 3 value-to-modify) (&-> *pc-settings* discord-rpc?))
   (set! (-> *misc-options* 1 value-to-modify) (&-> *randomizer-settings* checkpoint-randomizer?))
 
   ;;Randomizer menu

@@ -5,3 +5,7 @@ Checkpoint randomizer/data/out/*
 Checkpoint randomizer/data/log/*
 
 Checkpoint randomizer/data/log/game.txt
+
+Checkpoint randomizer/data/texture_replacements/*
+Checkpoint randomizer/reshade-shaders/*
+Checkpoint randomizer/AG1k's_Ultimate_Jak_and_Daxter_Preset_V1.ini
