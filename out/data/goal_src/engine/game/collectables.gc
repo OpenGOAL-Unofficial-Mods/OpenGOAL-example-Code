@@ -110,7 +110,7 @@
 (define *set-seed-checkpoint-list* (cons '() '()))
 (define *next-set-seed-checkpoint-node* (cons '() '()))
 
-(defun generateSetSeedCheckpointList ((seed float))
+(defun generateCheckpointList ((seed float))
   ;; set the seed which will be used for generating checkpoint list
   (rand-vu-init seed)
 
@@ -144,15 +144,6 @@
   (none)
 )
 
-
-;; For set-seed category, provide the seed here where we generate the list up-front.
-;; Any float should work. Use a whole number like 1.0 if you really love Geyser
-(generateSetSeedCheckpointList (-> *randomizer-settings* randomizer-seed))
-
-(defun resetSetSeedList ()
-(set! *next-set-seed-checkpoint-node* *set-seed-checkpoint-list*)
-(none)
-)
 (defun warpToCheckpoint ((checkpointName string))
   ;; warps to checkpoint, assuming it is already safe to use
   (format 0 "RANDOMIZER: ...warping to ~A~%" checkpointName)
@@ -170,7 +161,7 @@
   #f
 )
 
-(defun getNextSetSeedCheckpoint ()
+(defun getNextCheckpoint ()
   (define checkpointName (car *next-set-seed-checkpoint-node*))
   (set! *next-set-seed-checkpoint-node* (cdr *next-set-seed-checkpoint-node*))
 
@@ -220,23 +211,23 @@
   ""
 )
 
-(defun makeRandomCheckpoint ()
-  (define checkpointName (-> *checkpoint-list* (rand-vu-int-range 0 66)))
-  (while #t
-    ;; if checkpoint is valid, persist it, otherwise regenerate
-    (if (checkRandomCheckpoint? (the-as string checkpointName))
-      (begin 
-        (format 0 "RANDOMIZER: checkpoint ~A is valid~%" checkpointName)
-        (return checkpointName) ;; break from while loop
-      )
-      (begin
-        (format 0 "RANDOMIZER: checkpoint ~A is NOT valid, will generate another~%" checkpointName)
-        (set! checkpointName (-> *checkpoint-list* (rand-vu-int-range 0 66)))
-      )
-    )
-  )
-  ""
-)
+;; (defun makeRandomCheckpoint ()
+;;   (define checkpointName (-> *checkpoint-list* (rand-vu-int-range 0 66)))
+;;   (while #t
+;;     ;; if checkpoint is valid, persist it, otherwise regenerate
+;;     (if (checkRandomCheckpoint? (the-as string checkpointName))
+;;       (begin 
+;;         (format 0 "RANDOMIZER: checkpoint ~A is valid~%" checkpointName)
+;;         (return checkpointName) ;; break from while loop
+;;       )
+;;       (begin
+;;         (format 0 "RANDOMIZER: checkpoint ~A is NOT valid, will generate another~%" checkpointName)
+;;         (set! checkpointName (-> *checkpoint-list* (rand-vu-int-range 0 66)))
+;;       )
+;;     )
+;;   )
+;;   ""
+;; )
 ;;End Randomizer settings
 
 
@@ -1957,27 +1948,26 @@
     ;; warp to random checkpoint if randomizer enabled
     (if (-> *randomizer-settings* checkpoint-randomizer?)
       (begin
-
-
- 
-      (if (= (-> *game-info* fuel) 0)
-      
-      (generateSetSeedCheckpointList (-> *randomizer-settings* randomizer-seed))
-      )
+        ;; first fuel cell? need to generate checkpoint list
+        (when (= (-> *game-info* fuel) 1)
+          ;; randomly generate or set seed
+          (if (-> *randomizer-settings* randomizer-logic) 
+            ;; #t = random seed
+            (set! (-> *randomizer-settings* randomizer-seed) (rand-vu-float-range 0.0 10.0))
+            ;; #f = set seed
+            (set! (-> *randomizer-settings* randomizer-seed) 6.9)  ;; SET YOUR SEED HERE
+          )
+          
+          ;; generate checkpoint list from seed
+          (generateCheckpointList (-> *randomizer-settings* randomizer-seed))
+        )
+        
         (set! *cell-interval* (+ *cell-interval* 1))
         
-        (makeRandomCheckpoint)
         (if (>= *cell-interval* (-> *randomizer-settings* cells-needed-to-warp))
           (begin
             (format 0 "RANDOMIZER: warping from ~A...~%" (-> *level* level 0 name))
-            (if (-> *randomizer-settings* randomizer-logic)
-              (begin  ;; #t -> classic/seedless logic
-                (warpToCheckpoint (the-as string (makeRandomCheckpoint)))
-              )
-              (begin ;; #f -> set-seed logic
-                (warpToCheckpoint (the-as string (getNextSetSeedCheckpoint)))
-              )
-            )
+            (warpToCheckpoint (the-as string (getNextCheckpoint)))
             (set! *cell-interval* 0.0)
           )
         )

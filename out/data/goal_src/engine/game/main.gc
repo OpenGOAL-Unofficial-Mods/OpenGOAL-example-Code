@@ -8,85 +8,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Letterbox and blackout
 ;;;;;;;;;;;;;;;;;;;;;;;;;;s
-
-(define *checkpoint-list* (the-as (array string) (new
-                                             'static
-                                             'boxed-array
-                                             :type string :length 67 :allocated-length 67
-"game-start"
-"village1-hut"
-"beach-start"
-"beach-start"
-"beach-start"
-"beach-start"
-"jungle-start"
-"jungle-tower"
-"jungle-start"
-"jungle-tower"
-"misty-start"
-"misty-silo"
-"misty-bike"
-"misty-backside"
-"misty-silo2"
-"firecanyon-start"
-"firecanyon-end"
-"village2-start"
-"village2-warp"
-"village2-dock"
-"sunken-start"
-"sunken1"
-"sunken2"
-"sunken-tube1"
-"sunkenb-start"
-"sunkenb-helix"
-"swamp-start"
-"swamp-dock1"
-"swamp-cave1"
-"swamp-dock2"
-"swamp-cave2"
-"swamp-game"
-"swamp-cave3"
-"rolling-start"
-"ogre-start"
-"ogre-race"
-"ogre-end"
-"village3-start"
-"village3-warp"
-"village3-farside"
-"snow-start"
-"snow-fort"
-"snow-flut-flut"
-"snow-pass-to-fort"
-"snow-by-ice-lake"
-"snow-by-ice-lake-alt"
-"snow-outside-fort"
-"snow-outside-cave"
-"snow-across-from-flut"
-"maincave-start"
-"maincave-to-darkcave"
-"maincave-to-robocave"
-"darkcave-start"
-"robocave-start"
-"robocave-bottom"
-"lavatube-start"
-"lavatube-middle"
-"lavatube-after-ribbon"
-"lavatube-end"
-"citadel-start"
-"citadel-entrance"
-"citadel-warp"
-"citadel-launch-start"
-"citadel-launch-end"
-"citadel-generator-start"
-"citadel-generator-end"
-"citadel-elevator"
-)
-)
-)
- (define-extern racer? symbol)
-  (define-extern flutflut?  symbol)
-
-
+(define-extern racer? symbol)
+(define-extern flutflut? symbol)
 
 (defun set-letterbox-frames ((arg0 time-frame))
   "Set the letterbox frame counter for arg0 frames in the future"
@@ -175,8 +98,6 @@
               )
           )
   )
-(define-extern resetSetSeedList (function none))
-(define-extern generateSetSeedCheckpointList (function float none))
 
 (defun movie? ()
 
@@ -211,25 +132,19 @@
                                        'target-flut-stance
                                        'target-flut-start
                                        'target-flut-walk) #t))))
-   ;;clean *stdcon* from last frame                                    
-(clear *stdcon*)
-;;Display the seed for this frame
-            (format *stdcon* " ~F~%"  (-> *randomizer-settings* randomizer-seed)) 
 
-;;If we have no collectibles, then obviously we loaded a fresh file and are getting ready to do another run.               
-(if (and  (= (-> *game-info* buzzer-total)0.0) (= (-> *game-info* fuel) 0.0))
-(begin
+  ;;clean *stdcon*
+  (clear *stdcon*)  
+  (if (> (-> *game-info* fuel) 0)
+    ;; Display the current seed
+    (format *stdcon* " ~F~%"  (-> *randomizer-settings* randomizer-seed))
+  )
 
-;; If we are on seedless - generate a random seed every frame
- (if (and(-> *randomizer-settings* randomizer-logic)  (= (-> *game-info* fuel) 0))(begin
- (set!   (-> *randomizer-settings* randomizer-seed) (rand-vu-float-range 0.0 10.0))
- )(none))
-
- ;;regardless of setting if our collectibles are 0 then we want to reset our position in the list
- (resetSetSeedList)
-
-)
-)
+  (when (-> *randomizer-settings* randomizer-logic) 
+      ;; #t = random seed 
+      ;; burn through a random number every frame for improved randomness
+      (rand-vu-float-range 0.0 10.0)
+  )
 )
 )
 
