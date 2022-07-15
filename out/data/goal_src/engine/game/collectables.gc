@@ -141,6 +141,7 @@
   )
 
   (set! *next-set-seed-checkpoint-node* *set-seed-checkpoint-list*)
+  (none)
 )
 
 
@@ -1956,6 +1957,13 @@
     ;; warp to random checkpoint if randomizer enabled
     (if (-> *randomizer-settings* checkpoint-randomizer?)
       (begin
+
+
+ 
+      (if (= (-> *game-info* fuel) 0)
+      
+      (generateSetSeedCheckpointList (-> *randomizer-settings* randomizer-seed))
+      )
         (set! *cell-interval* (+ *cell-interval* 1))
         
         (makeRandomCheckpoint)
