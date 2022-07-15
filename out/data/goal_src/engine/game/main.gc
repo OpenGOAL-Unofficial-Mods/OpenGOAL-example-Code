@@ -134,7 +134,7 @@
                                        'target-flut-walk) #t))))
 
   ;;clean *stdcon*
-  (clear *stdcon*)  
+  (clear *stdcon*)
   (if (> (-> *game-info* fuel) 0)
     ;; Display the current seed
     (format *stdcon* " ~F~%"  (-> *randomizer-settings* current-seed))

@@ -144,6 +144,18 @@
   (none)
 )
 
+(defun advanceCheckpointList ((n int))
+  (define tempCount 0)
+  (dotimes (tempCount n)
+    (set! *next-rando-checkpoint-node* (cdr *next-rando-checkpoint-node*))
+
+    ;; if we're at end of list, reset pointer to head of list
+    (when (null? (car *next-rando-checkpoint-node*))
+      (set! *next-rando-checkpoint-node* *rando-checkpoint-list*)
+    )
+  )
+)
+
 (defun warpToCheckpoint ((checkpointName string))
   ;; warps to checkpoint, assuming it is already safe to use
   (format 0 "RANDOMIZER: ...warping to ~A~%" checkpointName)
@@ -170,7 +182,9 @@
     (when (null? (car *next-rando-checkpoint-node*))
       (set! *next-rando-checkpoint-node* *rando-checkpoint-list*)
     )
-    
+    ;; increment number of checkpoints used (intentionally includes any skipped citadel checkpoints)
+    (+! (-> *randomizer-settings* backup-checkpoints-used) 1)
+
     (if (checkRandomCheckpoint? (the-as string checkpointName))
       (begin 
         (format 0 "RANDOMIZER: checkpoint ~A is valid~%" checkpointName)
@@ -1915,9 +1929,20 @@
           (if (-> *randomizer-settings* use-random-seed?)
             (set! (-> *randomizer-settings* current-seed) (rand-vu-float-range 0.0 10.0))
           )
+          ;; reset checkpoint counter backup
+          (set! (-> *randomizer-settings* backup-checkpoints-used) 0)
 
           ;; generate checkpoint list from seed
           (generateCheckpointList (-> *randomizer-settings* current-seed))
+        )
+
+        ;; in case of crash/closed window/etc, generate from last seed and advance checkpoints
+        (when (null? (peekNextCheckpoint))
+          (format 0 "Regenerating checkpoint list from backup, checkpoints used: ~D~%" (-> *randomizer-settings* backup-checkpoints-used))
+
+          ;; generate checkpoint list from seed
+          (generateCheckpointList (-> *randomizer-settings* current-seed))
+          (advanceCheckpointList (-> *randomizer-settings* backup-checkpoints-used))
         )
         
         (set! *cell-interval* (+ *cell-interval* 1))
@@ -1929,6 +1954,9 @@
             (set! *cell-interval* 0.0)
           )
         )
+
+        ;; current-seed and backup-checkpoints-used are updated at this point, commit to file in case of crash/closed window
+        (commit-to-file *randomizer-settings*)
       )
     )
 
