@@ -154,7 +154,7 @@
 (define *randomizer-options* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id checkpoint-randomizer) :scale #t)
     (new 'static 'game-option :name (game-text-id cell-count-to-trigger-warp) :scale #t :param1 1.0 :param2 102.0)
-    (new 'static 'game-option :option-type (game-option-type randomizer-logic) :name (game-text-id randomizer-logic) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type use-random-seed?) :name (game-text-id use-random-seed?) :scale #t)
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
     )
   )
@@ -654,7 +654,7 @@
   ;;Randomizer menu
   (set! (-> *randomizer-options* 0 value-to-modify) (&-> *randomizer-settings* checkpoint-randomizer?))
   (set! (-> *randomizer-options* 1 value-to-modify) (&-> *randomizer-settings* cells-needed-to-warp))
-  (set! (-> *randomizer-options* 2 value-to-modify) (&-> *randomizer-settings* randomizer-logic))
+  (set! (-> *randomizer-options* 2 value-to-modify) (&-> *randomizer-settings* use-random-seed?))
 
   ;;Challenges menu
 
@@ -775,7 +775,7 @@
                   (((game-option-type on-off)
                     (game-option-type yes-no)
                     (game-option-type normal-inverted)
-                    (game-option-type randomizer-logic)
+                    (game-option-type use-random-seed?)
                     (game-option-type aspect-native))
                    ;; pressed left on an on/off yes/no option
                    (when (not (-> (the-as (pointer uint32) (-> options (-> obj option-index) value-to-modify))))
@@ -894,7 +894,7 @@
                   (((game-option-type on-off)
                     (game-option-type yes-no)
                     (game-option-type normal-inverted)
-                    (game-option-type randomizer-logic)
+                    (game-option-type use-random-seed?)
                     (game-option-type aspect-native)
                     )
                    ;; play sound if it was on 'yes' because we're going to 'no' now
@@ -1005,7 +1005,7 @@
                (set! (-> (the-as (pointer language-enum) (-> options (-> obj option-index) value-to-modify)))
                      (-> *progress-state* language-backup))
                )
-              (((game-option-type on-off) (game-option-type normal-inverted) (game-option-type randomizer-logic))
+              (((game-option-type on-off) (game-option-type normal-inverted) (game-option-type use-random-seed?))
                (set! (-> (the-as (pointer symbol) (-> options (-> obj option-index) value-to-modify)))
                      (-> *progress-state* on-off-backup))
                )
@@ -1144,7 +1144,7 @@
                  (((game-option-type language-subtitles))
                   (set! (-> (the-as (pointer pc-subtitle-lang) (-> options (-> obj option-index) value-to-modify))) (-> *pc-settings* subtitle-language))
                   )
-                 (((game-option-type on-off) (game-option-type normal-inverted) (game-option-type randomizer-logic))
+                 (((game-option-type on-off) (game-option-type normal-inverted) (game-option-type use-random-seed?))
                   (set! (-> *progress-state* on-off-backup)
                         (-> (the-as (pointer symbol) (-> options (-> obj option-index) value-to-modify))))
                   )
@@ -1624,7 +1624,7 @@
                   (set! option-str (string-format "~D" (the int (-> (the-as (pointer float) (-> options index value-to-modify))))))
                   (set! option-x (+ (the int (* 2.5 (-> (the-as (pointer float) (-> options index value-to-modify))))) -100))
                   )
-                 (((game-option-type on-off) (game-option-type normal-inverted) (game-option-type randomizer-logic) (game-option-type aspect-native))
+                 (((game-option-type on-off) (game-option-type normal-inverted) (game-option-type use-random-seed?) (game-option-type aspect-native))
                   ;; on-off option or some other toggle. same logic as yes-no. changed to cut down code duping.
                   (let (
                         (on-str (case (-> options index option-type)
@@ -1632,15 +1632,15 @@
                                     (lookup-text! *common-text* (game-text-id on) #f))
                                   (((game-option-type normal-inverted))
                                     (lookup-text! *common-text* (game-text-id inverted) #f))
-                                  (((game-option-type randomizer-logic))
-                                    (lookup-text! *common-text* (game-text-id randomizer-seedless) #f))
+                                  (((game-option-type use-random-seed?))
+                                    (lookup-text! *common-text* (game-text-id randomizer-random-seed) #f))
                                   ))
                        (off-str (case (-> options index option-type)
                                   (((game-option-type on-off) (game-option-type aspect-native))
                                     (lookup-text! *common-text* (game-text-id off) #f))
                                   (((game-option-type normal-inverted))
                                     (lookup-text! *common-text* (game-text-id normal) #f))
-                                  (((game-option-type randomizer-logic))
+                                  (((game-option-type use-random-seed?))
                                     (lookup-text! *common-text* (game-text-id randomizer-set-seed) #f))
                                   ))
                         )
@@ -1751,7 +1751,7 @@
                     (game-option-type speaker)
                     (game-option-type frame-rate)
                     (game-option-type normal-inverted)
-                    (game-option-type randomizer-logic)
+                    (game-option-type use-random-seed?)
                     )
                    ;; slider and aspect ratio options just show their text
                    (set! option-str (lookup-text! *common-text* (-> options index name) #f))

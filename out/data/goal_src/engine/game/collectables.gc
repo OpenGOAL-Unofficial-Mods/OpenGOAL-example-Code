@@ -107,8 +107,8 @@
 #f
 )
 
-(define *set-seed-checkpoint-list* (cons '() '()))
-(define *next-set-seed-checkpoint-node* (cons '() '()))
+(define *rando-checkpoint-list* (cons '() '()))
+(define *next-rando-checkpoint-node* (cons '() '()))
 
 (defun generateCheckpointList ((seed float))
   ;; set the seed which will be used for generating checkpoint list
@@ -119,7 +119,7 @@
   ;;  After that, we just need 5 more checkpoints, citadel or otherwise.
   (define nonCitadelCount 0)
 
-  (define currentListNode *set-seed-checkpoint-list*)
+  (define currentListNode *rando-checkpoint-list*)
   ;; generate checkpoints until we have 96 non-citadel
   (while (< nonCitadelCount 96)
     (define tempCheckpointName (-> *checkpoint-list* (rand-vu-int-range 0 66)))
@@ -140,7 +140,7 @@
     (set! currentListNode (cdr currentListNode)) ;; move current to newly created node
   )
 
-  (set! *next-set-seed-checkpoint-node* *set-seed-checkpoint-list*)
+  (set! *next-rando-checkpoint-node* *rando-checkpoint-list*)
   (none)
 )
 
@@ -162,13 +162,13 @@
 )
 
 (defun getNextCheckpoint ()
-  (define checkpointName (car *next-set-seed-checkpoint-node*))
-  (set! *next-set-seed-checkpoint-node* (cdr *next-set-seed-checkpoint-node*))
+  (define checkpointName (car *next-rando-checkpoint-node*))
+  (set! *next-rando-checkpoint-node* (cdr *next-rando-checkpoint-node*))
 
   (while #t
     ;; if we're at end of list, reset pointer to head of list
-    (when (null? (car *next-set-seed-checkpoint-node*))
-      (set! *next-set-seed-checkpoint-node* *set-seed-checkpoint-list*)
+    (when (null? (car *next-rando-checkpoint-node*))
+      (set! *next-rando-checkpoint-node* *rando-checkpoint-list*)
     )
     
     (if (checkRandomCheckpoint? (the-as string checkpointName))
@@ -178,56 +178,17 @@
       )
       (begin
         (format 0 "RANDOMIZER: checkpoint ~A is NOT valid, will grab the next~%" checkpointName)
-        (set! checkpointName (car *next-set-seed-checkpoint-node*))
-        (set! *next-set-seed-checkpoint-node* (cdr *next-set-seed-checkpoint-node*))
+        (set! checkpointName (car *next-rando-checkpoint-node*))
+        (set! *next-rando-checkpoint-node* (cdr *next-rando-checkpoint-node*))
       )
     )
   )
   ""
 )
 
-(defun getNextSetSeedCheckpointNoINC ()
-  (define checkpointName (car *next-set-seed-checkpoint-node*))
-  (set! *next-set-seed-checkpoint-node* (cdr *next-set-seed-checkpoint-node*))
-
-  (while #t
-    ;; if we're at end of list, reset pointer to head of list
-    (when (null? (car *next-set-seed-checkpoint-node*))
-      (set! *next-set-seed-checkpoint-node* *set-seed-checkpoint-list*)
-    )
-    
-    (if (checkRandomCheckpoint? (the-as string checkpointName))
-      (begin 
-        (format 0 "RANDOMIZER: checkpoint ~A is valid~%" checkpointName)
-        (return checkpointName) ;; break from while loop
-      )
-      (begin
-        (format 0 "RANDOMIZER: checkpoint ~A is NOT valid, will grab the next~%" checkpointName)
-        (set! checkpointName (car *next-set-seed-checkpoint-node*))
-
-      )
-    )
-  )
-  ""
+(defun peekNextCheckpoint ()
+  (car *next-rando-checkpoint-node*)
 )
-
-;; (defun makeRandomCheckpoint ()
-;;   (define checkpointName (-> *checkpoint-list* (rand-vu-int-range 0 66)))
-;;   (while #t
-;;     ;; if checkpoint is valid, persist it, otherwise regenerate
-;;     (if (checkRandomCheckpoint? (the-as string checkpointName))
-;;       (begin 
-;;         (format 0 "RANDOMIZER: checkpoint ~A is valid~%" checkpointName)
-;;         (return checkpointName) ;; break from while loop
-;;       )
-;;       (begin
-;;         (format 0 "RANDOMIZER: checkpoint ~A is NOT valid, will generate another~%" checkpointName)
-;;         (set! checkpointName (-> *checkpoint-list* (rand-vu-int-range 0 66)))
-;;       )
-;;     )
-;;   )
-;;   ""
-;; )
 ;;End Randomizer settings
 
 
@@ -1951,15 +1912,12 @@
         ;; first fuel cell? need to generate checkpoint list
         (when (= (-> *game-info* fuel) 1)
           ;; randomly generate or set seed
-          (if (-> *randomizer-settings* randomizer-logic) 
-            ;; #t = random seed
-            (set! (-> *randomizer-settings* randomizer-seed) (rand-vu-float-range 0.0 10.0))
-            ;; #f = set seed
-            (set! (-> *randomizer-settings* randomizer-seed) 6.9)  ;; SET YOUR SEED HERE
+          (if (-> *randomizer-settings* use-random-seed?)
+            (set! (-> *randomizer-settings* current-seed) (rand-vu-float-range 0.0 10.0))
           )
-          
+
           ;; generate checkpoint list from seed
-          (generateCheckpointList (-> *randomizer-settings* randomizer-seed))
+          (generateCheckpointList (-> *randomizer-settings* current-seed))
         )
         
         (set! *cell-interval* (+ *cell-interval* 1))
