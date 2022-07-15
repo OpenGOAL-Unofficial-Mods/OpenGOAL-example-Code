@@ -1,8 +1,7 @@
+data/assets/*
+data/decompiler_out/*
+data/iso_data/*
+data/out/*
+data/log/*
 
-out/data/assets/*
-out/data/decompiler_out/*
-out/data/iso_data/*
-out/data/out/*
-out/data/log/*
-
-out/data/log/game.txt
+data/log/game.txt
