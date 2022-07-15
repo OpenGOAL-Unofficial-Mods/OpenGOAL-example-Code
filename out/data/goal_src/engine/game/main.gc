@@ -214,10 +214,10 @@
 (clear *stdcon*)
             (format *stdcon* " ~F~%"  (-> *randomizer-settings* randomizer-seed)) 
                                   
-(if (and (= (-> *game-info* money)0.0) (= (-> *game-info* buzzer-total)0.0) (= (-> *game-info* fuel) 0.0))
+(if (and  (= (-> *game-info* buzzer-total)0.0) (= (-> *game-info* fuel) 0.0))
 (begin
 
- (if (-> *randomizer-settings* randomizer-logic)(begin
+ (if (and(-> *randomizer-settings* randomizer-logic)  (= (-> *game-info* fuel) 0))(begin
  (set!   (-> *randomizer-settings* randomizer-seed) (rand-vu-float-range 0.0 10.0))
  )(none))
 
