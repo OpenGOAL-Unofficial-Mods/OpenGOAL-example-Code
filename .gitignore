@@ -1,8 +1,16 @@
+Checkpoint randomizer/data/assets/*
+Checkpoint randomizer/data/decompiler_out/*
+Checkpoint randomizer/data/iso_data/*
+Checkpoint randomizer/data/out/*
+Checkpoint randomizer/data/log/*
 
-out/data/assets/*
-out/data/decompiler_out/*
-out/data/iso_data/*
-out/data/out/*
-out/data/log/*
+Checkpoint randomizer/data/log/game.txt
 
-out/data/log/game.txt
+Checkpoint randomizer/data/texture_replacements/*
+Checkpoint randomizer/reshade-shaders/*
+Checkpoint randomizer/AG1k's_Ultimate_Jak_and_Daxter_Preset_V1.ini
+Checkpoint randomizer/ReShade.ini
+Checkpoint randomizer/ReShade.log
+Checkpoint randomizer/opengl32.dll
+Checkpoint randomizer/ReShadePreset.ini
+Checkpoint randomizer/data/extractor.log
