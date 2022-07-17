@@ -5,6 +5,9 @@
 ;; name in dgo: collectables
 ;; dgos: GAME, ENGINE
 ;;Randomizer
+
+(define *randomizer-version-string* "Rando 0.06 Release 0.1.18 Better java rng??")
+
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
                                              'boxed-array
@@ -120,7 +123,7 @@
   (define currentListNode *rando-checkpoint-list*)
   ;; generate checkpoints until we have 96 non-citadel
   (while (< nonCitadelCount 96)
-    (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 67)))
+    (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 (-> *checkpoint-list* length))))
     (if (not (citadelCheck? tempCheckpointName))
       (+! nonCitadelCount 1)
     )
@@ -131,7 +134,7 @@
   ;; generate any 5 more checkpoints
   (define tempCount 0)
   (dotimes (tempCount 5)
-    (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 67)))
+    (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 (-> *checkpoint-list* length))))
     (set! (car currentListNode) tempCheckpointName) ;; append checkpoint
 
     (set! (cdr currentListNode) (cons '() '())) ;; create next node
@@ -237,6 +240,18 @@
 
   ;; current-seed and backup-checkpoints-used are updated at this point, commit to file in case of crash/closed window
   (commit-to-file *randomizer-settings*)
+)
+
+(defun checkpointListTest ()
+;; If we have random-seed on, update our current seed.
+(if (-> *randomizer-settings* use-random-seed?)
+      (set! (-> *randomizer-settings* current-seed) (java-rand-nextInt))
+    )
+;; Generate a list of checkpoints based on our new updated current-seed
+(generateCheckpointList (-> *randomizer-settings* current-seed))
+;; Print this list of checkpoints to REPL for debugging purposes
+
+*rando-checkpoint-list*
 )
 ;;End Randomizer settings
 
@@ -1937,7 +1952,9 @@
       
     ;; warp to random checkpoint if randomizer enabled
     (if (-> *randomizer-settings* checkpoint-randomizer?)
-      (orchestrateCheckpointWarp)
+      (begin
+      (orchestrateCheckpointWarp) 
+     )
     )
     (process-spawn-function
       process
