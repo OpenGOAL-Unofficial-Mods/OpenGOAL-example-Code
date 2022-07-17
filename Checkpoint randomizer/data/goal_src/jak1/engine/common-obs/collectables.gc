@@ -120,7 +120,7 @@
   (define currentListNode *rando-checkpoint-list*)
   ;; generate checkpoints until we have 96 non-citadel
   (while (< nonCitadelCount 96)
-    (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 67)))
+    (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 (-> *checkpoint-list* length))))
     (if (not (citadelCheck? tempCheckpointName))
       (+! nonCitadelCount 1)
     )
@@ -131,7 +131,7 @@
   ;; generate any 5 more checkpoints
   (define tempCount 0)
   (dotimes (tempCount 5)
-    (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 67)))
+    (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 (-> *checkpoint-list* length))))
     (set! (car currentListNode) tempCheckpointName) ;; append checkpoint
 
     (set! (cdr currentListNode) (cons '() '())) ;; create next node
