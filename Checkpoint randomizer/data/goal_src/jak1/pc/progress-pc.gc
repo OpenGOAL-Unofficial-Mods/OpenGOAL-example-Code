@@ -1689,7 +1689,7 @@
                                   (((game-option-type normal-inverted))
                                     (lookup-text! *common-text* (game-text-id normal) #f))
                                   (((game-option-type use-random-seed?))
-                                    (lookup-text! *common-text* (game-text-id randomizer-random-seed) #f))
+                                    (lookup-text! *common-text* (game-text-id randomizer-set-seed) #f))
                                   ))
                         )
                     (if (-> (the-as (pointer symbol) (-> options index value-to-modify)))
