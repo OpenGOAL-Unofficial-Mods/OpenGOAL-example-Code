@@ -99,19 +99,23 @@
           )
   )
 
+(define-extern *randomizer-version-string* (string))
 (defun movie? ()
-
-
-
-
 (if (-> *randomizer-settings* checkpoint-randomizer?)
 (begin
 ;;Skip the keira cutscene into if the player has 20 or more cells, or if they have collected the end cell.
 (if (or (>= (-> *game-info* fuel) 20) (task-complete? *game-info* (game-task firecanyon-end)) )
 (begin
 (close-specific-task! (game-task firecanyon-assistant) (task-status need-reward-speech))
-
 ))
+(if (or (>= (-> *game-info* fuel) 20) (task-complete? *game-info* (game-task lavatube-end)) )
+(begin
+(close-specific-task! (game-task lavatube-start) (task-status need-reward-speech))
+))
+
+
+
+
 (set! racer? (aif *target* (case (-> it next-state name) (
                                       ('target-racing
                                        'target-racing-bounce
@@ -146,7 +150,7 @@
   (clear *stdcon*)
   (if (> (-> *game-info* fuel) 0)
     ;; Display the current seed
-    (format *stdcon* " ~D~%"  (-> *randomizer-settings* current-seed))
+    (format *stdcon* " ~D~% ~S"  (-> *randomizer-settings* current-seed) *randomizer-version-string*)
   )
 
   (when (-> *randomizer-settings* use-random-seed?)

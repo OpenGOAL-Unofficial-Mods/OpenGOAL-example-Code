@@ -5,6 +5,9 @@
 ;; name in dgo: collectables
 ;; dgos: GAME, ENGINE
 ;;Randomizer
+
+(define *randomizer-version-string* "Rando 0.06 Release 0.1.18 Better java rng??")
+
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
                                              'boxed-array
@@ -1937,7 +1940,9 @@
       
     ;; warp to random checkpoint if randomizer enabled
     (if (-> *randomizer-settings* checkpoint-randomizer?)
-      (orchestrateCheckpointWarp)
+      (begin
+      (orchestrateCheckpointWarp) 
+     )
     )
     (process-spawn-function
       process
