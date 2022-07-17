@@ -241,6 +241,18 @@
   ;; current-seed and backup-checkpoints-used are updated at this point, commit to file in case of crash/closed window
   (commit-to-file *randomizer-settings*)
 )
+
+(defun checkpointListTest ()
+;; If we have random-seed on, update our current seed.
+(if (-> *randomizer-settings* use-random-seed?)
+      (set! (-> *randomizer-settings* current-seed) (java-rand-nextInt))
+    )
+;; Generate a list of checkpoints based on our new updated current-seed
+(generateCheckpointList (-> *randomizer-settings* current-seed))
+;; Print this list of checkpoints to REPL for debugging purposes
+
+*rando-checkpoint-list*
+)
 ;;End Randomizer settings
 
 (declare-type vent process-drawable)
