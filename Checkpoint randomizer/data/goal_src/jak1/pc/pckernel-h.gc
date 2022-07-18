@@ -464,7 +464,7 @@
     (if (not (file-stream-valid? file))
       (return #f))
 
-    (format file "(settings #x~X~%" (-> *pc-settings* version))
+    (format file "(settings #x~X~%" (-> *randomizer-settings* version))
 
   
     (format file "  (cells-needed-to-warp ~F)~%" (the-as float(-> obj cells-needed-to-warp)))

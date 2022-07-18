@@ -212,6 +212,7 @@
     ;; randomly generate or set seed
     (if (-> *randomizer-settings* use-random-seed?)
       (set! (-> *randomizer-settings* current-seed) (java-rand-nextInt))
+      (none)
     )
     ;; reset checkpoint counter backup
     (set! (-> *randomizer-settings* backup-checkpoints-used) 0)
