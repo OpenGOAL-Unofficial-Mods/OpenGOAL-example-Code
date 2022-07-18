@@ -430,22 +430,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (deftype randomizer-settings (basic)
     ((version uint64) ;; version of this settings
-    (os symbol) ;; windows, linux, macos
-    (target-fps int16) ;; the target framerate of the game
     (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
     (cells-needed-to-warp float);; number of cells needed to trigger a random checkpoint warp
     (use-random-seed? symbol) ;; boolean (#t = random seed / #f = set seed)
     
     (current-seed uint) ;; current seed for Bargs logic
     (backup-checkpoints-used int) ;; backup in case of game crash
-    ;; TODO - save/restore original settings (language/sound/etc)
     )
 
     (:methods
      (new (symbol type) _type_)
-       (update (_type_) none)
-    (update-from-os (_type_) none)
-    (update-to-os (_type_) none)
       (reset (_type_) none)
       (read-from-file (_type_ string) symbol)
       (commit-to-file (_type_) none)
@@ -491,36 +485,6 @@
   (pc-mkdir-file-path *pc-temp-string-1*)
   (write-to-file obj *pc-temp-string-1*)
   (none)) 
-
-(defmethod update-from-os randomizer-settings ((obj randomizer-settings))
-  "Update settings from the C kernel to GOAL."
-
-  (set! (-> obj os) (pc-get-os))
-
-
-
-
-  (none))
-
-(defmethod update-to-os randomizer-settings ((obj randomizer-settings))
-  "Update settings from GOAL to the C kernel."
-
-
-
-
-
-
-  (none))
-
-
-(defmethod update randomizer-settings ((obj randomizer-settings))
-  "Update settings to/from PC kernel. Call this at the start of every frame.
-   This will update things like the aspect-ratio, which will be used for graphics code later."
-
-  (update-from-os obj)
-  (update-to-os obj)
-
-  (none))
 
 #|
 (defmethod reset challenges-settings ((obj challenges-settings))
