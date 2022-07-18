@@ -10,6 +10,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define-extern racer? symbol)
 (define-extern flutflut? symbol)
+(define-extern *randomizer-version-string* (string))
+(define-extern *release-version-string* (string))
+(define-extern *comment-string* (string))
+
+(defun reset-all ()
+(dotimes (i 205) (sound-play-by-name (static-sound-name "caught-eel") (new-sound-id) 1024 0 0 (sound-group sfx) #t))
+(reset! *game-info* 'game (the-as game-save #f) (the-as string #f))
+  (auto-save-command 'auto-save 0 0 *default-pool*)
+  (dotimes (i 205) (sound-play-by-name (static-sound-name "caught-eel") (new-sound-id) 1024 0 0 (sound-group sfx) #t))
+  (none)
+)
 
 (defun set-letterbox-frames ((arg0 time-frame))
   "Set the letterbox frame counter for arg0 frames in the future"
@@ -99,9 +110,7 @@
           )
   )
 
-(define-extern *randomizer-version-string* (string))
-(define-extern *release-version-string* (string))
-(define-extern *comment-string* (string))
+
 (defun movie? ()
 (if (-> *randomizer-settings* checkpoint-randomizer?)
 (begin
