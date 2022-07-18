@@ -1,6 +1,6 @@
 ;;-*-Lisp-*-
 (in-package goal)
-
+(define-extern reset-all (function none))
 ;; name: game-info.gc
 ;; name in dgo: game-info
 ;; dgos: GAME, ENGINE
@@ -229,7 +229,12 @@
                           )
                     )
      (set! (-> obj auto-save-count) 0)
-     (set! (-> *setting-control* default auto-save) #f)
+     ;; mod skip disabling autosave if we want to autosave overtop.
+     (if (not (or (-> *challenges-settings* challenges-hardcore?)(-> *challenges-settings* challenges-orbless?)))
+     (begin
+      (set! (-> *setting-control* default auto-save) #f)
+     )
+     )
      (set! (-> obj money) 0.0)
      (set! (-> obj fuel) 0.0)
      (set! (-> obj money-total) 0.0)
@@ -607,6 +612,14 @@
            )
        (set! (-> obj money-pickup-time) (-> *display* base-frame-counter))
        )
+        ;;orbless mod
+       (if (-> *challenges-settings* challenges-orbless?)
+       (begin 
+        (reset-all)
+       (return 1.0)
+         )
+       (none)
+       ) 
      (adjust (-> (the-as target (-> obj process)) game) 'money amount source-handle)
      )
     (((pickup-type fuel-cell))

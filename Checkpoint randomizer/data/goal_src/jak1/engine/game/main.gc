@@ -10,6 +10,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define-extern racer? symbol)
 (define-extern flutflut? symbol)
+(define-extern *randomizer-version-string* (string))
+(define-extern *release-version-string* (string))
+(define-extern *comment-string* (string))
+
+(defun reset-all ()
+  (initialize! *game-info* 'game (the-as game-save #f) (the-as string #f))
+  (start 'play (get-continue-by-name *game-info* "game-start"))
+  (auto-save-command 'auto-save 0 0 *default-pool*)
+  (none)
+)
 
 (defun set-letterbox-frames ((arg0 time-frame))
   "Set the letterbox frame counter for arg0 frames in the future"
@@ -99,9 +109,7 @@
           )
   )
 
-(define-extern *randomizer-version-string* (string))
-(define-extern *release-version-string* (string))
-(define-extern *comment-string* (string))
+
 (defun movie? ()
 (if (-> *randomizer-settings* checkpoint-randomizer?)
 (begin
