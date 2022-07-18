@@ -1013,7 +1013,7 @@
     ;; auto load settings if available
     ;; if saved settings are corrupted or not found, use defaults
 
-    ;; (load-settings obj)
+     (load-settings obj)
 
     obj))
 
@@ -1120,7 +1120,7 @@
             (dosettings (file)
               (case-str *pc-temp-string*
                 (("hardcore?") (set! (-> obj challenges-hardcore?) (file-stream-read-symbol file)))
-                (("orblesss?") (set! (-> obj challenges-orbless?) (file-stream-read-symbol file)))
+                (("orbless?") (set! (-> obj challenges-orbless?) (file-stream-read-symbol file)))
                 (("damageless?") (set! (-> obj challenges-damageless?) (file-stream-read-symbol file)))
                 (("pacifist?") (set! (-> obj challenges-pacifist?) (file-stream-read-symbol file)))
                 (("bonkless?") (set! (-> obj challenges-bonkless?) (file-stream-read-symbol file)))

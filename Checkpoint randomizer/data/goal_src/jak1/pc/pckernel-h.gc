@@ -426,7 +426,7 @@
     (file-stream-close file)
     )
 
-  (format 0 "pc settings file write: ~A~%" filename)
+  (format 0 "randomizer settings file write: ~A~%" filename)
   #t
   )
 
@@ -501,7 +501,7 @@
     (file-stream-close file)
     )
  
-  (format 0 "pc settings file write: ~A~%" filename)
+  (format 0 "challenges settings file write: ~A~%" filename)
   #t
   )
  
