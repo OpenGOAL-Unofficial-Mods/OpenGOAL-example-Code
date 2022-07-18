@@ -657,7 +657,6 @@
   (set! (-> *graphic-options-no-frame-rate-pc* 2 value-to-modify) (&-> *pc-settings* vsync?))
   ;(set! (-> *graphic-options-pc* 4 value-to-modify) (&-> *progress-carousell* int-backup))
   (set! (-> *misc-options* 3 value-to-modify) (&-> *pc-settings* discord-rpc?))
-  (set! (-> *misc-options* 1 value-to-modify) (&-> *randomizer-settings* checkpoint-randomizer?))
 
   ;;Randomizer menu
   (set! (-> *randomizer-options* 0 value-to-modify) (&-> *randomizer-settings* checkpoint-randomizer?))
