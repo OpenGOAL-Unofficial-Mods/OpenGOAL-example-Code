@@ -16,11 +16,7 @@
 
 (defun reset-all ()
 (dotimes (i 205) (sound-play-by-name (static-sound-name "caught-eel") (new-sound-id) 1024 0 0 (sound-group sfx) #t))
- (set! (-> *game-info* mode) 'debug)
-  (initialize! *game-info* 'mod (the-as game-save #f) (the-as string #f))
-  (set! (-> *game-info* mode) 'play)
-  (initialize! *game-info* 'mod (the-as game-save #f) (the-as string #f))
-  ;;(start 'play (get-continue-by-name *game-info* "game-start"))
+(reset! *game-info* 'game (the-as game-save #f) (the-as string #f))
   (auto-save-command 'auto-save 0 0 *default-pool*)
   (dotimes (i 205) (sound-play-by-name (static-sound-name "caught-eel") (new-sound-id) 1024 0 0 (sound-group sfx) #t))
   (none)
