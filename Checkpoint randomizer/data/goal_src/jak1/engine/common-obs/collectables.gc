@@ -6,8 +6,9 @@
 ;; dgos: GAME, ENGINE
 ;;Randomizer
 
-(define *randomizer-version-string* "Rando 0.075 Release 0.1.18 Better java rng??")
-
+(define *randomizer-version-string* "Rando 0.075")
+(define *release-version-string* "Release 0.1.18")
+(define *comment-string* "Added Java imitation RNG")
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
                                              'boxed-array

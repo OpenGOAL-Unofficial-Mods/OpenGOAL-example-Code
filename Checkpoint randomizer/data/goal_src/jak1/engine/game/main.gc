@@ -100,6 +100,8 @@
   )
 
 (define-extern *randomizer-version-string* (string))
+(define-extern *release-version-string* (string))
+(define-extern *comment-string* (string))
 (defun movie? ()
 (if (-> *randomizer-settings* checkpoint-randomizer?)
 (begin
@@ -150,7 +152,7 @@
   (clear *stdcon*)
   (if (> (-> *game-info* fuel) 0)
     ;; Display the current seed
-    (format *stdcon* " ~D~% ~S"  (-> *randomizer-settings* current-seed) *randomizer-version-string*)
+    (format *stdcon* "SEED: ~D~%~S ~%~S ~%~S~%~%                                                                                                           "  (-> *randomizer-settings* current-seed) *randomizer-version-string* *release-version-string* *comment-string*)
   )
 
   (when (-> *randomizer-settings* use-random-seed?)
