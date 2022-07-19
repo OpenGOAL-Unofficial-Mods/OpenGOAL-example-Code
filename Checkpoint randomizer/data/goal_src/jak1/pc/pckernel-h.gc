@@ -42,6 +42,15 @@
                                         (ash PC_KERNEL_VERSION_BUILD 0)
                                         ))
 
+;; should only need to change this if we make backwards-incompatible 
+;;  changes to reading/writing randomizer-settings or challenges-settings
+(defglobalconstant RANDO_SETTINGS_VERSION_MINOR #x0006)
+(defglobalconstant RANDO_SETTINGS_VERSION_MAJOR #x0001)
+(defglobalconstant RANDO_SETTINGS_VERSION (logior
+                                        (ash RANDO_SETTINGS_VERSION_MAJOR 48)
+                                        (ash RANDO_SETTINGS_VERSION_MINOR 32)
+                                        ))
+
 (defconstant PS2_VOICE_AMOUNT 48)
 (defconstant PC_VOICE_AMOUNT 256)
 
@@ -443,7 +452,7 @@
 
   (format 0 "resetting randomizer settings~%")
 
-  (set! (-> obj version) PC_KERNEL_VERSION)
+  (set! (-> obj version) RANDO_SETTINGS_VERSION)
   (set! (-> obj checkpoint-randomizer?) #t)
   (set! (-> obj cells-needed-to-warp) 1.0)
   (set! (-> obj use-random-seed?) #t)
@@ -453,7 +462,6 @@
 
  (deftype challenges-settings (basic)
     ((version uint64) ;; version of this settings
-    (os symbol) ;; windows, linux, macos
     (challenges-hardcore? symbol)
     (challenges-orbless? symbol)
     (challenges-damageless? symbol)
@@ -465,9 +473,6 @@
  
     (:methods
     (new (symbol type) _type_)
-    (update (_type_) none)
-    (update-from-os (_type_) none)
-    (update-to-os (_type_) none)
     (reset (_type_) none)
     (read-from-file (_type_ string) symbol)
     (commit-to-file (_type_) none)
@@ -506,7 +511,7 @@
   )
  
  
-  (defmethod commit-to-file challenges-settings ((obj challenges-settings))
+(defmethod commit-to-file challenges-settings ((obj challenges-settings))
   "commits the current settings to the file"
   ;; auto load settings if available
   (format (clear *pc-temp-string-1*) "~S/Mods/challenges-settings.gc" *pc-settings-folder*)
@@ -514,29 +519,11 @@
   (write-to-file obj *pc-temp-string-1*)
   (none))
  
- ;;Can probably get rid of this right? - Zed
-(defmethod update-from-os challenges-settings ((obj challenges-settings))
-  "Update settings from the C kernel to GOAL."
- 
-  (set! (-> obj os) (pc-get-os))
-  (none))
- 
- 
- ;;We can probably remove this since we dont need to speak to the OS right? - zed
-(defmethod update challenges-settings ((obj challenges-settings))
-  "Update settings to/from PC kernel. Call this at the start of every frame.
-   This will update things like the aspect-ratio, which will be used for graphics code later."
- 
-  (update-from-os obj)
-  (update-to-os obj)
- 
-  (none))
- 
 (defmethod reset challenges-settings ((obj challenges-settings))
   "Set the default settings for non-vanilla challenges settings"
 
   (format 0 "resetting challenges settings~%")
-  (set! (-> obj version) PC_KERNEL_VERSION)
+  (set! (-> obj version) RANDO_SETTINGS_VERSION)
   (set! (-> obj challenges-orbless?) #f)   
   (set! (-> obj challenges-hardcore?) #f)  
   (set! (-> obj challenges-damageless?) #f)
