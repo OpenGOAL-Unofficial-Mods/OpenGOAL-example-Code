@@ -5,8 +5,6 @@
 ;; name in dgo: checkpoint-randomizer
 ;; dgos: GAME, ENGINE
 
-;;Randomizer
-
 (define *randomizer-version-string* "Rando 0.08")
 (define *release-version-string* "Release 0.1.18")
 (define *comment-string* "Added first version of orbless")
@@ -256,4 +254,3 @@
 
   *rando-checkpoint-list*
 )
-;;End Randomizer settings
