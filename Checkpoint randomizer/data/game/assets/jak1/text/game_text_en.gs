@@ -336,6 +336,12 @@
         "MIRROR MODE")
 (#x1409 "PACIFIST"
         "PACIFIST")
+(#x1410 "SMALL JAK"
+        "SMALL JAK")
+(#x1411 "BIG JAK"
+        "BIG JAK")
+(#x1412 "FLAT JAK"
+        "FLAT JAK")
 
 
 ;; -----------------

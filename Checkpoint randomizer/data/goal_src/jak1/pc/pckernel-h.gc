@@ -461,6 +461,9 @@
     (challenges-bonkless? symbol)
     (challenges-casual? symbol)
     (challenges-mirrormode? symbol)
+    (challenges-smalljak? symbol)
+    (challenges-bigjak? symbol)
+    (challenges-flatjak? symbol)
     )
  
     (:methods
@@ -495,6 +498,9 @@
     (format file "  (bonkless? ~A)~%" (-> obj challenges-bonkless?))
     (format file "  (casual? ~A)~%" (-> obj challenges-casual?))
     (format file "  (mirrormode? ~A)~%" (-> obj challenges-mirrormode?))
+    (format file "  (smalljak? ~A)~%" (-> obj challenges-smalljak?))
+    (format file "  (bigjak? ~A)~%" (-> obj challenges-bigjak?))
+    (format file "  (flatjak? ~A)~%" (-> obj challenges-flatjak?))
 
  
     (format file "  )~%")
@@ -544,6 +550,9 @@
   (set! (-> obj challenges-casual?) #f)    
   (set! (-> obj challenges-mirrormode?) #f)
   (set! (-> obj challenges-pacifist?) #f)
+  (set! (-> obj challenges-smalljak?) #f)
+  (set! (-> obj challenges-bigjak?) #f)
+  (set! (-> obj challenges-flatjak?) #f)
   (none)
   )
  
