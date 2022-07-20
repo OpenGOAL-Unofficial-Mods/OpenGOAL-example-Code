@@ -8,11 +8,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Letterbox and blackout
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
-(define-extern racer? symbol)
-(define-extern flutflut? symbol)
-(define-extern *randomizer-version-string* (string))
-(define-extern *release-version-string* (string))
-(define-extern *comment-string* (string))
 (define-extern randomizer-run-each-frame (function none))
 (define-extern jak-size-run-each-frame (function (none)))
 
