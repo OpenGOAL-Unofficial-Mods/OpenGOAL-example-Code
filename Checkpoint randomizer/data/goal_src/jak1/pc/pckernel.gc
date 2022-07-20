@@ -1129,6 +1129,7 @@
                 (("smalljak?") (set! (-> obj challenges-smalljak?) (file-stream-read-symbol file)))
                 (("bigjak?") (set! (-> obj challenges-bigjak?) (file-stream-read-symbol file)))
                 (("flatjak?") (set! (-> obj challenges-flatjak?) (file-stream-read-symbol file)))
+                (("paperjak?") (set! (-> obj challenges-paperjak?) (file-stream-read-symbol file)))
                 )
               )
             )

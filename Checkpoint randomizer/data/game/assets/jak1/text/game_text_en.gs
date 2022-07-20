@@ -342,6 +342,8 @@
         "BIG JAK")
 (#x1412 "FLAT JAK"
         "FLAT JAK")
+(#x1413 "PAPER JAK"
+        "PAPER JAK")
 
 
 ;; -----------------

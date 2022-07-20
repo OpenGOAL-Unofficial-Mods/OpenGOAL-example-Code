@@ -159,6 +159,18 @@
 )
 )
 
+(if (and (= (-> (-> (the-as target *target* )root)scale z) 1.0) (-> *challenges-settings* challenges-paperjak?))
+(begin
+(set! (-> (-> (the-as target *target* )root)scale z) 0.1)
+)
+)
+
+(if (and (= (-> (-> (the-as target *target* )root)scale z) 0.1) (not(-> *challenges-settings* challenges-paperjak?)))
+(begin
+(set! (-> (-> (the-as target *target* )root)scale z) 1.0)
+)
+)
+
 
 
 

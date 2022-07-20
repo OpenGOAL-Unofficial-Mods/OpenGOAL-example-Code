@@ -472,6 +472,7 @@
     (challenges-smalljak? symbol)
     (challenges-bigjak? symbol)
     (challenges-flatjak? symbol)
+    (challenges-paperjak? symbol)
     )
  
     (:methods
@@ -506,6 +507,7 @@
     (format file "  (smalljak? ~A)~%" (-> obj challenges-smalljak?))
     (format file "  (bigjak? ~A)~%" (-> obj challenges-bigjak?))
     (format file "  (flatjak? ~A)~%" (-> obj challenges-flatjak?))
+    (format file "  (paperjak? ~A)~%" (-> obj challenges-paperjak?))
 
  
     (format file "  )~%")
@@ -540,6 +542,7 @@
   (set! (-> obj challenges-smalljak?) #f)
   (set! (-> obj challenges-bigjak?) #f)
   (set! (-> obj challenges-flatjak?) #f)
+  (set! (-> obj challenges-paperjak?) #f)
   (none)
   )
  
