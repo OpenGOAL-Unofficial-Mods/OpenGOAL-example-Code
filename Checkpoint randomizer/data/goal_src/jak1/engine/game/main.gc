@@ -112,6 +112,59 @@
 
 
 (defun movie? ()
+;;Jak size stuff
+(if (and (= (-> (-> (the-as target *target* )root)scale y) 1.0) (-> *challenges-settings* challenges-smalljak?))
+(begin
+(send-event *target* 'sidekick #f)
+(set! (-> (-> (the-as target *target* )root)scale x) 0.3)
+(set! (-> (-> (the-as target *target* )root)scale y) 0.3)
+(set! (-> (-> (the-as target *target* )root)scale z) 0.3)
+)
+)
+
+(if (and (= (-> (-> (the-as target *target* )root)scale y) 0.3) (not(-> *challenges-settings* challenges-smalljak?)))
+(begin
+(send-event *target* 'sidekick #t)
+(set! (-> (-> (the-as target *target* )root)scale x) 1.0)
+(set! (-> (-> (the-as target *target* )root)scale y) 1.0)
+(set! (-> (-> (the-as target *target* )root)scale z) 1.0)
+)
+)
+
+(if (and (= (-> (-> (the-as target *target* )root)scale y) 1.0) (-> *challenges-settings* challenges-bigjak?))
+(begin
+(set! (-> (-> (the-as target *target* )root)scale x) 2.0)
+(set! (-> (-> (the-as target *target* )root)scale y) 2.0)
+(set! (-> (-> (the-as target *target* )root)scale z) 2.0)
+)
+)
+
+(if (and (= (-> (-> (the-as target *target* )root)scale y) 2.0) (not(-> *challenges-settings* challenges-bigjak?)))
+(begin
+(set! (-> (-> (the-as target *target* )root)scale x) 1.0)
+(set! (-> (-> (the-as target *target* )root)scale y) 1.0)
+(set! (-> (-> (the-as target *target* )root)scale z) 1.0)
+)
+)
+
+(if (and (= (-> (-> (the-as target *target* )root)scale x) 1.0) (-> *challenges-settings* challenges-flatjak?))
+(begin
+(set! (-> (-> (the-as target *target* )root)scale x) 0.1)
+)
+)
+
+(if (and (= (-> (-> (the-as target *target* )root)scale x) 0.1) (not(-> *challenges-settings* challenges-flatjak?)))
+(begin
+(set! (-> (-> (the-as target *target* )root)scale x) 1.0)
+)
+)
+
+
+
+
+
+
+;;Randomzier stuff
 (if (-> *randomizer-settings* checkpoint-randomizer?)
 (begin
 ;;Skip the keira cutscene into if the player has 20 or more cells, or if they have collected the end cell.
