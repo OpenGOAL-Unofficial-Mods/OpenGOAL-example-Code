@@ -1013,7 +1013,7 @@
     ;; auto load settings if available
     ;; if saved settings are corrupted or not found, use defaults
 
-     (load-settings obj)
+    (load-settings obj)
 
     obj))
 
@@ -1037,18 +1037,18 @@
       (return #f))
 
     ;;Check version
-    (let ((version PC_KERNEL_VERSION))
+    (let ((version RANDO_SETTINGS_VERSION))
       (with-settings-scope (file)
         (case-str (file-stream-read-word file)
           (("settings")
             (set! version (file-stream-read-int file))
             (cond
-              ((= (logand version #xffffffff00000000) (logand PC_KERNEL_VERSION #xffffffff00000000))
+              ((= (logand version #xffffffff00000000) (logand RANDO_SETTINGS_VERSION #xffffffff00000000))
                 ;; minor difference
                 )
               (else
                 ;; major difference
-                (format 0 "PC kernel version mismatch! Got ~D.~D vs ~D.~D~%" PC_KERNEL_VERSION_MAJOR PC_KERNEL_VERSION_MINOR (bit-field int version 32 16) (bit-field int version 48 16))
+                (format 0 "Randomizer settings version mismatch! Got ~D.~D vs ~D.~D~%" RANDO_SETTINGS_VERSION_MAJOR RANDO_SETTINGS_VERSION_MINOR (bit-field int version 32 16) (bit-field int version 48 16))
                 (file-stream-close file)
                 (return #f)
                 )
@@ -1100,18 +1100,18 @@
     (when (not (file-stream-valid? file))
       (return #f))
     ;;Check settings verion
-    (let ((version PC_KERNEL_VERSION))
+    (let ((version RANDO_SETTINGS_VERSION))
       (with-settings-scope (file)
         (case-str (file-stream-read-word file)
           (("settings")
             (set! version (file-stream-read-int file))
             (cond
-              ((= (logand version #xffffffff00000000) (logand PC_KERNEL_VERSION #xffffffff00000000))
+              ((= (logand version #xffffffff00000000) (logand RANDO_SETTINGS_VERSION #xffffffff00000000))
                 ;; minor difference
                 )
               (else
                 ;; major difference
-                (format 0 "PC kernel version mismatch! Got ~D.~D vs ~D.~D~%" PC_KERNEL_VERSION_MAJOR PC_KERNEL_VERSION_MINOR (bit-field int version 32 16) (bit-field int version 48 16))
+                (format 0 "Challenges settings version mismatch! Got ~D.~D vs ~D.~D~%" RANDO_SETTINGS_VERSION_MAJOR RANDO_SETTINGS_VERSION_MINOR (bit-field int version 32 16) (bit-field int version 48 16))
                 (file-stream-close file)
                 (return #f)
                 )
