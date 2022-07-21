@@ -287,8 +287,9 @@
   (format 0 "RANDOMIZER: ...warping to ~A~%" checkpointName)
   (define checkpoint (get-continue-by-name *game-info* checkpointName))
   (set! (-> *game-info* current-continue) checkpoint)
-  ;; (start 'play checkpoint)
-  ;; trigger death to ensure init functions for new level run (misty boat)
+
+  ;; trigger death to warp to checkpoint
+  ;; this ensures init functions for new level run (misty boat, citadel elevator)
   (initialize! *game-info* 'die (the-as game-save #f) (the-as string #f))
   (none)
 )
