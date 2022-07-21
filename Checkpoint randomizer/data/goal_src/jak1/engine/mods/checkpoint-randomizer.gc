@@ -5,9 +5,9 @@
 ;; name in dgo: checkpoint-randomizer
 ;; dgos: GAME, ENGINE
 
-(define *randomizer-version-string* "Rando 0.08")
+(define *randomizer-version-string* "Rando 0.09")
 (define *release-version-string* "Release 0.1.18")
-(define *comment-string* "Added first version of orbless")
+(define *comment-string* "Patch misty-boat/citadel-elevator")
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
                                              'boxed-array
@@ -221,7 +221,10 @@
   (clear *stdcon*)
   (if (> (-> *game-info* fuel) 0)
     ;; Display the current seed
-    (format *stdcon* "SEED: ~D~%~S ~%~S ~%~S~%~%                                                                                                           "  (-> *randomizer-settings* current-seed) *randomizer-version-string* *release-version-string* *comment-string*)
+    (if (= *cheat-mode* 'debug)
+      (format *stdcon* "SEED: ~D~%~S ~%~S ~%~S~%~%                                                                                                           "  (-> *randomizer-settings* current-seed) *randomizer-version-string* *release-version-string* *comment-string*)
+      (format *stdcon* "SEED: ~D~%~S ~%~%                                                                                                           "  (-> *randomizer-settings* current-seed) *randomizer-version-string*)
+    )
   )
 
   (when (-> *randomizer-settings* use-random-seed?)
@@ -382,4 +385,43 @@
   ;; Print this list of checkpoints to REPL for debugging purposes
 
   *rando-checkpoint-list*
+)
+
+(define *counts* (new 'static 'array int 67
+                        0 0 0 0 0 0 0 0 0 0 
+                        0 0 0 0 0 0 0 0 0 0 
+                        0 0 0 0 0 0 0 0 0 0 
+                        0 0 0 0 0 0 0 0 0 0 
+                        0 0 0 0 0 0 0 0 0 0 
+                        0 0 0 0 0 0 0 0 0 0 
+                        0 0 0 0 0 0 0
+                        ))
+(defun java-rand-nextIntRangeTest ((iterations int))
+  (dotimes (temp 67)
+    (set! (-> *counts* temp) 0)
+  )
+
+  (format 0 "Running 'Java' RNG test, generating ints between [0,67) for ~D iterations~%~%" iterations)
+  (dotimes (temp iterations)
+    (+! (-> *counts* (java-rand-nextIntRange 0 (-> *checkpoint-list* length))) 1)
+  )
+
+  (dotimes (temp 67)
+    (format 0 "Idx: ~2D / Count: ~2D~%" temp (-> *counts* temp))
+  )
+)
+
+(defun vu-rand-nextIntRangeTest ((iterations int))
+  (dotimes (temp 67)
+    (set! (-> *counts* temp) 0)
+  )
+
+  (format 0 "Running 'vu' RNG test, generating ints between [0,67) for ~D iterations~%~%" iterations)
+  (dotimes (temp iterations)
+    (+! (-> *counts* (rand-vu-int-range 0 (-> *checkpoint-list* length))) 1)
+  )
+
+  (dotimes (temp 67)
+    (format 0 "Idx: ~2D / Count: ~2D~%" temp (-> *counts* temp))
+  )
 )
