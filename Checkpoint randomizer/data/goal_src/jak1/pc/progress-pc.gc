@@ -160,8 +160,11 @@
   )
   (define *randomizer-options* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id checkpoint-randomizer) :scale #t)
-    (new 'static 'game-option :name (game-text-id cell-count-to-trigger-warp) :scale #t :param1 1.0 :param2 102.0)
     (new 'static 'game-option :option-type (game-option-type use-random-seed?) :name (game-text-id use-random-seed?) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id checkpoint-warpcells?) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id checkpoint-warporbs?) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id checkpoint-warpbuzzer?) :scale #t)
+    (new 'static 'game-option :name (game-text-id cell-count-to-trigger-warp) :scale #t :param1 1.0 :param2 102.0)
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
     )
   )
@@ -664,8 +667,11 @@
 
   ;;Randomizer menu
   (set! (-> *randomizer-options* 0 value-to-modify) (&-> *randomizer-settings* checkpoint-randomizer?))
-  (set! (-> *randomizer-options* 1 value-to-modify) (&-> *randomizer-settings* cells-needed-to-warp))
-  (set! (-> *randomizer-options* 2 value-to-modify) (&-> *randomizer-settings* use-random-seed?))
+  (set! (-> *randomizer-options* 1 value-to-modify) (&-> *randomizer-settings* use-random-seed?))
+  (set! (-> *randomizer-options* 2 value-to-modify) (&-> *randomizer-settings* warp-on-cell?))
+  (set! (-> *randomizer-options* 3 value-to-modify) (&-> *randomizer-settings* warp-on-orb?))
+  (set! (-> *randomizer-options* 4 value-to-modify) (&-> *randomizer-settings* warp-on-buzzer?))
+  (set! (-> *randomizer-options* 5 value-to-modify) (&-> *randomizer-settings* cells-needed-to-warp))
 
   ;;Challenges menu
   (set! (-> *challenges-options* 0 value-to-modify) (&-> *challenges-settings* challenges-orbless?))

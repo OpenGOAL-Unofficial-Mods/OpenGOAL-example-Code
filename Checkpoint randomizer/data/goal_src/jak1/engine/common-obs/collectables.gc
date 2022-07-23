@@ -1198,6 +1198,12 @@
     (logclear! (-> self mask) (process-mask actor-pause))
     (clear-collide-with-as (-> self root-override))
     (process-entity-status! self (entity-perm-status dead) #t)
+    ;; if the randomizer is on AND set to warp on orbs, warp the target.
+    (if (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-orb?))
+    (begin
+       (orchestrateCheckpointWarp) 
+    )
+    )
     (convert-to-hud-object self (the-as hud (ppointer->process (-> *hud-parts* money))))
     (none)
     )
@@ -2311,6 +2317,11 @@
           )
         )
       )
+          (if (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-buzzer?))
+    (begin
+       (orchestrateCheckpointWarp) 
+    )
+    )
     (none)
     )
   )
