@@ -85,8 +85,8 @@
 )
 )
 
-;; cell-interval serves as a counter, it counts up until it is raul to cells-needed-to-warp, then it warps jak and resets itself to count again
-(define *cell-interval* 0.0)
+;; collectable-interval serves as a counter, it counts up until it is raul to collectables-needed-to-warp, then it warps jak and resets itself to count again
+(define *collectable-interval* 0.0)
 (define racer? #f) 
 (define flutflut? #f)
 
@@ -339,9 +339,22 @@
   (car *next-rando-checkpoint-node*)
 )
 
+(defun blacked-out? ()
+  ;; if blackout-time is in the future, we're blacked out
+  (< (current-time) (-> *game-info* blackout-time))
+)
+
 (defun orchestrateCheckpointWarp ()
-  ;; first fuel cell? need to generate checkpoint list
-  (when (= (-> *game-info* fuel) 1)
+  ;; first fuel cell/orb/buzzer? need to generate checkpoint list
+  (when 
+    (= 
+      (+
+        (if (-> *randomizer-settings* warp-on-cell?) (the int (-> *game-info* fuel)) 0)
+        (if (-> *randomizer-settings* warp-on-orb?) (the int (-> *game-info* money-total)) 0)
+        (if (-> *randomizer-settings* warp-on-buzzer?) (the int (-> *game-info* buzzer-total)) 0)
+      )
+    1)
+
     ;; randomly generate or set seed
     (if (-> *randomizer-settings* use-random-seed?)
       (set! (-> *randomizer-settings* current-seed) (java-rand-nextInt))
@@ -363,13 +376,20 @@
     (advanceCheckpointList (-> *randomizer-settings* backup-checkpoints-used))
   )
 
-  (set! *cell-interval* (+ *cell-interval* 1))
+  (set! *collectable-interval* (+ *collectable-interval* 1))
 
-  (if (>= *cell-interval* (-> *randomizer-settings* cells-needed-to-warp))
-    (begin
-      (format 0 "RANDOMIZER: warping from ~A...~%" (-> *level* level 0 name))
-      (warpToCheckpoint (the-as string (getNextCheckpoint)))
-      (set! *cell-interval* 0.0)
+  ;; if we're above the collectable threshold, then warp
+  (when (>= *collectable-interval* (-> *randomizer-settings* collectables-needed-to-warp))
+    ;; if blacked out we're already warping, so skip (i.e. to handle orb crate case)
+    (if (not (blacked-out?))
+      (begin
+        (format 0 "RANDOMIZER: warping from ~A...~%" (-> *level* level 0 name))
+        (warpToCheckpoint (the-as string (getNextCheckpoint)))
+        (set! *collectable-interval* 0.0)
+      )
+      (begin
+        (format 0 "RANDOMIZER: skipping warp as we're already blackout~%")
+      )
     )
   )
 

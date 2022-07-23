@@ -402,7 +402,7 @@
       (warp-on-cell? symbol) ;; warp on cell
       (warp-on-orb? symbol) ;; warp on orb
       (warp-on-buzzer? symbol) ;; Warp on scoutfly
-      (cells-needed-to-warp float);; number of cells needed to trigger a random checkpoint warp
+      (collectables-needed-to-warp float);; number of cells/orbs/flies needed to trigger a random checkpoint warp
       
     )
 
@@ -429,7 +429,8 @@
       (return #f))
 
     (format file "(settings #x~X~%" (-> obj version))
-    (format file "  (cells-needed-to-warp ~F)~%" (the-as float(-> obj cells-needed-to-warp)))
+    ;; left as "cells-needed-to-warp" in settings for backwards compatibility
+    (format file "  (cells-needed-to-warp ~F)~%" (the-as float(-> obj collectables-needed-to-warp)))
     (format file "  (Randomizer? ~A)~%" (-> obj checkpoint-randomizer?))
     (format file "  (use-random-seed? ~A)~%" (-> obj use-random-seed?))
     (format file "  (Seed ~D)~%" (-> obj current-seed))
@@ -461,7 +462,7 @@
 
   (set! (-> obj version) RANDO_SETTINGS_VERSION)
   (set! (-> obj checkpoint-randomizer?) #t)
-  (set! (-> obj cells-needed-to-warp) 1.0)
+  (set! (-> obj collectables-needed-to-warp) 1.0)
   (set! (-> obj use-random-seed?) #t)
   (set! (-> obj current-seed) 42069)
   (set! (-> obj backup-checkpoints-used) 0)
