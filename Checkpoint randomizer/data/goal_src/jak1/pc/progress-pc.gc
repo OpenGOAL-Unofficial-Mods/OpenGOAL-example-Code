@@ -684,7 +684,7 @@
   (set! (-> *randomizer-warp-options* 0 value-to-modify) (&-> *randomizer-settings* warp-on-cell?))
   (set! (-> *randomizer-warp-options* 1 value-to-modify) (&-> *randomizer-settings* warp-on-orb?))
   (set! (-> *randomizer-warp-options* 2 value-to-modify) (&-> *randomizer-settings* warp-on-buzzer?))
-  (set! (-> *randomizer-warp-options* 3 value-to-modify) (&-> *randomizer-settings* cells-needed-to-warp))
+  (set! (-> *randomizer-warp-options* 3 value-to-modify) (&-> *randomizer-settings* collectables-needed-to-warp))
 
   ;;Challenges menu
   (set! (-> *challenges-options* 0 value-to-modify) (&-> *challenges-settings* challenges-orbless?))
