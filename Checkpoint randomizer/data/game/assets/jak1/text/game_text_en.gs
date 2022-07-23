@@ -320,6 +320,14 @@
         "RANDOM-SEED")
 (#x1305 "SET-SEED"
         "SET-SEED")
+(#x1309 "WARP SETTINGS"
+        "WARP SETTINGS")
+(#x1306 "WARP ON CELLS?"
+        "WARP ON CELLS?")
+(#x1307 "WARP ON ORBS?"
+        "WARP ON ORBS?")
+(#x1308 "WARP ON FLIES?"
+        "WARP ON FLIES?")
 (#x1402 "TOGGLE CHALLENGES"
         "TOGGLE CHALLENGES")
 (#x1403 "ORBLESS"
@@ -344,6 +352,8 @@
         "FLAT JAK")
 (#x1413 "PAPER JAK"
         "PAPER JAK")
+
+
 
 
 ;; -----------------

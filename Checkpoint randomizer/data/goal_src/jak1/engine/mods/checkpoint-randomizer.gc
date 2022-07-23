@@ -5,13 +5,13 @@
 ;; name in dgo: checkpoint-randomizer
 ;; dgos: GAME, ENGINE
 
-(define *randomizer-version-string* "Rando 0.09")
+(define *randomizer-version-string* "Rando 0.091")
 (define *release-version-string* "Release 0.1.18")
 (define *comment-string* "Patch misty-boat/citadel-elevator")
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
                                              'boxed-array
-                                             :type string :length 67 :allocated-length 67
+                                             :type string :length 69 :allocated-length 69
 "game-start"
 "village1-hut"
 "beach-start"
@@ -74,6 +74,8 @@
 "citadel-start"
 "citadel-entrance"
 "citadel-warp"
+"citadel-plat-start"
+"citadel-plat-end"
 "citadel-launch-start"
 "citadel-launch-end"
 "citadel-generator-start"
@@ -83,8 +85,8 @@
 )
 )
 
-;; cell-interval serves as a counter, it counts up until it is raul to cells-needed-to-warp, then it warps jak and resets itself to count again
-(define *cell-interval* 0.0)
+;; collectable-interval serves as a counter, it counts up until it is raul to collectables-needed-to-warp, then it warps jak and resets itself to count again
+(define *collectable-interval* 0.0)
 (define racer? #f) 
 (define flutflut? #f)
 
@@ -236,12 +238,16 @@
 (none))
 
 
+(define *rando-list-default-length* 3000)
 (define *rando-checkpoint-list* (cons '() '()))
 (define *next-rando-checkpoint-node* (cons '() '()))
 
-(defun generateCheckpointList ((seed uint))
+(defun generateCheckpointList ((seed uint) (length int))
   ;; set the seed which will be used for generating checkpoint list
   (java-rand-init seed)
+
+  ;; make sure we generate at least 101 checkpoints total
+  (set! length (max length 101))
 
   ;; We need to initially generate 96 checkpoints which are NOT citadel, 
   ;;  just in case the player collects all the 96 non-citadel cells first.
@@ -254,15 +260,17 @@
     (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 (-> *checkpoint-list* length))))
     (if (not (citadelCheck? tempCheckpointName))
       (+! nonCitadelCount 1)
+      (-! length 1)
     )
     (set! (car currentListNode) tempCheckpointName) ;; append checkpoint
     (set! (cdr currentListNode) (cons '() '())) ;; create next node
     (set! currentListNode (cdr currentListNode)) ;; move current to newly created node
   )
-  ;; generate any 5 more checkpoints
-  (define tempCount 0)
-  (dotimes (tempCount 5)
+
+  ;; generate remaining checkpoints
+  (while (> length 0)
     (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 (-> *checkpoint-list* length))))
+    (-! length 1)
     (set! (car currentListNode) tempCheckpointName) ;; append checkpoint
 
     (set! (cdr currentListNode) (cons '() '())) ;; create next node
@@ -337,9 +345,22 @@
   (car *next-rando-checkpoint-node*)
 )
 
+(defun blacked-out? ()
+  ;; if blackout-time is in the future, we're blacked out
+  (< (current-time) (-> *game-info* blackout-time))
+)
+
 (defun orchestrateCheckpointWarp ()
-  ;; first fuel cell? need to generate checkpoint list
-  (when (= (-> *game-info* fuel) 1)
+  ;; first fuel cell/orb/buzzer? need to generate checkpoint list
+  (when 
+    (= 
+      (+
+        (if (-> *randomizer-settings* warp-on-cell?) (the int (-> *game-info* fuel)) 0)
+        (if (-> *randomizer-settings* warp-on-orb?) (the int (-> *game-info* money-total)) 0)
+        (if (-> *randomizer-settings* warp-on-buzzer?) (the int (-> *game-info* buzzer-total)) 0)
+      )
+    1)
+
     ;; randomly generate or set seed
     (if (-> *randomizer-settings* use-random-seed?)
       (set! (-> *randomizer-settings* current-seed) (java-rand-nextInt))
@@ -349,7 +370,7 @@
     (set! (-> *randomizer-settings* backup-checkpoints-used) 0)
 
     ;; generate checkpoint list from seed
-    (generateCheckpointList (-> *randomizer-settings* current-seed))
+    (generateCheckpointList (-> *randomizer-settings* current-seed) *rando-list-default-length*)
   )
 
   ;; in case of crash/closed window/etc, generate from last seed and advance checkpoints
@@ -357,22 +378,30 @@
     (format 0 "Regenerating checkpoint list from backup, checkpoints used: ~D~%" (-> *randomizer-settings* backup-checkpoints-used))
 
     ;; generate checkpoint list from seed
-    (generateCheckpointList (-> *randomizer-settings* current-seed))
+    (generateCheckpointList (-> *randomizer-settings* current-seed) *rando-list-default-length*)
     (advanceCheckpointList (-> *randomizer-settings* backup-checkpoints-used))
   )
 
-  (set! *cell-interval* (+ *cell-interval* 1))
+  (set! *collectable-interval* (+ *collectable-interval* 1))
 
-  (if (>= *cell-interval* (-> *randomizer-settings* cells-needed-to-warp))
-    (begin
-      (format 0 "RANDOMIZER: warping from ~A...~%" (-> *level* level 0 name))
-      (warpToCheckpoint (the-as string (getNextCheckpoint)))
-      (set! *cell-interval* 0.0)
+  ;; if we're above the collectable threshold, then warp
+  (when (>= *collectable-interval* (-> *randomizer-settings* collectables-needed-to-warp))
+    ;; if blacked out we're already warping, so skip (i.e. to handle orb crate case)
+    (if (not (blacked-out?))
+      (begin
+        (format 0 "RANDOMIZER: warping from ~A...~%" (-> *level* level 0 name))
+        (warpToCheckpoint (the-as string (getNextCheckpoint)))
+        (set! *collectable-interval* 0.0)
+      )
+      (begin
+        (format 0 "RANDOMIZER: skipping warp as we're already blackout~%")
+      )
     )
   )
 
   ;; current-seed and backup-checkpoints-used are updated at this point, commit to file in case of crash/closed window
   (commit-to-file *randomizer-settings*)
+  (suspend)
 )
 
 (defun checkpointListTest ()
@@ -381,7 +410,7 @@
         (set! (-> *randomizer-settings* current-seed) (java-rand-nextInt))
       )
   ;; Generate a list of checkpoints based on our new updated current-seed
-  (generateCheckpointList (-> *randomizer-settings* current-seed))
+  (generateCheckpointList (-> *randomizer-settings* current-seed) *rando-list-default-length*)
   ;; Print this list of checkpoints to REPL for debugging purposes
 
   *rando-checkpoint-list*
