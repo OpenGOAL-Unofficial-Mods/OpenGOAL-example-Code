@@ -11,7 +11,7 @@
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
                                              'boxed-array
-                                             :type string :length 67 :allocated-length 67
+                                             :type string :length 69 :allocated-length 69
 "game-start"
 "village1-hut"
 "beach-start"
@@ -375,6 +375,7 @@
 
   ;; current-seed and backup-checkpoints-used are updated at this point, commit to file in case of crash/closed window
   (commit-to-file *randomizer-settings*)
+  (suspend)
 )
 
 (defun checkpointListTest ()
