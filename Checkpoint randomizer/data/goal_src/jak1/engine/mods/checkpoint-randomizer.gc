@@ -74,6 +74,8 @@
 "citadel-start"
 "citadel-entrance"
 "citadel-warp"
+"citadel-plat-start"
+"citadel-plat-end"
 "citadel-launch-start"
 "citadel-launch-end"
 "citadel-generator-start"
