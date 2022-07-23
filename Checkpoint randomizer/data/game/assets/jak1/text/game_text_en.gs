@@ -320,6 +320,8 @@
         "RANDOM-SEED")
 (#x1305 "SET-SEED"
         "SET-SEED")
+(#x1309 "WARP SETTINGS"
+        "WARP SETTINGS")
 (#x1306 "WARP ON CELLS?"
         "WARP ON CELLS?")
 (#x1307 "WARP ON ORBS?"
