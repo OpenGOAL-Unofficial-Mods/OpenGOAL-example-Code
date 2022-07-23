@@ -238,7 +238,7 @@
 (none))
 
 
-(define *rando-list-default-length* 1000)
+(define *rando-list-default-length* 3000)
 (define *rando-checkpoint-list* (cons '() '()))
 (define *next-rando-checkpoint-node* (cons '() '()))
 
