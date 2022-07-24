@@ -11,7 +11,7 @@
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
                                              'boxed-array
-                                             :type string :length 69 :allocated-length 69
+                                             :type string :length 70 :allocated-length 70
 "game-start"
 "village1-hut"
 "village1-warp"
@@ -90,6 +90,7 @@
 (define *collectable-interval* 0.0)
 (define racer? #f) 
 (define flutflut? #f)
+(define *randomizer-items-collected* 0)
 
 (defun citadelCheck? ((checkpointName string))
 (if 
@@ -173,7 +174,18 @@
 (none)
 )
 
+
+
 (defun randomizer-run-each-frame ()
+;;update the number of items they have collected
+   (set! *randomizer-items-collected*
+   (+
+      (if (-> *randomizer-settings* warp-on-cell?) (the int (-> *game-info* fuel)) 0)
+      (if (-> *randomizer-settings* warp-on-orb?) (the int (-> *game-info* money-total)) 0)
+      (if (-> *randomizer-settings* warp-on-buzzer?) (the int (-> *game-info* buzzer-total)) 0)
+      )
+   )
+
 ;;Randomzier stuff that needs to run constantly
 (if (-> *randomizer-settings* checkpoint-randomizer?)
 (begin
@@ -188,10 +200,20 @@
 ))
 
 ;;Skip the samos cutscenes if the randomizer is on. Cutscenes bad.
-(if (>= (-> *game-info* fuel) 1) 
+(if (>= *randomizer-items-collected* 1) 
 (begin
 (close-specific-task! (game-task intro) (task-status need-resolution))
 (close-specific-task! (game-task beach-ecorocks) (task-status need-introduction))
+))
+
+;;Skip the citadel cutscenes if the randomizer is on. Cutscenes bad.
+(if (>= *randomizer-items-collected* 1) 
+(begin
+(close-specific-task! (game-task citadel-sage-green) (task-status need-hint))
+(close-specific-task! (game-task citadel-sage-yellow) (task-status need-hint))
+(close-specific-task! (game-task citadel-sage-red) (task-status need-hint))
+(close-specific-task! (game-task citadel-sage-blue) (task-status need-hint))
+
 ))
 
 
@@ -361,11 +383,7 @@
   ;; first fuel cell/orb/buzzer? need to generate checkpoint list
   (when 
     (= 
-      (+
-        (if (-> *randomizer-settings* warp-on-cell?) (the int (-> *game-info* fuel)) 0)
-        (if (-> *randomizer-settings* warp-on-orb?) (the int (-> *game-info* money-total)) 0)
-        (if (-> *randomizer-settings* warp-on-buzzer?) (the int (-> *game-info* buzzer-total)) 0)
-      )
+      *randomizer-items-collected*
     1)
 
     ;; randomly generate or set seed
