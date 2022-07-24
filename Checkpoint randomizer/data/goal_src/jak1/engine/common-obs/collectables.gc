@@ -1199,8 +1199,7 @@
     (clear-collide-with-as (-> self root-override))
     (process-entity-status! self (entity-perm-status dead) #t)
     ;; if the randomizer is on AND set to warp on orbs, warp the target.
-    ;;This is lame, it should work with flutflut and racer but it likes to crash atm for some reason related to cells-to-warp
-    (if (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-orb?)) ;;(not racer?) (not flutflut?))
+    (if (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-orb?))
     (begin
        (orchestrateCheckpointWarp) 
     )
