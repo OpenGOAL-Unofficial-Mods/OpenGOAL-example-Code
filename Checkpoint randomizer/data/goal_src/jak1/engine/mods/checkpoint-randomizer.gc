@@ -374,11 +374,7 @@
 
 (defun orchestrateCheckpointWarp ()
   ;; first fuel cell/orb/buzzer? need to generate checkpoint list
-  (when 
-    (= 
-      *randomizer-items-collected*
-    1)
-
+  (when (= *randomizer-items-collected* 1)
     ;; randomly generate or set seed
     (if (-> *randomizer-settings* use-random-seed?)
       (set! (-> *randomizer-settings* current-seed) (java-rand-nextInt))
