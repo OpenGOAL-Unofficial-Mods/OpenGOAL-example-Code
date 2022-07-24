@@ -189,7 +189,8 @@
 ;;Randomzier stuff that needs to run constantly
 (if (-> *randomizer-settings* checkpoint-randomizer?)
 (begin
-;;Skip the keira cutscene into if the player has 20 or more cells, or if they have collected the end cell.
+
+;;Skip the keira zoomer cutscenes if the player has 20 or more cells, or if they have collected the end cell.
 (if (or (>= (-> *game-info* fuel) 20) (task-complete? *game-info* (game-task firecanyon-end)) )
 (begin
 (close-specific-task! (game-task firecanyon-assistant) (task-status need-reward-speech))
@@ -204,6 +205,12 @@
 (begin
 (close-specific-task! (game-task intro) (task-status need-resolution))
 (close-specific-task! (game-task beach-ecorocks) (task-status need-introduction))
+))
+
+;;Unlock citadel door if the randomizer is on. Invis wall is removed elsewhere (racer.gc). Softlocks bad.
+(if (>= *randomizer-items-collected* 1) 
+(begin
+(close-specific-task! (game-task village4-button) (task-status need-hint))
 ))
 
 ;;Skip the citadel cutscenes if the randomizer is on. Cutscenes bad.
