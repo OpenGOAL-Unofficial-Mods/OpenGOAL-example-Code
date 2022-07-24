@@ -346,12 +346,18 @@
         "PACIFIST")
 (#x1410 "SMALL JAK"
         "SMALL JAK")
-(#x1411 "BIG JAK"
+(#x1411 "BIG JAK"       
         "BIG JAK")
 (#x1412 "FLAT JAK"
         "FLAT JAK")
 (#x1413 "PAPER JAK"
         "PAPER JAK")
+(#x1501 "POWER CELL CUTSCENES?"
+        "POWER CELL CUTSCENES?")
+(#x1502 "JAK SIZE MENU"
+        "JAK SIZE MENU")
+(#x1503 "MOD OPTIONS"
+        "MOD OPTIONS")
 
 
 
