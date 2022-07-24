@@ -2064,8 +2064,6 @@
           (progress-screen resolution)
           (progress-screen aspect-ratio)
           (progress-screen secrets)
-          (progress-screen randomizer-main-options)
-          (progress-screen randomizer-warp-options)
           )
          (hide-progress-icons)
          (draw-options self 115 25 0.82)

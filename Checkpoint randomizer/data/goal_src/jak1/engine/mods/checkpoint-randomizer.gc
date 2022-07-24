@@ -7,13 +7,14 @@
 
 (define *randomizer-version-string* "Rando 0.091")
 (define *release-version-string* "Release 0.1.18")
-(define *comment-string* "Patch misty-boat/citadel-elevator")
+(define *comment-string* "Rework cutscene skips")
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
                                              'boxed-array
-                                             :type string :length 69 :allocated-length 69
+                                             :type string :length 70 :allocated-length 70
 "game-start"
 "village1-hut"
+"village1-warp"
 "beach-start"
 "beach-start"
 "beach-start"
@@ -89,6 +90,7 @@
 (define *collectable-interval* 0.0)
 (define racer? #f) 
 (define flutflut? #f)
+(define *randomizer-items-collected* 0)
 
 (defun citadelCheck? ((checkpointName string))
 (if 
@@ -172,7 +174,18 @@
 (none)
 )
 
+
+
 (defun randomizer-run-each-frame ()
+;;update the number of items they have collected
+   (set! *randomizer-items-collected*
+   (+
+      (if (-> *randomizer-settings* warp-on-cell?) (the int (-> *game-info* fuel)) 0)
+      (if (-> *randomizer-settings* warp-on-orb?) (the int (-> *game-info* money-total)) 0)
+      (if (-> *randomizer-settings* warp-on-buzzer?) (the int (-> *game-info* buzzer-total)) 0)
+      )
+   )
+
 ;;Randomzier stuff that needs to run constantly
 (if (-> *randomizer-settings* checkpoint-randomizer?)
 (begin
@@ -186,6 +199,22 @@
 (close-specific-task! (game-task lavatube-start) (task-status need-reward-speech))
 ))
 
+;;Skip the samos cutscenes if the randomizer is on. Cutscenes bad.
+(if (>= *randomizer-items-collected* 1) 
+(begin
+(close-specific-task! (game-task intro) (task-status need-resolution))
+(close-specific-task! (game-task beach-ecorocks) (task-status need-introduction))
+))
+
+;;Skip the citadel cutscenes if the randomizer is on. Cutscenes bad.
+(if (>= *randomizer-items-collected* 1) 
+(begin
+(close-specific-task! (game-task citadel-sage-green) (task-status need-hint))
+(close-specific-task! (game-task citadel-sage-yellow) (task-status need-hint))
+(close-specific-task! (game-task citadel-sage-red) (task-status need-hint))
+(close-specific-task! (game-task citadel-sage-blue) (task-status need-hint))
+
+))
 
 
 
@@ -246,33 +275,11 @@
   ;; set the seed which will be used for generating checkpoint list
   (java-rand-init seed)
 
-  ;; make sure we generate at least 101 checkpoints total
-  (set! length (max length 101))
-
-  ;; We need to initially generate 96 checkpoints which are NOT citadel, 
-  ;;  just in case the player collects all the 96 non-citadel cells first.
-  ;;  After that, we just need 5 more checkpoints, citadel or otherwise.
-  (define nonCitadelCount 0)
-
   (define currentListNode *rando-checkpoint-list*)
-  ;; generate checkpoints until we have 96 non-citadel
-  (while (< nonCitadelCount 96)
-    (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 (-> *checkpoint-list* length))))
-    (if (not (citadelCheck? tempCheckpointName))
-      (+! nonCitadelCount 1)
-      (-! length 1)
-    )
-    (set! (car currentListNode) tempCheckpointName) ;; append checkpoint
-    (set! (cdr currentListNode) (cons '() '())) ;; create next node
-    (set! currentListNode (cdr currentListNode)) ;; move current to newly created node
-  )
 
-  ;; generate remaining checkpoints
-  (while (> length 0)
+  (dotimes (temp length)
     (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 (-> *checkpoint-list* length))))
-    (-! length 1)
     (set! (car currentListNode) tempCheckpointName) ;; append checkpoint
-
     (set! (cdr currentListNode) (cons '() '())) ;; create next node
     (set! currentListNode (cdr currentListNode)) ;; move current to newly created node
   )
@@ -305,13 +312,28 @@
   (none)
 )
 
-(defun checkRandomCheckpoint? ((checkpointName string))
-  ;; returns whether the checkpoint is safe to use
-  (if (and (not (task-closed? (game-task citadel-sage-green) (task-status need-hint))) (citadelCheck? checkpointName))
+(defun checkpointValid? ((checkpointName string))
+  ;; avoid citadel warps if cutscene task not closed
+  (if 
+    (and 
+      (not (task-closed? (game-task citadel-sage-green) (task-status need-hint))) 
+      (citadelCheck? checkpointName)
+    )
     (return #f)
-    (return #t)
   )
-  #f
+
+  ;; avoid village1-warp if cutscene tasks not closed
+  (if 
+    (and 
+      (or 
+        (not (task-closed? (game-task intro) (task-status need-resolution))) 
+        (not (task-closed? (game-task beach-ecorocks) (task-status need-introduction)))
+      )
+      (string= checkpointName "village1-warp")
+    )
+    (return #f)
+  )
+  #t
 )
 
 (defun getNextCheckpoint ()
@@ -326,7 +348,7 @@
     ;; increment number of checkpoints used (intentionally includes any skipped citadel checkpoints)
     (+! (-> *randomizer-settings* backup-checkpoints-used) 1)
 
-    (if (checkRandomCheckpoint? (the-as string checkpointName))
+    (if (checkpointValid? (the-as string checkpointName))
       (begin 
         (format 0 "RANDOMIZER: checkpoint ~A is valid~%" checkpointName)
         (return checkpointName) ;; break from while loop
@@ -352,15 +374,7 @@
 
 (defun orchestrateCheckpointWarp ()
   ;; first fuel cell/orb/buzzer? need to generate checkpoint list
-  (when 
-    (= 
-      (+
-        (if (-> *randomizer-settings* warp-on-cell?) (the int (-> *game-info* fuel)) 0)
-        (if (-> *randomizer-settings* warp-on-orb?) (the int (-> *game-info* money-total)) 0)
-        (if (-> *randomizer-settings* warp-on-buzzer?) (the int (-> *game-info* buzzer-total)) 0)
-      )
-    1)
-
+  (when (= *randomizer-items-collected* 1)
     ;; randomly generate or set seed
     (if (-> *randomizer-settings* use-random-seed?)
       (set! (-> *randomizer-settings* current-seed) (java-rand-nextInt))
