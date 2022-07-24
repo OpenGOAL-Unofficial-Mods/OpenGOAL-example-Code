@@ -1611,8 +1611,7 @@
             (-> *randomizer-settings* warp-on-cell?) 
          ))
         (not (-> *mods-settings* mod-powercellcutscenes?))
-  ))
-
+  ) 
     (begin
     (while (handle->process (-> *game-info* other-camera-handle))
       (format
