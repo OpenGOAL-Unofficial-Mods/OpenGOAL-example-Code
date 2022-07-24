@@ -14,6 +14,7 @@
                                              :type string :length 69 :allocated-length 69
 "game-start"
 "village1-hut"
+"village1-warp"
 "beach-start"
 "beach-start"
 "beach-start"
@@ -186,6 +187,12 @@
 (close-specific-task! (game-task lavatube-start) (task-status need-reward-speech))
 ))
 
+;;Skip the samos cutscenes if the randomizer is on. Cutscenes bad.
+(if (>= (-> *game-info* fuel) 1) 
+(begin
+(close-specific-task! (game-task intro) (task-status need-resolution))
+(close-specific-task! (game-task beach-ecorocks) (task-status need-introduction))
+))
 
 
 
