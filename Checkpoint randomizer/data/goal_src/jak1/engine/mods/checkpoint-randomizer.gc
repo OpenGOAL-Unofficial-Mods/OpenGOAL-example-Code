@@ -275,33 +275,11 @@
   ;; set the seed which will be used for generating checkpoint list
   (java-rand-init seed)
 
-  ;; make sure we generate at least 101 checkpoints total
-  (set! length (max length 101))
-
-  ;; We need to initially generate 96 checkpoints which are NOT citadel, 
-  ;;  just in case the player collects all the 96 non-citadel cells first.
-  ;;  After that, we just need 5 more checkpoints, citadel or otherwise.
-  (define nonCitadelCount 0)
-
   (define currentListNode *rando-checkpoint-list*)
-  ;; generate checkpoints until we have 96 non-citadel
-  (while (< nonCitadelCount 96)
-    (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 (-> *checkpoint-list* length))))
-    (if (not (citadelCheck? tempCheckpointName))
-      (+! nonCitadelCount 1)
-      (-! length 1)
-    )
-    (set! (car currentListNode) tempCheckpointName) ;; append checkpoint
-    (set! (cdr currentListNode) (cons '() '())) ;; create next node
-    (set! currentListNode (cdr currentListNode)) ;; move current to newly created node
-  )
 
-  ;; generate remaining checkpoints
-  (while (> length 0)
+  (dotimes (temp length)
     (define tempCheckpointName (-> *checkpoint-list* (java-rand-nextIntRange 0 (-> *checkpoint-list* length))))
-    (-! length 1)
     (set! (car currentListNode) tempCheckpointName) ;; append checkpoint
-
     (set! (cdr currentListNode) (cons '() '())) ;; create next node
     (set! currentListNode (cdr currentListNode)) ;; move current to newly created node
   )
@@ -334,13 +312,28 @@
   (none)
 )
 
-(defun checkRandomCheckpoint? ((checkpointName string))
-  ;; returns whether the checkpoint is safe to use
-  (if (and (not (task-closed? (game-task citadel-sage-green) (task-status need-hint))) (citadelCheck? checkpointName))
+(defun checkpointValid? ((checkpointName string))
+  ;; avoid citadel warps if cutscene task not closed
+  (if 
+    (and 
+      (not (task-closed? (game-task citadel-sage-green) (task-status need-hint))) 
+      (citadelCheck? checkpointName)
+    )
     (return #f)
-    (return #t)
   )
-  #f
+
+  ;; avoid village1-warp if cutscene tasks not closed
+  (if 
+    (and 
+      (or 
+        (not (task-closed? (game-task intro) (task-status need-resolution))) 
+        (not (task-closed? (game-task beach-ecorocks) (task-status need-introduction)))
+      )
+      (string= checkpointName "village1-warp")
+    )
+    (return #f)
+  )
+  #t
 )
 
 (defun getNextCheckpoint ()
@@ -355,7 +348,7 @@
     ;; increment number of checkpoints used (intentionally includes any skipped citadel checkpoints)
     (+! (-> *randomizer-settings* backup-checkpoints-used) 1)
 
-    (if (checkRandomCheckpoint? (the-as string checkpointName))
+    (if (checkpointValid? (the-as string checkpointName))
       (begin 
         (format 0 "RANDOMIZER: checkpoint ~A is valid~%" checkpointName)
         (return checkpointName) ;; break from while loop
