@@ -754,10 +754,10 @@
   (challenges-casual            #x1407)
   (mod-mirrormode        #x1408)
   (challenges-pacifist          #x1409)
-  (challenges-smalljak          #x1410)
-  (challenges-bigjak          #x1411)
-  (challenges-flatjak          #x1412)
-  (challenges-paperjak          #x1413)
+  (challenges-smalljak          #x140a)
+  (challenges-bigjak          #x140b)
+  (challenges-flatjak          #x140c)
+  (challenges-paperjak          #x140d)
 
   ;;Mod settings
   (mod-powercellcutscenes     #x1501)
