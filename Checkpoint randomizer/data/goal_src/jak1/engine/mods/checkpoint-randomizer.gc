@@ -211,7 +211,7 @@
   ;;
   ;; we break the link between the citadel door's state and the warp gate switch, 
   ;; and then manually open the door
-  (let ((citb-iris-door-21 (the citb-iris-door (-> (entity-by-name "citb-iris-door-21") extra process))))
+  (let ((citb-iris-door-21 (the eco-door (-> (entity-by-name "citb-iris-door-21") extra process))))
     (set! (-> citb-iris-door-21 state-actor) #f)
     (set! (-> citb-iris-door-21 locked) #f) 
   )
