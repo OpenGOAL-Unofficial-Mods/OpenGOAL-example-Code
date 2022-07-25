@@ -143,12 +143,14 @@
 (define *misc-options* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id checkpoint-randomizer) :scale #t :param3 (game-option-menu randomizer-main-options))
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id custom-challenges) :scale #t :param3 (game-option-menu challenges-options))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id mod-options) :scale #t :param3 (game-option-menu mod-options))
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id disable-auto-save) :scale #t :param3 (game-option-menu memcard-disable-auto-save))
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id discord-rpc) :scale #t)
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
    
     )
   )
+
 (define *camera-options* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type normal-inverted) :name (game-text-id camera-controls-first-horz) :scale #t)
     (new 'static 'game-option :option-type (game-option-type normal-inverted) :name (game-text-id camera-controls-first-vert) :scale #t)
@@ -158,6 +160,7 @@
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
     )
   )
+
   (define *randomizer-main-options* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id checkpoint-randomizer) :scale #t)
     (new 'static 'game-option :option-type (game-option-type use-random-seed?) :name (game-text-id use-random-seed?) :scale #t)
@@ -182,7 +185,19 @@
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-pacifist) :scale #t)
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-bonkless) :scale #t)
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-casual) :scale #t)
-    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-mirrormode) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
+    )
+  )
+
+  (define *mod-options* (new 'static 'boxed-array :type game-option
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id mod-powercellcutscenes) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id mod-options-jak-size-menu) :scale #t :param3 (game-option-menu mod-options-jak-size))
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id mod-mirrormode) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
+    )
+  )
+
+    (define *mod-options-jak-size* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-smalljak) :scale #t)
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-bigjak) :scale #t)
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id challenges-flatjak) :scale #t)
@@ -631,6 +646,8 @@
   (set! (-> *options-remap* (progress-screen randomizer-main-options))    *randomizer-main-options*)
   (set! (-> *options-remap* (progress-screen randomizer-warp-options))    *randomizer-warp-options*)
   (set! (-> *options-remap* (progress-screen challenges-options))    *challenges-options*)
+  (set! (-> *options-remap* (progress-screen mod-options))    *mod-options*)
+  (set! (-> *options-remap* (progress-screen mod-options-jak-size))    *mod-options-jak-size*)
   (set! (-> *options-remap* (progress-screen misc-options))               *misc-options*)
   (set! (-> *options-remap* (progress-screen accessibility-options))      *accessibility-options*)
   (set! (-> *options-remap* (progress-screen gfx-ps2-options))            *gfx-ps2-options*)
@@ -671,7 +688,7 @@
   (set! (-> *graphic-options-no-frame-rate-pc* 1 value-to-modify) (&-> *progress-carousell* int-backup))
   (set! (-> *graphic-options-no-frame-rate-pc* 2 value-to-modify) (&-> *pc-settings* vsync?))
   ;(set! (-> *graphic-options-pc* 4 value-to-modify) (&-> *progress-carousell* int-backup))
-  (set! (-> *misc-options* 3 value-to-modify) (&-> *pc-settings* discord-rpc?))
+  (set! (-> *misc-options* 4 value-to-modify) (&-> *pc-settings* discord-rpc?))
 
 
 
@@ -693,11 +710,16 @@
   (set! (-> *challenges-options* 3 value-to-modify) (&-> *challenges-settings* challenges-pacifist?))
   (set! (-> *challenges-options* 4 value-to-modify) (&-> *challenges-settings* challenges-bonkless?))
   (set! (-> *challenges-options* 5 value-to-modify) (&-> *challenges-settings* challenges-casual?))
-  (set! (-> *challenges-options* 6 value-to-modify) (&-> *challenges-settings* challenges-mirrormode?))
-  (set! (-> *challenges-options* 7 value-to-modify) (&-> *challenges-settings* challenges-smalljak?))
-  (set! (-> *challenges-options* 8 value-to-modify) (&-> *challenges-settings* challenges-bigjak?))
-  (set! (-> *challenges-options* 9 value-to-modify) (&-> *challenges-settings* challenges-flatjak?))
-  (set! (-> *challenges-options* 10 value-to-modify) (&-> *challenges-settings* challenges-paperjak?))
+  
+  ;;mod settings
+  (set! (-> *mod-options* 0 value-to-modify) (&-> *mods-settings* mod-powercellcutscenes?))
+  (set! (-> *mod-options* 2 value-to-modify) (&-> *challenges-settings* challenges-mirrormode?))
+    
+  ;;jak-size settings
+  (set! (-> *mod-options-jak-size* 0 value-to-modify) (&-> *challenges-settings* challenges-smalljak?))
+  (set! (-> *mod-options-jak-size* 1 value-to-modify) (&-> *challenges-settings* challenges-bigjak?))
+  (set! (-> *mod-options-jak-size* 2 value-to-modify) (&-> *challenges-settings* challenges-flatjak?))
+  (set! (-> *mod-options-jak-size* 3 value-to-modify) (&-> *challenges-settings* challenges-paperjak?))
 
   (set! (-> *camera-options* 0 value-to-modify) (&-> *pc-settings* first-camera-h-inverted?))
   (set! (-> *camera-options* 1 value-to-modify) (&-> *pc-settings* first-camera-v-inverted?))
@@ -2090,6 +2112,14 @@
             (draw-options self 115 25 0.75)
          )
         (((progress-screen challenges-options))
+         (hide-progress-icons)
+         (draw-options self 115 25 0.65)
+         )
+        (((progress-screen mod-options))
+         (hide-progress-icons)
+         (draw-options self 115 25 0.65)
+         )
+        (((progress-screen mod-options-jak-size))
          (hide-progress-icons)
          (draw-options self 115 25 0.65)
          )
