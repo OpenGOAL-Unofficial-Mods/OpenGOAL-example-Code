@@ -64,10 +64,11 @@
     ((= 'windowed (-> obj display-mode))
       (set! (-> obj win-width) width)
       (set! (-> obj win-height) height)
+      (pc-set-window-size (max PC_MIN_WIDTH (-> obj win-width)) (max PC_MIN_HEIGHT (-> obj win-height)))
       )
     (else
-      (format 0  "Nope! No changing fullscreen resolution for now!~%")
-      (format #t "Nope! No changing fullscreen resolution for now!~%")
+      (set! (-> obj width) width)
+      (set! (-> obj height) height)
       )
     )
   (none))
@@ -97,8 +98,8 @@
   (set! (-> obj window-lock?) lock))
 
 (defmethod set-frame-rate! pc-settings ((obj pc-settings) (rate int))
-  "set the aspect ratio used for rendering."
-  
+  "set the target framerate."
+
   (pc-set-frame-rate rate)
   (if (and (!= 'fullscreen (-> obj display-mode))
            (!= (pc-get-screen-rate -1) rate))
@@ -107,20 +108,18 @@
     ((60)
       (set! (-> obj target-fps) rate)
       (set! (-> *setting-control* default video-mode) 'ntsc)
-      (set-video-mode 'ntsc)
       )
     ((100)
       (set! (-> obj target-fps) rate)
       (set! (-> *setting-control* default video-mode) '100fps)
-      (set-video-mode '100fps)
       )
     ((150)
       (set! (-> obj target-fps) rate)
       (set! (-> *setting-control* default video-mode) '150fps)
-      (set-video-mode '150fps)
       )
     )
-  
+  (set! (-> *setting-control* current video-mode) #f)
+
   rate)
 
 (defmethod commit-to-file pc-settings ((obj pc-settings))
@@ -131,6 +130,7 @@
   (pc-mkdir-file-path *pc-temp-string-1*)
   (write-to-file obj *pc-temp-string-1*)
   (none))
+
 
 (defmethod update-from-os pc-settings ((obj pc-settings))
   "Update settings from the C kernel to GOAL."
@@ -146,6 +146,7 @@
         )
     )
 
+  (unless (or (zero? (-> obj real-width)) (zero? (-> obj real-height)))
   (let ((win-aspect (/ (the float (-> obj real-width)) (the float (-> obj real-height)))))
     (cond
       ((and (not (-> obj use-vis?)) (-> obj aspect-ratio-auto?))
@@ -170,7 +171,7 @@
        (set! (-> obj lbox-height) (-> obj real-height))
        )
       )
-    )
+    ))
 
 
   (none))
@@ -187,7 +188,9 @@
      )
     )
 
+  ;; set fullscreen to what we want
   (pc-set-fullscreen (-> obj display-mode) 0)
+  ;; set window size and fps automatically if the window lock is enabled.
   (when (-> obj window-lock?)
     (pc-set-vsync (-> obj vsync?))
 
@@ -195,12 +198,22 @@
         (if (< (pc-get-screen-rate -1) (-> obj target-fps))
             (pc-set-vsync #f))
         (pc-set-frame-rate (-> obj target-fps)))
-
-    (if (and (= 'windowed (-> obj display-mode))
-             (or (!= (-> obj win-width) (-> obj real-width))
-                 (!= (-> obj win-height) (-> obj real-height))))
-        (pc-set-window-size (max PC_MIN_WIDTH (-> obj win-width)) (max PC_MIN_HEIGHT (-> obj win-height))))
     )
+  ;; do game resolution
+  (if (= (-> obj display-mode) 'windowed)
+      (pc-set-game-resolution (-> obj real-width) (-> obj real-height))
+      (pc-set-game-resolution (-> obj width) (-> obj height)))
+
+  ;; set msaa sample rate. if invalid, just reset to 4.
+  (let ((valid? #f))
+      (dotimes (i 31)
+        (if (= (-> obj gfx-msaa) (ash 1 i))
+            (true! valid?))
+        )
+
+      (if (not valid?) (set! (-> obj gfx-msaa) 4))
+      (pc-set-msaa (-> obj gfx-msaa))
+      )
 
   (pc-discord-rpc-set (if (-> obj discord-rpc?) 1 0))
 
@@ -252,7 +265,7 @@
     (set! (-> info money-total) (&-> *game-info* money-total))
     (set! (-> info buzzer-total) (&-> *game-info* buzzer-total))
     (set! (-> info deaths) (&-> *game-info* total-deaths))
-  
+    
     (set! (-> info status) "Playing Jak™ Powercell Randomizer 0.09")
     (set! (-> info level) (symbol->string (-> (level-get-target-inside *level*) name))) ;; grab the name of level we're in
     (set! (-> info cutscene?) (-> obj movie?))
@@ -385,37 +398,43 @@
           (false! *sound-player-enable*)
           )
 
-      ;; blue eco!
-      (when (and (pc-cheats? obj eco-blue)
-                 (or (= (-> *target* fact-info-target eco-type) (pickup-type eco-blue))
-                     (<= (-> *target* fact-info-target eco-level) 0.0)))
-        (protect ((-> *target* event-hook))
-          (set! (-> *target* event-hook) target-generic-event-handler)
-          (send-event *target* 'get-pickup (pickup-type eco-blue) (-> *FACT-bank* eco-full-inc))
-          )
-        (send-event *target* 'boost (-> *FACT-bank* eco-single-inc)))
-
-      ;; yellow eco!
-      (when (and (pc-cheats? obj eco-yellow)
-                 (or (= (-> *target* fact-info-target eco-type) (pickup-type eco-yellow))
-                     (<= (-> *target* fact-info-target eco-level) 0.0)))
-        (send-event *target* 'get-pickup (pickup-type eco-yellow) (-> *FACT-bank* eco-full-inc)))
-
-      ;; red eco!
-      (when (and (pc-cheats? obj eco-red)
-                 (or (= (-> *target* fact-info-target eco-type) (pickup-type eco-red))
-                     (<= (-> *target* fact-info-target eco-level) 0.0)))
-        (send-event *target* 'get-pickup (pickup-type eco-red) (-> *FACT-bank* eco-full-inc)))
-
-      ;; green eco!
-      (when (and (pc-cheats? obj eco-green)
-                 (or (= (-> *target* fact-info-target eco-type) (pickup-type eco-green))
-                     (<= (-> *target* fact-info-target eco-level) 0.0)))
-        (define-extern vent type)
-        (protect ((-> pp type) (-> *target* control root-prim prim-core action))
-        (set! (-> pp type) vent)
-        (logior! (-> *target* control root-prim prim-core action) (collide-action ca-9))
-        (send-event *target* 'get-pickup (pickup-type eco-green) (-> *FACT-bank* eco-full-inc)))
+      (cond
+        ;; green eco!
+        ((pc-cheats? obj eco-green)
+         (when (or (= (-> *target* fact-info-target eco-type) (pickup-type eco-green))
+                   (<= (-> *target* fact-info-target eco-level) 0.0))
+            (define-extern vent type)
+            (protect ((-> pp type) (-> *target* control root-prim prim-core action))
+            (set! (-> pp type) vent)
+            (logior! (-> *target* control root-prim prim-core action) (collide-action ca-9))
+            (send-event *target* 'get-pickup (pickup-type eco-green) (-> *FACT-bank* eco-full-inc)))
+            )
+         )
+        ;; red eco!
+        ((pc-cheats? obj eco-red)
+         (when (or (= (-> *target* fact-info-target eco-type) (pickup-type eco-red))
+                   (<= (-> *target* fact-info-target eco-level) 0.0))
+            (send-event *target* 'get-pickup (pickup-type eco-red) (-> *FACT-bank* eco-full-inc))
+            )
+         )
+        ;; blue eco!
+        ((pc-cheats? obj eco-blue)
+         (when (or (= (-> *target* fact-info-target eco-type) (pickup-type eco-blue))
+                   (<= (-> *target* fact-info-target eco-level) 0.0))
+            (protect ((-> *target* event-hook))
+              (set! (-> *target* event-hook) target-generic-event-handler)
+              (send-event *target* 'get-pickup (pickup-type eco-blue) (-> *FACT-bank* eco-full-inc))
+              )
+            (send-event *target* 'boost (-> *FACT-bank* eco-single-inc))
+            )
+         )
+        ;; yellow eco!
+        ((pc-cheats? obj eco-yellow)
+         (when (or (= (-> *target* fact-info-target eco-type) (pickup-type eco-yellow))
+                   (<= (-> *target* fact-info-target eco-level) 0.0))
+            (send-event *target* 'get-pickup (pickup-type eco-yellow) (-> *FACT-bank* eco-full-inc))
+            )
+         )
         )
       ))
 
@@ -511,16 +530,6 @@
       )
 
   0)
-
-(define *pc-cheat-temp* (the-as (pointer int32) (malloc 'global (* 4 7))))
-(defmacro pc-cheat-toggle-and-tune (obj cheat)
-  `(begin
-    (cpad-clear! 0 r1)
-    (logxor! (-> ,obj cheats) (pc-cheats ,cheat))
-    (cheats-sound-play (logtest? (-> ,obj cheats) (pc-cheats ,cheat)))
-    )
-  )
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; functions
@@ -759,7 +768,7 @@
               )
             (dosettings (file)
               (case-str *pc-temp-string*
-                (("fps") (set! (-> obj target-fps) (file-stream-read-int file)))
+                (("fps") (set-frame-rate! obj (file-stream-read-int file)))
                 (("window-size")
                   (set! (-> obj win-width) (file-stream-read-int file))
                   (set! (-> obj win-height) (file-stream-read-int file))
@@ -768,14 +777,20 @@
                   (set! (-> obj width) (file-stream-read-int file))
                   (set! (-> obj height) (file-stream-read-int file))
                   )
-                (("aspect") (set-aspect! obj (file-stream-read-int file) (file-stream-read-int file)))
-                (("aspect-test")
+                (("msaa") (set! (-> obj gfx-msaa) (file-stream-read-int file)))
+                (("aspect-state")
+                  ;; game aspect
+                  (set! (-> *setting-control* default aspect-ratio) (file-stream-read-symbol file))
+                  ;; aspect ratio
                   (set! (-> obj aspect-custom-x) (file-stream-read-int file))
                   (set! (-> obj aspect-custom-y) (file-stream-read-int file))
+                  ;; aspect auto
+                  (set! (-> obj aspect-ratio-auto?) (file-stream-read-symbol file))
+                  
+                  (unless (-> obj aspect-ratio-auto?)
+                      (set-aspect! obj (-> obj aspect-custom-x) (-> obj aspect-custom-y))
+                      )
                   )
-                (("aspect-auto") (set! (-> obj aspect-ratio-auto?) (file-stream-read-symbol file)))
-                (("aspect-game") (set! (-> *setting-control* default aspect-ratio) (file-stream-read-symbol file)))
-                (("video-mode") (set! (-> *setting-control* default video-mode) (file-stream-read-symbol file)))
                 (("display-mode") (set-display-mode! obj (file-stream-read-symbol file)))
                 (("letterbox") (set! (-> obj letterbox?) (file-stream-read-symbol file)))
                 (("vsync") (set! (-> obj vsync?) (file-stream-read-symbol file)))
@@ -802,6 +817,7 @@
                 (("ps2-se?") (set! (-> obj ps2-se?) (file-stream-read-symbol file)))
                 (("ps2-hints?") (set! (-> obj ps2-hints?) (file-stream-read-symbol file)))
                 (("ps2-lod-dist?") (set! (-> obj ps2-lod-dist?) (file-stream-read-symbol file)))
+                (("force-envmap?") (set! (-> obj force-envmap?) (file-stream-read-symbol file)))
                 (("force-actors?") (set! (-> obj force-actors?) (file-stream-read-symbol file)))
                 (("music-fade?") (set! (-> obj music-fade?) (file-stream-read-symbol file)))
                 (("use-vis?") (set! (-> obj use-vis?) (file-stream-read-symbol file)))
@@ -887,12 +903,11 @@
 
     (format file "  (fps ~D)~%" (-> obj target-fps))
     (format file "  (game-size ~D ~D)~%" (-> obj width) (-> obj height))
+    (format file "  (msaa ~D)~%" (-> obj gfx-msaa))
     (format file "  (window-size ~D ~D)~%" (-> obj win-width) (-> obj win-height))
-    (format file "  (aspect ~D ~D)~%" (-> obj width) (-> obj height))
-    (format file "  (aspect-test ~D ~D)~%" (-> obj aspect-custom-x) (-> obj aspect-custom-y))
-    (format file "  (aspect-auto ~A)~%" (-> obj aspect-ratio-auto?))
-    (format file "  (aspect-game ~A)~%" (-> *setting-control* default aspect-ratio))
-    (format file "  (video-mode ~A)~%" (-> *setting-control* default video-mode))
+    (format file "  (aspect-state ~A ~D ~D ~A)~%" (-> *setting-control* default aspect-ratio)
+                                                  (-> obj aspect-custom-x) (-> obj aspect-custom-y)
+                                                  (-> obj aspect-ratio-auto?))
     (format file "  (display-mode ~A)~%" (-> obj display-mode))
     (format file "  (letterbox ~A)~%" (-> obj letterbox?))
     (format file "  (vsync ~A)~%" (-> obj vsync?))
@@ -921,6 +936,7 @@
     (format file "  (ps2-se? ~A)~%" (-> obj ps2-se?))
     (format file "  (ps2-hints? ~A)~%" (-> obj ps2-hints?))
     (format file "  (ps2-lod-dist? ~A)~%" (-> obj ps2-lod-dist?))
+    (format file "  (force-envmap? ~A)~%" (-> obj force-envmap?))
     (format file "  (music-fade? ~A)~%" (-> obj music-fade?))
     (format file "  (use-vis? ~A)~%" (-> obj use-vis?))
     (format file "  (skip-movies? ~A)~%" (-> obj skip-movies?))
@@ -1012,9 +1028,7 @@
     (reset obj)
     ;; auto load settings if available
     ;; if saved settings are corrupted or not found, use defaults
-
     (load-settings obj)
-
     obj))
 
 (defmethod new randomizer-settings ((allocation symbol) (type-to-make type))
@@ -1053,7 +1067,7 @@
                 (return #f)
                 )
               )
-              ;;read through the file and set fields
+            ;;read through the file and set fields
             (dosettings (file)
               (case-str *pc-temp-string*
                 (("Randomizer?") (set! (-> obj checkpoint-randomizer?) (file-stream-read-symbol file)))
@@ -1083,6 +1097,7 @@
   
 (defmethod load-settings randomizer-settings ((obj randomizer-settings))
   "load"
+
   (format (clear *pc-temp-string-1*) "~S/Mods/randomizer-settings.gc" *pc-settings-folder*)
   (if (pc-filepath-exists? *pc-temp-string-1*)
     (begin
@@ -1103,6 +1118,7 @@
   (let ((file (new 'stack 'file-stream filename 'read)))
     (when (not (file-stream-valid? file))
       (return #f))
+ 
     ;;Check settings verion
     (let ((version RANDO_SETTINGS_VERSION))
       (with-settings-scope (file)
@@ -1120,7 +1136,7 @@
                 (return #f)
                 )
               )
-              ;; Read file and set values.
+            ;; Read file and set values.
             (dosettings (file)
               (case-str *pc-temp-string*
                 (("hardcore?") (set! (-> obj challenges-hardcore?) (file-stream-read-symbol file)))
@@ -1163,7 +1179,7 @@
     (format 0 "[Challenges] Challenges Settings not found at '~S'...initializing with defaults!~%" *pc-temp-string-1*))
   0)
  
- (defmethod new mods-settings ((allocation symbol) (type-to-make type))
+(defmethod new mods-settings ((allocation symbol) (type-to-make type))
   "make a new mods-settings"
   (let ((obj (object-new allocation type-to-make (the-as int (-> type-to-make size)))))
     (reset obj)
@@ -1171,17 +1187,17 @@
     ;; if saved settings are corrupted or not found, use defaults
     (load-settings obj)
     obj))
- 
+
 (defmethod read-from-file mods-settings ((obj mods-settings) (filename string))
   "read settings from a file"
- 
+
   (if (not filename)
     (return #f))
- 
+
   (let ((file (new 'stack 'file-stream filename 'read)))
     (when (not (file-stream-valid? file))
       (return #f))
- 
+
     ;;Check version
     (let ((version RANDO_SETTINGS_VERSION))
       (with-settings-scope (file)
@@ -1208,17 +1224,17 @@
             )
           )
         )
- 
+
       )
       (inspect file)
     (file-stream-close file)
     )
- 
+
   (format 0 "pc settings file read: ~A~%" filename)
- 
+
   #t
   )
- 
+
 (defmethod load-settings mods-settings ((obj mods-settings))
   "load"
   (format (clear *pc-temp-string-1*) "~S/Mods/mods-settings.gc" *pc-settings-folder*)
@@ -1230,19 +1246,17 @@
         (reset obj)))
     (format 0 "[Randomizer] Randomizer Settings not found at '~S'...initializing with defaults!~%" *pc-temp-string-1*))
   0)
- 
- 
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; PC settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; This is the settings object, all new settings types must be initalized here.
 (define *pc-settings* (new 'global 'pc-settings))
 (define *randomizer-settings* (new 'global 'randomizer-settings))
 (define *challenges-settings* (new 'global 'challenges-settings))
 (define *mods-settings* (new 'global 'mods-settings))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; entity debugging
@@ -1329,7 +1343,6 @@
 
 ;; the actor pool for PC processes! it has space for 4 processes, with 16K of space.
 (define *pc-dead-pool* (new 'global 'dead-pool 4 (* 16 1024) '*pc-dead-pool*))
-
 
 
 

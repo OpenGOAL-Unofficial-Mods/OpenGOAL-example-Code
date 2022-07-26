@@ -1375,9 +1375,9 @@
       (set! v1-1 (or (not *target*) (zero? (logand (-> *target* state-flags) (state-flags grabbed)))))
       )
     (sound-play "prec-button1" :pitch -1)
-        (if (not (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-cell?)))
+    (if (not (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-cell?)))
     (begin
-    
+
         (let ((gp-1 (get-process *default-dead-pool* snowcam #x4000)))
       (set! (-> (the-as snowcam (-> (when gp-1
                                       (let ((t9-3 (method-of-type snowcam activate)))
@@ -1405,7 +1405,7 @@
       )
     0
     )
-  )
+    )
     (let ((gp-2 #f))
       (loop
         (let ((s5-1 (new 'stack-no-clear 'vector))

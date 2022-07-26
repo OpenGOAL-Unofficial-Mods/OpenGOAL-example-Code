@@ -438,7 +438,7 @@
   (set! (-> obj auto-get-off) #f)
   (move-to-ground (-> obj root-override) 40960.0 40960.0 #t (collide-kind background))
   (set! (-> obj cell) (the-as handle #f))
-  
+
   (blocking-plane-spawn
     (the-as
       curve-control

@@ -37,7 +37,9 @@
 (defconstant SCE_SEEK_CUR 1)
 (defconstant SCE_SEEK_END 2)
 
-
+(defmacro file-stream-valid? (fs)
+  `(>= (the-as int (-> ,fs file)) 0)
+  )
 
 (defmacro file-stream-tell (fs)
   `(file-stream-seek ,fs 0 SCE_SEEK_CUR)
