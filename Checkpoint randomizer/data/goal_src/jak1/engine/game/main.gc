@@ -17,10 +17,10 @@
 (none))
 
 (defun reset-all ()
-(dotimes (i 205) (sound-play-by-name (static-sound-name "caught-eel") (new-sound-id) 1024 0 0 (sound-group sfx) #t))
+;;(dotimes (i 205) (sound-play-by-name (static-sound-name "caught-eel") (new-sound-id) 1024 0 0 (sound-group sfx) #t))
 (reset! *game-info* 'game (the-as game-save #f) (the-as string #f))
   (auto-save-command 'auto-save 0 0 *default-pool*)
-  (dotimes (i 205) (sound-play-by-name (static-sound-name "caught-eel") (new-sound-id) 1024 0 0 (sound-group sfx) #t))
+  ;;(dotimes (i 205) (sound-play-by-name (static-sound-name "caught-eel") (new-sound-id) 1024 0 0 (sound-group sfx) #t))
   (none)
 )
 
@@ -96,6 +96,7 @@
   (none)
   )
 
+
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Pause/Master Mode
 ;;;;;;;;;;;;;;;;;;;;;
@@ -111,13 +112,15 @@
           )
   )
 
-
+(define-extern *randomizer-version-string* (string))
 (defun movie? ()
 (runMods)
 
   "Are we in a movie?"
   (logtest? (-> *kernel-context* prevent-from-run) (process-mask movie))
   )
+
+ 
 
 (defun set-master-mode ((new-mode symbol))
   "Update pause masks for the given mode, and set *master-mode*"
@@ -209,11 +212,9 @@
            (else
             (cond
               ;; debug mode pause allowed with select or R2.
-              ((and (or (cpad-hold? 0 select)
-                        (cpad-hold? 0 r2)
-                        )
-                    *debug-segment*
-                    )
+              ;; pc port note : allow select outside debug mode
+              ((or (cpad-hold? 0 select)
+                   (and *debug-segment* (cpad-hold? 0 r2)))
                ;; pushing select or R2, and debug. allow pause.
                'pause
                )
@@ -221,7 +222,7 @@
                (cond
                  ;; ignore anything below here, unless we are pressing start, or debug.
                  ((and (not *debug-segment*)
-                       (zero? (logand (-> *cpad-list* cpads 0 button0-abs 0) (pad-buttons start)))
+                       (not (cpad-hold? 0 start))
                        )
                   *master-mode*
                   )
@@ -307,7 +308,8 @@
             'game
             )
            ;; pause -> game
-           ((cpad-hold? 0 start)
+           ;; pc port note : changed to allow select pause in retail
+           ((cpad-hold? 0 start select)
             'game
             )
            (else
@@ -490,8 +492,8 @@
 
     ;; push R3 to print global heap status. not very useful.
     (if (cpad-pressed? 1 r3)
-     (inspect global)
-     )
+      (inspect global)
+      )
 
     ;; push R3 to display IOP memory stats
     (when (cpad-hold? 1 r3)
@@ -704,7 +706,7 @@
 
       (with-profiler "menu"
         (with-pc
-           (if (and (-> *pc-settings* display-sha) (-> *randomizer-settings* checkpoint-randomizer?))
+          (if (and (-> *pc-settings* display-sha) (-> *randomizer-settings* checkpoint-randomizer?))
               (draw-build-revision)))
 
         (*menu-hook*)
@@ -732,6 +734,10 @@
         )
 
       ;; depth cue
+      (if (not *progress-process*)
+          (depth-cue disp)
+          )
+
       ;; screen filter
 
       (with-profiler "post-sync-draw"

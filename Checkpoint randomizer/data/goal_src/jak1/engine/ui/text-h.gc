@@ -598,6 +598,7 @@
   (camera-controls-third-horz   #x1005)
   (camera-controls-third-vert   #x1006)
   (restore-defaults             #x1007)
+  (auto-save-disabled           #x100c)
   (disable-auto-save-query      #x100d)
   (disable-auto-save            #x100e)
   (misc-options                 #x100f)
@@ -608,6 +609,9 @@
   (ps2-parts                    #x1022)
   (music-fadeout                #x1023)
   (music-fadein                 #x1024)
+  (force-actors                 #x1025)
+  (force-background             #x1026)
+  (force-envmap                 #x1027)
   (discord-rpc                  #x1030)
   (display-mode                 #x1031)
   (windowed                     #x1032)
@@ -626,6 +630,7 @@
   (subtitle-hint                #x103f)
   (subtitle-enabled             #x1040)
   (subtitle-disabled            #x1041)
+  (text-language                #x1042)
   (msaa                         #x1050)
   (x-times-fmt                  #x1051)
   (2-times                      #x1052)
@@ -670,6 +675,7 @@
   (cheat-sidekick-alt           #x1094)
   (cheat-invinc                 #x1095)
   (cheat-tunes                  #x1096)
+  (cheat-sky                    #x1097)
   (music-player                 #x10c0)
   (scene-player                 #x10c1)
   (play-credits                 #x10c2)
@@ -730,11 +736,19 @@
   (flava-fin-end                #x1105)
   (flava-credits-middle         #x1106)
   (flava-credits-end            #x1107)
+  (uk-english                   #x1110)
+  (portuguese                   #x1111)
+  (br-portuguese                #x1112)
+  (finnish                      #x1113)
+  (swedish                      #x1114)
+  (danish                       #x1115)
+  (norwegian                    #x1116)
   (scene-0                      #x1200)
   (scene-255                    #x12ff)
   (hint-0                       #x1300)
   (hint-511                     #x14ff)
-   ;; Randomizer
+  
+  ;; Randomizer
   (checkpoint-randomizer        #x1301)
   (item-count-to-trigger-warp   #x1302)
   (use-random-seed?             #x1303)
@@ -753,7 +767,7 @@
   (challenges-bonkless          #x1406)
   (challenges-casual            #x1407)
   (mod-mirrormode               #x1408)
-  (challenges-pacifist          #x1409)
+  (challenges-pacifist          #x1409)  
   (challenges-smalljak          #x140a)
   (challenges-bigjak            #x140b)
   (challenges-flatjak           #x140c)
@@ -763,7 +777,6 @@
   (mod-powercellcutscenes       #x1501)
   (mod-options-jak-size-menu    #x1502)
   (mod-options                  #x1503)
-
 ;; GAME-TEXT-ID ENUM ENDS
   )
 
@@ -806,6 +819,3 @@
 
 
 (defun-extern print-game-text string font-context symbol int int float)
-
-
-

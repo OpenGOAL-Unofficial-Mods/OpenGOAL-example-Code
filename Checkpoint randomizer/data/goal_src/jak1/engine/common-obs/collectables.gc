@@ -265,9 +265,12 @@
   )
 
 (defmethod animate eco-collectable ((obj eco-collectable))
+
   0
   (none)
-  )
+  
+
+)
 
 (defun add-blue-shake ((arg0 vector) (arg1 vector) (arg2 vector))
   (let* ((f0-0 (vector-vector-distance arg1 arg2))
@@ -1528,6 +1531,9 @@
     )
   )
 
+
+
+
 (defstate pickup (fuel-cell)
   :virtual #t
   :enter (behavior ((arg0 object) (arg1 handle))
@@ -1605,13 +1611,15 @@
     (logclear! (-> self draw status) (draw-status hidden))
     (process-entity-status! self (entity-perm-status dead) #t)
     (stop! (-> self sound))
-  (if (and 
+    (if 
+      (and 
         (not (and 
             (-> *randomizer-settings* checkpoint-randomizer?) 
             (-> *randomizer-settings* warp-on-cell?) 
          ))
         (not (-> *mods-settings* mod-powercellcutscenes?))
-  ) 
+      )
+
     (begin
     (while (handle->process (-> *game-info* other-camera-handle))
       (format
@@ -1674,13 +1682,14 @@
 )
     
     (send-event *target* 'get-pickup (-> self fact pickup-type) (-> self fact pickup-amount))
-      (if (and 
+    (if 
+      (and 
         (not (and 
             (-> *randomizer-settings* checkpoint-randomizer?) 
             (-> *randomizer-settings* warp-on-cell?) 
          ))
         (not (-> *mods-settings* mod-powercellcutscenes?))
-  ) 
+      ) 
     (begin
     (set! (-> self draw bounds w) 32768.0)
     (logior! (-> self skel status) (janim-status inited))
@@ -1690,45 +1699,55 @@
     (add-setting! 'ambient-volume 'rel (-> *setting-control* current ambient-volume-movie) 0)
     (process-spawn othercam self 10 #f #t :to self)
     ))
+   
     (auto-save-command 'auto-save 0 0 *default-pool*)
-     ;; play powercell animation if randomizer disabled
-      (if (and 
+
+    ;; play powercell animation if randomizer disabled
+    (if 
+      (and 
         (not (and 
             (-> *randomizer-settings* checkpoint-randomizer?) 
             (-> *randomizer-settings* warp-on-cell?) 
          ))
         (not (-> *mods-settings* mod-powercellcutscenes?))
-  ) 
-    (begin
+      ) 
+      (begin
           (ja-play-spooled-anim
         (-> self victory-anim)
         (the-as art-joint-anim (-> self draw art-group data 2))
         (the-as art-joint-anim #f)
         (the-as (function process-drawable symbol) false-func)
+
       )
+
     )
+
     )
+
  (if (and (not flutflut?) (not racer?)) 
  (begin
    (send-event *target* 'end-mode)
  ))
+
+ 
+  
+
     (remove-setting! 'music-volume)
     (remove-setting! 'sfx-volume)
     (remove-setting! 'ambient-volume)
     (send-event *target* 'blend-shape #f)
-    ;;(send-event *target* 'end-mode)
     (send-event *camera* 'no-intro)
     (send-event *camera* 'clear-entity)
     (ja-channel-set! 0)
     (suspend)
     (suspend)
-      
+
+    
     ;; warp to random checkpoint if randomizer enabled
     (if (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-cell?))
-      (begin
-      (orchestrateCheckpointWarp) 
-     )
+      (orchestrateCheckpointWarp)
     )
+
     (process-spawn-function
       process
       (lambda :behavior collectable
@@ -2334,7 +2353,7 @@
           )
         )
       )
-          (if (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-buzzer?))
+    (if (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-buzzer?))
     (begin
        (orchestrateCheckpointWarp) 
     )

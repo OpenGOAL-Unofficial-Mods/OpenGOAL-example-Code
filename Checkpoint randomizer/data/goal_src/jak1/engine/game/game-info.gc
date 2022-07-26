@@ -775,21 +775,21 @@
      (when (< 0.0 amount)
        ;; play sound.
        (if (>= (- (-> *display* base-frame-counter) (-> obj money-pickup-time)) (seconds 0.05))
-           (begin
-           (sound-play "money-pickup")
-                ;;orbless mod
-       (if (-> *challenges-settings* challenges-orbless?)
-       (begin 
-        (reset-all)
-       (return 1.0)
-         )
-       (none)
-       ) 
-           )
-           )
+          (begin
+            ;;orbless mod
+            (if (-> *challenges-settings* challenges-orbless?)
+            (begin 
+              (reset-all)
+              (return 1.0)
+            )
+            (begin
+             (sound-play "money-pickup")
+            )
+            ) 
+          )
+       )
        (set! (-> obj money-pickup-time) (-> *display* base-frame-counter))
        )
-   
      (adjust (-> (the-as target (-> obj process)) game) 'money amount source-handle)
      )
     (((pickup-type fuel-cell))
