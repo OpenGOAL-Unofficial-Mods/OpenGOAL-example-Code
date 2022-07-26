@@ -164,6 +164,7 @@
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id custom-challenges) :scale #t :param3 (game-option-menu challenges-options))
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id mod-options) :scale #t :param3 (game-option-menu mod-options))
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id disable-auto-save) :scale #t :param3 (game-option-menu memcard-disable-auto-save))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id accessibility-options) :scale #t :param3 (game-option-menu accessibility-options))
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id discord-rpc) :scale #t)
     (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
    
@@ -773,7 +774,7 @@
   (set! (-> *graphic-options-no-frame-rate-pc* 2 value-to-modify) (&-> *pc-settings* vsync?))
   (set! (-> *graphic-options-no-frame-rate-pc* 4 value-to-modify) (&-> *progress-carousell* int-backup))
   ;;(set! (-> *misc-options* 3 value-to-modify) (&-> *pc-settings* money-starburst?))
-  (set! (-> *misc-options* 4 value-to-modify) (&-> *pc-settings* discord-rpc?))
+  (set! (-> *misc-options* 5 value-to-modify) (&-> *pc-settings* discord-rpc?))
   
   ;;Randomizer menu
   (set! (-> *randomizer-main-options* 0 value-to-modify) (&-> *randomizer-settings* checkpoint-randomizer?))
