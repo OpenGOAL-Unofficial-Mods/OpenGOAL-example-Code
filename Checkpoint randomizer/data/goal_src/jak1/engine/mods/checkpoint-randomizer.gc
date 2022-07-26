@@ -154,10 +154,12 @@
 )
 
 ;;Skip the citadel cutscenes if the randomizer is on. Cutscenes bad.
-(close-specific-task! (game-task citadel-sage-green) (task-status need-hint))
-(close-specific-task! (game-task citadel-sage-yellow) (task-status need-hint))
-(close-specific-task! (game-task citadel-sage-red) (task-status need-hint))
-(close-specific-task! (game-task citadel-sage-blue) (task-status need-hint))
+
+(close-specific-task! (game-task citadel-sage-green) (task-status need-resolution))
+(close-specific-task! (game-task citadel-sage-yellow) (task-status need-resolution))
+(close-specific-task! (game-task citadel-sage-red) (task-status need-resolution))
+(close-specific-task! (game-task citadel-sage-blue) (task-status need-resolution))
+
 
 (set! racer? (aif *target* (case (-> it next-state name) (
                                       ('target-racing
