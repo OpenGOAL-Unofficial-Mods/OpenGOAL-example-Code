@@ -444,7 +444,27 @@
         (cond
           ((= v1-0 'attack)
            (case (-> arg3 param 1)
-             (('explode)
+           (if(-> *randomizer-settings* checkpoint-randomizer?)
+            (('punch 'explode)
+              (let ((a0-2 (handle->process (-> self fuel-cell))))
+                (if a0-2
+                    (send-event a0-2 'trans (-> self root-override trans))
+                    )
+                )
+              (go pelican-explode #f)
+              #f
+              )
+               (('explode)
+              (let ((a0-2 (handle->process (-> self fuel-cell))))
+                (if a0-2
+                    (send-event a0-2 'trans (-> self root-override trans))
+                    )
+                )
+              (go pelican-explode #f)
+              #f
+              )
+           )
+             (('punch 'explode)
               (let ((a0-2 (handle->process (-> self fuel-cell))))
                 (if a0-2
                     (send-event a0-2 'trans (-> self root-override trans))
