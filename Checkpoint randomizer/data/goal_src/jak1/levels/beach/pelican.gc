@@ -444,7 +444,7 @@
         (cond
           ((= v1-0 'attack)
            (case (-> arg3 param 1)
-             (('punch 'explode 'spin 'uppercut)
+             (('punch 'explode 'spin 'uppercut 'flop 'flop-down 'flip 'spin-air)
               (let ((a0-2 (handle->process (-> self fuel-cell))))
                 (if a0-2
                     (send-event a0-2 'trans (-> self root-override trans))
