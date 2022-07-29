@@ -47,3 +47,27 @@
     )
   )
 )
+
+(defun move-actor ((arg0 string)(arg1 float)(arg2 float)(arg3 float))
+  (when (process-by-ename arg0)
+    (set-vector!  (-> (-> (the process-drawable (process-by-ename arg0))root)trans) (meters arg1) (meters arg2) (meters arg3) 1.0)
+    (if (type-type? (-> (process-by-ename arg0) type) fuel-cell)
+    (begin
+        (set! (-> (the fuel-cell (process-by-ename arg0)) base y) (meters arg2))
+    )
+    (none)
+    )
+ (if (type-type? (-> (process-by-ename arg0) type) money)
+    (begin
+        (set! (-> (the money (process-by-ename arg0)) base y) (meters arg2))
+    )
+    (none)
+    )
+    (if (type-type? (-> (process-by-ename arg0) type) crate)
+    (begin
+        (set! (-> (the crate (process-by-ename arg0)) base y) (meters arg2))
+    )
+    (none)
+    )
+  )
+)
