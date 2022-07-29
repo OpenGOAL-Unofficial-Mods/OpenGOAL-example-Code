@@ -1,4 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
 
+;; name: moving-items-library.gc
+;; name in dgo: main
+;; dgos: GAME, ENGINE
 
 (defun move-to-jak ((arg0 string))
 (format #t "move-actor code:  (move-actor ~a ~m ~m ~m)~%" arg0(-> (target-pos 0) x) (-> (target-pos 0) y) (-> (target-pos 0) z))

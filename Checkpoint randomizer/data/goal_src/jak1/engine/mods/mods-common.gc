@@ -1,3 +1,10 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: mods-common.gc
+;; name in dgo: main
+;; dgos: GAME, ENGINE
+
 (define racer? #f) 
 (define flutflut? #f)
 
