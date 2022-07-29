@@ -45,9 +45,11 @@
 
 (defun enable-pelican-explode-punch ()
 ;;Depends on modifcations in pelican.gc
+(if 
 (and 
 (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-cell?))(return #t)
 (return #f)
+)
 )
 
 
