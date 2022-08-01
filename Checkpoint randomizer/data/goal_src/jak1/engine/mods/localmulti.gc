@@ -6,6 +6,8 @@
 ;; dgos: GAME, ENGINE
 
 
+
+
 (defun start2 ()
   (process-spawn
                 target
@@ -19,10 +21,16 @@
 
 
 
-  
+
 
 (defun localmulti-run-eachframe()
 ;;Jak size stuff move to seperate file soontm
 
+
+)
+
+(defun localmulti-start ()
+(start2)
+(set! (-> *target* control unknown-cpad-info00) (-> *cpad-list* cpads 1))
 
 )
