@@ -1,0 +1,28 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: localmulti.gc
+;; name in dgo: main
+;; dgos: GAME, ENGINE
+
+
+(defun start2 ()
+  (process-spawn
+                target
+               :init init-target
+                (the continue-point #f)
+                :from *target-dead-pool*
+                :to *target-pool*
+                :stack *kernel-dram-stack*
+                )
+  )
+
+
+
+  
+
+(defun localmulti-run-eachframe()
+;;Jak size stuff move to seperate file soontm
+
+
+)
