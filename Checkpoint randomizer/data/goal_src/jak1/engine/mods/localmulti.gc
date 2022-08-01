@@ -20,8 +20,19 @@
   )
 
 
-
+#|
 (defun start3 ()
+  (process-spawn
+                target
+               :init init-target
+                (the continue-point #f)
+                :from *target-dead-pool*
+                :to *target-pool*
+                :stack *kernel-dram-stack*
+                )
+  )
+
+(defun start4 ()
   (process-spawn
                 target
                :init init-target
@@ -34,8 +45,7 @@
 
 
 
-
-
+|#
 
 
 (defun localmulti-run-eachframe()
@@ -44,9 +54,23 @@
 
 )
 
-(defun localmulti-start ()
+(defun localmulti2-start ()
 (define *target2* (-> (start2) 0))
-(define *target3* (-> (start3) 0))
-(set! (-> *target* control unknown-cpad-info00) (-> *cpad-list* cpads 1))
+(set! (-> *target2* control unknown-cpad-info00) (-> *cpad-list* cpads 1))
+
 
 )
+
+
+#|
+(defun localmulti3-start ()
+(define *target3* (-> (start3) 1))
+;;(set! (-> *target3* control unknown-cpad-info00) (-> *cpad-list* cpads 2))
+)
+
+(defun localmulti4-start ()
+(define *target4* (-> (start4) 2))
+;;(set! (-> *target4* control unknown-cpad-info00) (-> *cpad-list* cpads 3))
+
+)
+|#
