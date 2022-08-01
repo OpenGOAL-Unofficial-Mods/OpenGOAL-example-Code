@@ -30,7 +30,7 @@
 )
 
 (defun localmulti-start ()
-(start2)
+(define *target2* (-> (start2) 0))
 (set! (-> *target* control unknown-cpad-info00) (-> *cpad-list* cpads 1))
 
 )
