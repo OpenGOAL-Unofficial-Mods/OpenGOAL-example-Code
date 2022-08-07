@@ -127,6 +127,7 @@
   (mod-options-jak-size)
   (memcard-disable-auto-save)
   (memcard-auto-save-disabled)
+  (monitor)
 
   ;; the last one!
   (max)
@@ -159,8 +160,9 @@
   (aspect-native)
   (button-music)
   (button-flava)
-  (use-random-seed?)
   (cheat-toggle)
+  (monitor)
+  (use-random-seed?)
   )
     )
   )

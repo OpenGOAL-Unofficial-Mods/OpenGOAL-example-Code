@@ -1680,7 +1680,8 @@
  "engine/"
 
  :deps
- ("$OUT/ps2/pad.o")
+ ("$OUT/obj/pad.o"
+  "$OUT/obj/dma-disasm.o")
  "gfx/hw/gs.gc"
  "gfx/hw/display-h.gc"
  "math/vector.gc"
@@ -1692,10 +1693,32 @@
  "gfx/math-camera.gc"
  "gfx/font-h.gc"
  "load/decomp-h.gc"
- "gfx/hw/display.gc"
+ )
+
+(goal-src "engine/gfx/hw/display.gc" "decomp-h" "pckernel-h")
+
+(goal-src-sequence
+ ;; prefix
+ "engine/"
+
+ :deps
+ ("$OUT/obj/display.o"
+  "$OUT/obj/decomp-h.o")
+ 
  "engine/connect.gc"
  "ui/text-h.gc"
  "game/settings-h.gc"
+ )
+
+(goal-src "pc/util/knuth-rand.gc" "settings-h")
+
+(goal-src-sequence
+ ;; prefix
+ "engine/"
+
+ :deps
+ ("$OUT/obj/settings-h.o")
+
  "util/capture.gc"
  "debug/memory-usage-h.gc"
  "gfx/texture/texture.gc"
@@ -1907,7 +1930,8 @@
  "engine/"
 
  :deps
- ("$OUT/main.o")
+ ("$OUT/obj/main.o"
+  "$OUT/obj/video.o")
 
  "collide/collide-cache.gc"
  "entity/relocate.gc"
@@ -1922,16 +1946,15 @@
  "common-obs/collectables-part.gc"
  "game/projectiles.gc"
  "common-obs/baseplat.gc"
- "mods/mods-common.gc"
  "mods/checkpoint-randomizer.gc"
  "mods/jak-size.gc"
+ "mods/mods-common.gc"
  "common-obs/collectables.gc"
  "game/task/task-control.gc"
  "common-obs/process-taskable.gc"
  "camera/pov-camera.gc"
  "game/powerups.gc"
  "common-obs/crates.gc"
- "mods/moving-items-library.gc"
  "ui/hud.gc"
  "ui/hud-classes.gc"
  "ui/progress/progress-static.gc"
@@ -2007,11 +2030,11 @@
  )
 
 ;; Custom or Modified Code
-(goal-src "pc/pckernel-h.gc" "dma-disasm")
+(goal-src "pc/pckernel-h.gc" "dma-buffer")
 (goal-src "pc/pckernel.gc" "settings" "video")
 (goal-src "pc/subtitle.gc" "text" "pckernel" "hint-control" "loader-h" "gsound" "ambient")
 (goal-src "pc/progress-pc.gc" "progress" "pckernel")
-(goal-src "pc/anim-tester-x.gc" "pckernel" "gstring" "joint" "process-drawable" "art-h" "effect-control")
+(goal-src "pc/util/anim-tester-x.gc" "pckernel" "gstring" "joint" "process-drawable" "art-h" "effect-control")
 (goal-src "pc/hud-classes-pc.gc" "pckernel" "hud" "battlecontroller" "generic-obs")
 
 ;; the debug menu is modified to include PC specific options:

@@ -140,7 +140,7 @@
   )
 
 (defmacro pc-cheats? (obj &rest cheats)
-  `(logtest? (-> ,obj cheats) (pc-cheats ,@cheats)))
+  `(logtest? ,obj (pc-cheats ,@cheats)))
 
 ;; music log info
 (deftype pc-music-log-entry (structure)
@@ -230,6 +230,7 @@
    (vsync? symbol) ;; vsync.
    (font-scale float) ;; font scaling.
    (window-lock? symbol) ;; whether the window can be resized by the user or not.
+   (monitor int32) ;; index of which monitor to use when fullscreen or borderless
 
    ;; debug settings
    (os symbol) ;; windows, linux, macos
@@ -341,6 +342,7 @@
     (set-aspect-ratio! (_type_ float) none)
     (set-window-lock! (_type_ symbol) symbol)
     (set-frame-rate! (_type_ int) int)
+    (set-monitor! (_type_ int) none)
     (read-from-file (_type_ string) symbol)
     (write-to-file (_type_ string) symbol)
     (update-cheats (_type_) int)
@@ -471,7 +473,7 @@
   (set! (-> obj warp-on-buzzer?) #f)
   (none))
 
- (deftype challenges-settings (basic)
+ (deftype challenges-settings (basic) 
     ((version uint64) ;; version of this settings
     (challenges-hardcore? symbol)
     (challenges-orbless? symbol)
