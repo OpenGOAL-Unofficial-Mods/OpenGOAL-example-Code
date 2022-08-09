@@ -77,7 +77,10 @@
 ;;If the camera is not set to cam-stick and we have more than one jak, then set it to cam-stick
 ;;Todo fix allow camera zooming with triangle.
 ;;This make the spawning in process MUCH better
+;;Not sure at this time if we want to move forward with this and fix it, or solve it another way...
 (if (and (not (= (-> (-> (-> (the-as (pointer camera-slave) (-> *camera* child)))state)name) 'cam-stick)) (> jakCount 1))(begin (send-event *camera* 'change-state cam-stick 0)))
+
+
   (if (and (> jakCount 1) (check-multi-jak-dist *target2*))
     (warp-jakA-to-jakB *target2* *target*)
   )
@@ -95,6 +98,7 @@
   (when (< jakCount 2)
     (define *target2* (-> (start2) 0))
     (set! jakCount 2)
+    (set! (-> *target2* draw color-mult x) (set! (-> *target2* draw color-mult y) -23.1))
     (set! (-> *target2* control unknown-cpad-info00) (-> *cpad-list* cpads 1))
   )
   (send-event *camera* 'change-target *target*)
@@ -106,6 +110,7 @@
 
     (define *target3* (-> (start3) 0))
     (set! jakCount 3)
+    (set! (-> *target2* draw color-mult x) (set! (-> *target2* draw color-mult y) 13.1))
     (set! (-> *target3* control unknown-cpad-info00) (-> *cpad-list* cpads 2))
   )
   (send-event *camera* 'change-target *target*)
@@ -117,6 +122,7 @@
 
     (define *target4* (-> (start4) 0))
     (set! jakCount 4)
+    (set! (-> *target2* draw color-mult x) (set! (-> *target2* draw color-mult y) 123.1))
     (set! (-> *target4* control unknown-cpad-info00) (-> *cpad-list* cpads 3))
   )
   (send-event *camera* 'change-target *target*)
