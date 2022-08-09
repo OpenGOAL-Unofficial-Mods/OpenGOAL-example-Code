@@ -69,6 +69,7 @@
 )
 
 (defun localmulti-run-eachframe()
+(if (and (not (= (-> *camera* drawable-target ) 1375524)) (> jakCount 1))(set! (-> *camera* drawable-target) (the handle 1375524)))
   (if (and (> jakCount 1) (check-multi-jak-dist *target2*))
     (warp-jakA-to-jakB *target2* *target*)
   )
