@@ -6,7 +6,7 @@
 ;; dgos: GAME, ENGINE
 
 (define *randomizer-version-string* "Rando 0.092")
-(define *release-version-string* "Release 0.1.21")
+(define *release-version-string* "Release 0.1.22")
 (define *comment-string* "Rework Modifications")
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
@@ -116,7 +116,7 @@
 (if (-> *randomizer-settings* checkpoint-randomizer?)
 (begin
 
-;;update the number of items they have collected
+  ;;update the number of items they have collected
    (set! *randomizer-items-collected*
    (+
       (if (-> *randomizer-settings* warp-on-cell?) (the int (-> *game-info* fuel)) 0)
@@ -124,9 +124,6 @@
       (if (-> *randomizer-settings* warp-on-buzzer?) (the int (-> *game-info* buzzer-total)) 0)
       )
    )
-
-
-
 
   ;;clean *stdcon*
   (clear *stdcon*)
@@ -153,12 +150,12 @@
 
 (defun generateCheckpointList ((seed uint) (length int))
   ;; set the seed which will be used for generating checkpoint list
-  (knuth-rand-init seed)
+  (knuth-rand-init (the int64 seed))
 
   (define currentListNode *rando-checkpoint-list*)
 
   (dotimes (temp length)
-    (define tempCheckpointName (-> *checkpoint-list* (knuth-rand-nextIntRange 0 (-> *checkpoint-list* length))))
+    (define tempCheckpointName (-> *checkpoint-list* (knuth-rand-int-range 0 (-> *checkpoint-list* length))))
     (set! (car currentListNode) tempCheckpointName) ;; append checkpoint
     (set! (cdr currentListNode) (cons '() '())) ;; create next node
     (set! currentListNode (cdr currentListNode)) ;; move current to newly created node
@@ -257,7 +254,7 @@
   (when (= *randomizer-items-collected* 1)
     ;; randomly generate or set seed
     (if (-> *randomizer-settings* use-random-seed?)
-      (set! (-> *randomizer-settings* current-seed) (knuth-rand-nextInt))
+      (set! (-> *randomizer-settings* current-seed) (knuth-rand-next-int))
       (none)
     )
     ;; reset checkpoint counter backup
@@ -301,7 +298,7 @@
 (defun checkpointListTest ()
   ;; If we have random-seed on, update our current seed.
   (if (-> *randomizer-settings* use-random-seed?)
-        (set! (-> *randomizer-settings* current-seed) (knuth-rand-nextInt))
+        (set! (-> *randomizer-settings* current-seed) (knuth-rand-next-int))
       )
   ;; Generate a list of checkpoints based on our new updated current-seed
   (generateCheckpointList (-> *randomizer-settings* current-seed) *rando-list-default-length*)

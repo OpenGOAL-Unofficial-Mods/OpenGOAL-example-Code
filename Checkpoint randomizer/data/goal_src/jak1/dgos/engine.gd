@@ -51,6 +51,7 @@
   ("connect.o" "connect")
   ("text-h.o" "text-h")
   ("settings-h.o" "settings-h")
+  ("knuth-rand.o" "knuth-rand") ;; added
   ("capture.o" "capture")
   ("memory-usage-h.o" "memory-usage-h")
   ("texture.o" "texture")
@@ -270,7 +271,6 @@
   ("mods-common.o" "mods-common")
   ("checkpoint-randomizer.o" "checkpoint-randomizer")
   ("jak-size.o" "jak-size")
-
   ("task-control.o" "task-control")
   ("process-taskable.o" "process-taskable")
   ("pov-camera.o" "pov-camera")
