@@ -134,6 +134,7 @@
     (set! (-> *target2* control unknown-cpad-info00) (-> *cpad-list* cpads 1))
   )
   (send-event *camera* 'change-target *target*)
+  (none)
 )
 
 (defun localmulti3-start ()
@@ -146,6 +147,7 @@
     (set! (-> *target3* control unknown-cpad-info00) (-> *cpad-list* cpads 2))
   )
   (send-event *camera* 'change-target *target*)
+  (none)
 )
 
 (defun localmulti4-start ()
@@ -158,4 +160,5 @@
     (set! (-> *target4* control unknown-cpad-info00) (-> *cpad-list* cpads 3))
   )
   (send-event *camera* 'change-target *target*)
+  (none)
 )
