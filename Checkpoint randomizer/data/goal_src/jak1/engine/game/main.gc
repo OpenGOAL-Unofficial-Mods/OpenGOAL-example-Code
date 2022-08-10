@@ -392,47 +392,11 @@
 (defun-extern localmulti2-start (none))
 (defun-extern localmulti3-start (none))
 (defun-extern localmulti4-start (none))
+(defun-extern spawn-extra-targets-code (none))
 (defun main-cheats ()
   "Handle cheat codes and timeout"
 
-  ;;Multiplayer stuff to clean and move
- (when (and (cpad-hold? 1 l3)
-             (or *cheat-mode* (= *kernel-boot-message* 'play)) ;; not in demo
-             )
-(check-cheat-code (-> *cheat-temp* 1) 1
-        (up up down down left right left right x x square circle square circle)
-          (cpad-clear! 1 r1)
-          ;; toggle!
-        
-          (cheats-sound-play *cheat-mode*)
-          (localmulti2-start)
-        )
- )
-  (when (and (cpad-hold? 2 l3)
-             (or *cheat-mode* (= *kernel-boot-message* 'play)) ;; not in demo
-             )
-(check-cheat-code (-> *cheat-temp* 2) 2
-        (up up down down left right left right x x square circle square circle)
-          (cpad-clear! 2 r1)
-          ;; toggle!
-        
-          (cheats-sound-play *cheat-mode*)
-          (localmulti3-start)
-        )
- )
-  (when (and (cpad-hold? 3 l3)
-             (or *cheat-mode* (= *kernel-boot-message* 'play)) ;; not in demo
-             )
-(check-cheat-code (-> *cheat-temp* 3) 3
-        (up up down down left right left right x x square circle square circle)
-          (cpad-clear! 3 r1)
-          ;; toggle!
-        
-          (cheats-sound-play *cheat-mode*)
-          (localmulti4-start)
-        )
- )
- ;; back to normal main.gc code.
+(spawn-extra-targets-code)
 
   ;; look for codes when L3 is pushed
   (when (and (cpad-hold? 0 l3)
