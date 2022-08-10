@@ -83,7 +83,7 @@
 ;;Todo fix allow camera zooming with triangle.
 ;;This make the spawning in process MUCH better
 ;;Not sure at this time if we want to move forward with this and fix it, or solve it another way...
-(if (and (not (= (-> (-> (-> (the-as (pointer camera-slave) (-> *camera* child)))state)name) 'cam-stick)) (extra-target-alive?))(begin (send-event *camera* 'change-state cam-stick 0)))
+(if (and  (= (-> (-> (-> (the-as (pointer camera-slave) (-> *camera* child)))state)name) 'cam-string) (extra-target-alive?))(begin (send-event *camera* 'change-state cam-stick 0)))
 
 
   (if (and (target2-alive?) (check-multi-jak-dist *target2*))
