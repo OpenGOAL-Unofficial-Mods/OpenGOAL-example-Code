@@ -144,8 +144,6 @@
 
 (defun localmulti3-start ()
   (when (not (target3-alive?))
-    (localmulti2-start)
-
     (define *target3* (-> (start3) 0))
     (draw-blue *target3*)
     (set! (-> *target3* control unknown-cpad-info00) (-> *cpad-list* cpads 2))
@@ -156,8 +154,6 @@
 
 (defun localmulti4-start ()
   (when (not (target4-alive?))
-    (localmulti3-start)
-
     (define *target4* (-> (start4) 0))
     (draw-pink *target4*)
     (set! (-> *target4* control unknown-cpad-info00) (-> *cpad-list* cpads 3))
