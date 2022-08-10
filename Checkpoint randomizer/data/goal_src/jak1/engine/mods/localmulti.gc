@@ -5,19 +5,8 @@
 ;; name in dgo: main
 ;; dgos: GAME, ENGINE
 
-
-(defun start2 ()
-  (process-spawn
-                target
-               :init init-target
-                (-> *game-info* current-continue)
-                :from *target-dead-pool*
-                :to *target-pool*
-                :stack *kernel-dram-stack*
-                )
-  )
-
-(defun start3 ()
+;;Spawn a new target process
+(defun start-extra-target ()
   (process-spawn
                 target
                :init init-target
@@ -29,17 +18,7 @@
   )
 
 
-(defun start4 ()
-  (process-spawn
-                target
-               :init init-target
-                (-> *game-info* current-continue)
-                :from *target-dead-pool*
-                :to *target-pool*
-                :stack *kernel-dram-stack*
-                )
-  )
-
+;;Placeholders
 (define *target2* (the-as target #f))
 (define *target3* (the-as target #f))
 (define *target4* (the-as target #f))
@@ -50,6 +29,7 @@
 (defun target4-alive? () (not (or (= (-> *target4* state) #f) (= (-> *target4* state) symbol))))
 (defun extra-target-alive? () (or (target2-alive?)(target3-alive?)(target4-alive?)))
 
+;;Command to warp a target to another (normally to warp someone to main target to bring back on camera)
 (defun warp-jakA-to-jakB ((jakA target) (jakB target))
       (set! (-> (-> jakA root) trans x) (-> (-> jakB root) trans x))
       (set! (-> (-> jakA root) trans y) (-> (-> jakB root) trans y))
@@ -80,12 +60,11 @@
 (if (and (not (= (-> *camera* drawable-target ) 1375524)) (extra-target-alive?))(set! (-> *camera* drawable-target) (the handle 1375524)))
 
 ;;If the camera is not set to cam-stick and we have more than one jak, then set it to cam-stick
-;;Todo fix allow camera zooming with triangle.
-;;This make the spawning in process MUCH better
-;;Not sure at this time if we want to move forward with this and fix it, or solve it another way...
+;;Todo Check if any target is zoomed in, and if so only let that target unzoom
+
+
+;;Warp side jaks to main Jak
 (if (and  (= (-> (-> (-> (the-as (pointer camera-slave) (-> *camera* child)))state)name) 'cam-string) (extra-target-alive?))(begin (send-event *camera* 'change-state cam-stick 0)))
-
-
   (if (and (target2-alive?) (check-multi-jak-dist *target2*))
     (warp-jakA-to-jakB *target2* *target*)
   )
@@ -98,37 +77,36 @@
   (none)
   )
 
-
+;; Spawn target2
 (defun localmulti2-start ()
   (when (not (target2-alive?))
-    (define *target2* (-> (start2) 0))
+    (define *target2* (-> (start-extra-target) 0))
     (draw-green *target2*)
     (set! (-> *target2* control unknown-cpad-info00) (-> *cpad-list* cpads 1))
   )
-  (send-event *camera* 'change-target *target*)
   (none)
 )
-
+;; Spawn target3
 (defun localmulti3-start ()
   (when (not (target3-alive?))
-    (define *target3* (-> (start3) 0))
+    (define *target3* (-> (start-extra-target) 0))
     (draw-blue *target3*)
     (set! (-> *target3* control unknown-cpad-info00) (-> *cpad-list* cpads 2))
   )
-  (send-event *camera* 'change-target *target*)
   (none)
 )
 
+;; Spawn target4
 (defun localmulti4-start ()
   (when (not (target4-alive?))
-    (define *target4* (-> (start4) 0))
+    (define *target4* (-> (start-extra-target) 0))
     (draw-pink *target4*)
     (set! (-> *target4* control unknown-cpad-info00) (-> *cpad-list* cpads 3))
   )
-  (send-event *camera* 'change-target *target*)
   (none)
 )
 
+;;This code is ran in main.gc in the same function that cheat-mode check is. When a player enters half debug code on a controller that isnt player 1 it will spawn them a jak to play as.
 (defun spawn-extra-targets-code()
   ;;Multiplayer stuff to clean and move
  (when (and (cpad-hold? 1 l3)
