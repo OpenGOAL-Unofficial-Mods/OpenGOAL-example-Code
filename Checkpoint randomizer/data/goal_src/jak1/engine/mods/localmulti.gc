@@ -80,7 +80,7 @@
 ;; Spawn target2
 (defun localmulti2-start ()
   (when (not (target2-alive?))
-    (define *target2* (-> (start-extra-target) 0))
+    (set! *target2* (-> (start-extra-target) 0))
     (draw-green *target2*)
     (set! (-> *target2* control unknown-cpad-info00) (-> *cpad-list* cpads 1))
   )
@@ -89,7 +89,7 @@
 ;; Spawn target3
 (defun localmulti3-start ()
   (when (not (target3-alive?))
-    (define *target3* (-> (start-extra-target) 0))
+    (set! *target3* (-> (start-extra-target) 0))
     (draw-blue *target3*)
     (set! (-> *target3* control unknown-cpad-info00) (-> *cpad-list* cpads 2))
   )
@@ -99,7 +99,7 @@
 ;; Spawn target4
 (defun localmulti4-start ()
   (when (not (target4-alive?))
-    (define *target4* (-> (start-extra-target) 0))
+    (set! *target4* (-> (start-extra-target) 0))
     (draw-pink *target4*)
     (set! (-> *target4* control unknown-cpad-info00) (-> *cpad-list* cpads 3))
   )
