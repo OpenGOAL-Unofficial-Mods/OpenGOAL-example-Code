@@ -14,6 +14,11 @@
   "gltf_file": "custom_levels/test-zone/test-zone2.glb",
   "automatic_wall_detection": true,
   "automatic_wall_angle": 45.0,
+
+  // if your mesh has triangles with incorrect orientation, set this to make all collision mesh triangles double sided
+  // this makes collision 2x slower and bigger, so only use if really needed
+  "double_sided_collide": false,
+
   "actors" : [
     {
       "trans": [-21.6238, 20.0496, 17.1191], // translation

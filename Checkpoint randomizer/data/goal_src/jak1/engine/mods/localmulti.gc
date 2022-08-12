@@ -54,6 +54,7 @@
 )
 
 (defun localmulti-run-eachframe()
+(if (extra-target-alive?) (begin
 
 ;;If the camera is not focus on the main target (id 1375524), then set the cameras focus to the  main target.
 ;;todo this breaks pelican cutscene we can easily fix later.
@@ -61,7 +62,6 @@
 
 ;;If the camera is not set to cam-stick and we have more than one jak, then set it to cam-stick
 ;;Todo Check if any target is zoomed in, and if so only let that target unzoom
-
 
 ;;Warp side jaks to main Jak
 (if (and  (= (-> (-> (-> (the-as (pointer camera-slave) (-> *camera* child)))state)name) 'cam-string) (extra-target-alive?))(begin (send-event *camera* 'change-state cam-stick 0)))
@@ -75,7 +75,8 @@
     (warp-jakA-to-jakB *target4* *target*)
   )
   (none)
-  )
+  )))
+
 
 ;; Spawn target2
 (defun localmulti2-start ()
