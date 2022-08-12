@@ -788,10 +788,26 @@
       (((pickup-type eco-green))
        (sound-play "g-eco-pickup")
        )
-      (((pickup-type eco-green) (pickup-type eco-pill))
+      (((pickup-type eco-pill))
        (sound-play "pill-pickup")
        )
       )
+    
+    (format #t "picked up ~A~%" (pickup-type->string (-> self fact pickup-type)))
+    (if (and 
+        (-> *randomizer-settings* checkpoint-randomizer?)
+        (or 
+          (and (-> *randomizer-settings* warp-on-green-eco?) (= (-> self fact pickup-type) (pickup-type eco-green)))
+          (and (-> *randomizer-settings* warp-on-green-eco?) (= (-> self fact pickup-type) (pickup-type eco-pill)))
+          (and (-> *randomizer-settings* warp-on-blue-eco?) (= (-> self fact pickup-type) (pickup-type eco-blue)))
+          (and (-> *randomizer-settings* warp-on-red-eco?) (= (-> self fact pickup-type) (pickup-type eco-red)))
+          (and (-> *randomizer-settings* warp-on-yellow-eco?) (= (-> self fact pickup-type) (pickup-type eco-yellow)))
+        )
+      )
+     (begin
+        (orchestrateCheckpointWarp) 
+      )
+    )
     (if (nonzero? (-> self part))
         (kill-and-free-particles (-> self part))
         )
