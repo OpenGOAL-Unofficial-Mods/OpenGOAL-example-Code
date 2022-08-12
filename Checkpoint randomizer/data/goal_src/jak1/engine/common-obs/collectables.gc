@@ -793,7 +793,6 @@
        )
       )
     
-    (format #t "picked up ~A~%" (pickup-type->string (-> self fact pickup-type)))
     (if (and 
         (-> *randomizer-settings* checkpoint-randomizer?)
         (or 

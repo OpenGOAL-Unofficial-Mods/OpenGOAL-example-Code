@@ -615,11 +615,7 @@
        buzz-count
        )
      )
-    (('eco-green)
-     ;; increment our eco count
-     (+! (-> obj green-eco-total) amount)
-     )
-    (('eco-pill)
+    (('eco-green 'eco-pill)
      ;; increment our eco count
      (+! (-> obj green-eco-total) amount)
      )
