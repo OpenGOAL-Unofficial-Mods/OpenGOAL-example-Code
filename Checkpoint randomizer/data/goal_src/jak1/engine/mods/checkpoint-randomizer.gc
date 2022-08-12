@@ -302,7 +302,7 @@
 
   ;; current-seed and backup-checkpoints-used are updated at this point, commit to file in case of crash/closed window
   (commit-to-file *randomizer-settings*)
-  (suspend)
+  ;;(suspend)
 )
 
 (defun checkpointListTest ()
