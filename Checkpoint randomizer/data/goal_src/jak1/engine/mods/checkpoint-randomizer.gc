@@ -12,7 +12,7 @@
 
 (define *randomizer-version-string* "Rando 0.092")
 (define *release-version-string* "Release 0.1.22")
-(define *comment-string* "Rework Modifications")
+(define *comment-string* "WIP 4p support; toggle RNG lib")
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
                                              'boxed-array
