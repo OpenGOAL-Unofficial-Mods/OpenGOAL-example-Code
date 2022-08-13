@@ -116,6 +116,25 @@
 #f
 )
 
+(defun update-collectable-hud-counters ()
+  (when 
+    (and 
+      (> *randomizer-items-collected* 0) 
+      (= *master-mode* 'game)
+      (not (or (movie?) (< (-> *display* base-frame-counter) (-> *game-info* letterbox-time)))) 
+    )
+    (if (-> *randomizer-settings* show-warp-counter?)
+      (let ((str-x (the int (* 0.01 512)))
+            (str-y (the int 60)))
+        (with-dma-buffer-add-bucket ((buf (-> (current-frame) global-buf)) (bucket-id debug))
+          (draw-string-xy (string-format "~D/~D" (the int *collectable-interval*) (the int (-> *randomizer-settings* collectables-needed-to-warp)))
+            buf str-x str-y (font-color white) (font-flags shadow kerning large left))
+          )
+        )
+      )
+    )
+  )
+
 (defun randomizer-run-each-frame ()
 ;;Randomzier stuff that needs to run constantly
 (if (-> *randomizer-settings* checkpoint-randomizer?)
@@ -127,6 +146,11 @@
       (if (-> *randomizer-settings* warp-on-cell?) (the int (-> *game-info* fuel)) 0)
       (if (-> *randomizer-settings* warp-on-orb?) (the int (-> *game-info* money-total)) 0)
       (if (-> *randomizer-settings* warp-on-buzzer?) (the int (-> *game-info* buzzer-total)) 0)
+      (if (-> *randomizer-settings* warp-on-green-eco?) (the int (-> *game-info* green-eco-total)) 0)
+      (if (-> *randomizer-settings* warp-on-blue-eco?) (the int (-> *game-info* blue-eco-total)) 0)
+      (if (-> *randomizer-settings* warp-on-red-eco?) (the int (-> *game-info* red-eco-total)) 0)
+      (if (-> *randomizer-settings* warp-on-yellow-eco?) (the int (-> *game-info* yellow-eco-total)) 0)
+      (if (-> *randomizer-settings* warp-on-death?) (the int (-> *game-info* total-deaths)) 0)
       )
    )
 
@@ -139,7 +163,7 @@
       (format *stdcon* "SEED: ~D~%~S ~%~%                                                                                                           "  (-> *randomizer-settings* current-seed) *randomizer-version-string*)
     )
   )
-
+  (update-collectable-hud-counters)
   (when (-> *randomizer-settings* use-random-seed?)
       ;; burn through a random number every frame for improved randomness
       (knuth-rand-advance-seed)
@@ -255,7 +279,7 @@
 )
 
 (defun orchestrateCheckpointWarp ()
-  ;; first fuel cell/orb/buzzer? need to generate checkpoint list
+  ;; first collectable? need to generate checkpoint list
   (when (= *randomizer-items-collected* 1)
     ;; randomly generate or set seed
     (if (-> *randomizer-settings* use-random-seed?)
@@ -297,7 +321,8 @@
 
   ;; current-seed and backup-checkpoints-used are updated at this point, commit to file in case of crash/closed window
   (commit-to-file *randomizer-settings*)
-  (suspend)
+  ;;(suspend)
+  (none)
 )
 
 (defun checkpointListTest ()
