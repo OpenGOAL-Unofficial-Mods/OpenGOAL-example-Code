@@ -302,7 +302,7 @@
     (advanceCheckpointList (-> *randomizer-settings* backup-checkpoints-used))
   )
 
-  ;; if blacked out we're already warping, so skip (i.e. to handle orb crate case)
+  ;; if blacked out we're already warping, so skip
   (if (not (blacked-out?))
     (begin
       (+! *collectable-interval* amount)
