@@ -1530,6 +1530,13 @@
   (cheat-sky                    #x1097)
   (cheat-req-100-percent        #x1098)
   (cheat-req-beat-game          #x1099)
+  (cheat-big-head               #x109a)
+  (cheat-small-head             #x109b)
+  (cheat-big-fist               #x109c)
+  (cheat-big-head-npc           #x109d)
+  (cheat-no-tex                 #x109e)
+  (cheat-mirror                 #x109f)
+  (cheat-huge-head              #x10a0)
   (music-player                 #x10c0)
   (scene-player                 #x10c1)
   (play-credits                 #x10c2)
@@ -1601,6 +1608,7 @@
   (scene-255                    #x12ff)
   (hint-0                       #x1300)
   (hint-511                     #x14ff)
+  (speedrunner-mode             #x1500)
 ;; GAME-TEXT-ID ENUM ENDS
   )
 
@@ -4223,13 +4231,13 @@
 
 (deftype cpad-list (basic)
   ((num-cpads int32     :offset-assert 4)
-   (cpads     cpad-info 2 :offset-assert 8) ;; guess
+   (cpads     cpad-info 4 :offset-assert 8) ;; guess, modified from 2->4 for PC 4-pad support
    )
   (:methods
     (new (symbol type) _type_ 0))
   :method-count-assert 9
-  :size-assert         #x10
-  :flag-assert         #x900000010
+  :size-assert         #x18
+  :flag-assert         #x900000018
   )
 
 ;; - Functions
@@ -5080,7 +5088,6 @@
 (define-extern spheres-overlap? (function sphere sphere symbol))
 (define-extern sphere<-vector! (function sphere vector sphere))
 (define-extern sphere<-vector+r! (function sphere vector float sphere))
-(define-extern rand-vu-sphere-point! (function vector float vector)) ;; todo
 
 ;; - Symbols
 
@@ -6579,7 +6586,7 @@
 ;; - Types
 
 (deftype joint (basic)
-  ((name      basic          :offset-assert 4)
+  ((name      string         :offset-assert 4)
    (number    int32          :offset-assert 8)
    (parent    joint          :offset-assert 12)
    (bind-pose matrix :inline :offset-assert 16)
@@ -9771,32 +9778,33 @@
    (dummy                 basic     :offset-assert 316)
    (auto-save-count       int32     :offset-assert 320)
    )
-  :method-count-assert 29
+  :method-count-assert 30
   :size-assert         #x144
-  :flag-assert         #x1d00000144
+  :flag-assert         #x1e00000144
   ;; field dummy is a basic loaded with a signed load
   (:methods
-    (initialize! (_type_ symbol game-save string) _type_ 9)
-    (adjust (_type_ symbol float handle) float 10)
-    (task-complete? (_type_ game-task) symbol 11)
-    (lookup-entity-perm-by-aid (_type_ actor-id) entity-perm 12)
-    (get-entity-task-perm (_type_ game-task) entity-perm 13)
-    (copy-perms-from-level! (_type_ level) none 14)
-    (copy-perms-to-level! (_type_ level) none 15)
-    (debug-print (_type_ symbol) _type_ 16)
-    (get-or-create-continue! (_type_) continue-point 17)
-    (get-continue-by-name (_type_ string) continue-point 18)
-    (set-continue! (_type_ basic) continue-point 19)
-    (buzzer-count (_type_ game-task) int 20)
-    (seen-text? (_type_ game-text-id) symbol 21)
-    (mark-text-as-seen (_type_ game-text-id) none 22)
-    (got-buzzer? (_type_ game-task int) symbol 23)
-    (save-game! (_type_ game-save string) none 24)
-    (load-game! (_type_ game-save) game-save 25)
-    (clear-text-seen! (_type_ game-text-id) none 26)
-    (get-death-count (_type_ symbol) int 27)
-    (get-health-percent-lost (_type_ symbol) float 28)
-    )
+   (initialize! (_type_ symbol game-save string) _type_ 9)
+   (adjust (_type_ symbol float handle) float 10)
+   (task-complete? (_type_ game-task) symbol 11)
+   (lookup-entity-perm-by-aid (_type_ actor-id) entity-perm 12)
+   (get-entity-task-perm (_type_ game-task) entity-perm 13)
+   (copy-perms-from-level! (_type_ level) none 14)
+   (copy-perms-to-level! (_type_ level) none 15)
+   (debug-print (_type_ symbol) _type_ 16)
+   (get-or-create-continue! (_type_) continue-point 17)
+   (get-continue-by-name (_type_ string) continue-point 18)
+   (set-continue! (_type_ basic) continue-point 19)
+   (buzzer-count (_type_ game-task) int 20)
+   (seen-text? (_type_ game-text-id) symbol 21)
+   (mark-text-as-seen (_type_ game-text-id) none 22)
+   (got-buzzer? (_type_ game-task int) symbol 23)
+   (save-game! (_type_ game-save string) none 24)
+   (load-game! (_type_ game-save) game-save 25)
+   (clear-text-seen! (_type_ game-text-id) none 26)
+   (get-death-count (_type_ symbol) int 27)
+   (get-health-percent-lost (_type_ symbol) float 28)
+   (reset! (_type_ symbol game-save string) _type_ 29)
+   )
   )
 
 ;; - Symbols
@@ -11422,8 +11430,8 @@
    (up              uint8                  :offset-assert 136)
    (nose            uint8                  :offset-assert 137)
    (ear             uint8                  :offset-assert 138)
-   (shutting-down?  basic                  :offset-assert 140)
-   (parented-scale? basic                  :offset 128)
+   (shutting-down?  symbol                 :offset-assert 140)
+   (parented-scale? symbol                 :offset 128)
    )
   :method-count-assert 16
   :size-assert         #x90
@@ -11436,7 +11444,7 @@
     (reset-blend! (_type_) _type_ 12)
     (set-twist! (_type_ float float float) vector 13)
     (set-trs! (_type_ vector quaternion vector) none 14)
-    (shut-down! (_type_) float 15)
+    (shut-down! (_type_) none 15)
     )
   )
 
@@ -11467,13 +11475,13 @@
 
 (deftype joint-mod-set-local (basic)
   ((transform       transformq :inline :offset-assert 16)
-   (set-rotation    basic              :offset-assert 64)
-   (set-scale       basic              :offset-assert 68)
-   (set-translation basic              :offset-assert 72)
-   (enable          basic              :offset-assert 76)
+   (set-rotation    symbol             :offset-assert 64)
+   (set-scale       symbol             :offset-assert 68)
+   (set-translation symbol             :offset-assert 72)
+   (enable          symbol             :offset-assert 76)
    )
   (:methods
-    (new (symbol type process-drawable int basic basic basic) _type_)
+    (new (symbol type process-drawable int symbol symbol symbol) _type_)
     )
   :method-count-assert 9
   :size-assert         #x50
@@ -15773,8 +15781,10 @@
   (aspect-native)
   (button-music)
   (button-flava)
+  (use-random-seed?)
   (cheat-toggle)
   (monitor)
+  (rng-lib)
   )
 
 (defenum game-option-menu
@@ -21051,7 +21061,7 @@
 (define-extern death-movie-remap (function int int int))
 (define-extern pov-camera-init-by-other (function vector skeleton-group string pov-camera-flag process-drawable pair none :behavior pov-camera)) ;; TODO - not confirmed -- sunken-elevator
 (define-extern target-hit-effect (function attack-info none :behavior target))
-(define-extern target-hit-setup-anim (function attack-info object :behavior target))
+(define-extern target-hit-setup-anim (function attack-info none :behavior target))
 (define-extern target-hit-move (function attack-info symbol (function none :behavior target) float none :behavior target))
 (define-extern target-hit-orient (function attack-info vector symbol :behavior target))
 (define-extern target-hit-push (function vector matrix float float attack-info object :behavior target))
@@ -34934,3 +34944,13 @@
 
 (define-extern cavecrystal-light-control-cavegeyserrock-callback (function (pointer process-drawable) int float object vector none))
 
+;; ----------------------
+;; File - knuth-rand
+;; Source Path - pc/util/knuth-rand.gc
+
+(define-extern mod-rand-next-float (function float))
+(define-extern mod-rand-float-range (function float float float))
+(define-extern mod-rand-percent? (function float symbol))
+(define-extern mod-rand-int-range (function int int int))
+(define-extern mod-rand-int-count (function int int))
+(define-extern mod-rand-sphere-point! (function vector float vector))

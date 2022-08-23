@@ -424,7 +424,8 @@
           )
       )
 
-    ;; language cheat
+    ;; language cheat, REMOVED IN PC PORT because it's literally useless
+    #|
     (case (scf-get-territory)
       ;; japan-only
       ((GAME_TERRITORY_SCEI)
@@ -438,7 +439,7 @@
               (cheats-sound-play *progress-cheat*)
             )
        )
-      )
+      )|#
 
 
     ;; debug only PAL cheat
@@ -964,8 +965,7 @@
       (with-profiler "process-particles" (process-particles))
 
       ;; vif0 collide
-      ;; swap sound
-      ;; str play
+      
       (with-profiler "sound-update"
                      (swap-sound-buffers (ear-trans) (camera-pos) (camera-angle))
                      (str-play-kick)
