@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: searchlight.gc
-;; name in dgo: searchlight
-;; dgos: PAC, CWI
-
-;; DECOMP BEGINS
-

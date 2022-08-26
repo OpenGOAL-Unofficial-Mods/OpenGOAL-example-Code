@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: hopper.gc
+;; name in dgo: hopper
+;; dgos: MTN, STA
+
+;; DECOMP BEGINS
+

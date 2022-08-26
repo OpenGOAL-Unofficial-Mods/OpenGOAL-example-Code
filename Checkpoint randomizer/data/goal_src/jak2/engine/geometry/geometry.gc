@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: geometry.gc
-;; name in dgo: geometry
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: types-h.gc
-;; name in dgo: types-h
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

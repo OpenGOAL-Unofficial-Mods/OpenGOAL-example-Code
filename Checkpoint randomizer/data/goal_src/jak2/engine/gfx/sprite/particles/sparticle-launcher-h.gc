@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: sparticle-launcher-h.gc
-;; name in dgo: sparticle-launcher-h
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

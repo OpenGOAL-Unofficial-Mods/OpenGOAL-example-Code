@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: battle.gc
-;; name in dgo: battle
-;; dgos: GAME, COMMON
-
-;; DECOMP BEGINS
-

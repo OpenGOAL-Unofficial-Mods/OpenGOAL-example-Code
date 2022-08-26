@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: drawable-inline-array-h.gc
-;; name in dgo: drawable-inline-array-h
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

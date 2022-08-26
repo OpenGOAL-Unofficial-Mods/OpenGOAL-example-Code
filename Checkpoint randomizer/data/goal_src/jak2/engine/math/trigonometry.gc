@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: trigonometry.gc
-;; name in dgo: trigonometry
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

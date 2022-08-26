@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: background-h.gc
-;; name in dgo: background-h
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

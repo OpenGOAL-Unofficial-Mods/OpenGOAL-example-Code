@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: gator.gc
+;; name in dgo: gator
+;; dgos: SEB, SWB
+
+;; DECOMP BEGINS
+

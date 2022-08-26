@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: script-h.gc
-;; name in dgo: script-h
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

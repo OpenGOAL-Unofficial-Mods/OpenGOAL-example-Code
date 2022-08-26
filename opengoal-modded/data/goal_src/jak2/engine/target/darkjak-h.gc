@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: darkjak-h.gc
+;; name in dgo: darkjak-h
+;; dgos: ENGINE, GAME
+
+;; DECOMP BEGINS
+

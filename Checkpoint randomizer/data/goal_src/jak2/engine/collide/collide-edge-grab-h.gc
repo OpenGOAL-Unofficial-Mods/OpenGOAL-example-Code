@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: collide-edge-grab-h.gc
-;; name in dgo: collide-edge-grab-h
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

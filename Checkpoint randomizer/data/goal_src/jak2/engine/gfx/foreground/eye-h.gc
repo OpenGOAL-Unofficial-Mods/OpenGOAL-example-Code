@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: eye-h.gc
-;; name in dgo: eye-h
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

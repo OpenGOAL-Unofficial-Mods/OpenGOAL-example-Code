@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: squid-states.gc
+;; name in dgo: squid-states
+;; dgos: PALBOSS
+
+;; DECOMP BEGINS
+

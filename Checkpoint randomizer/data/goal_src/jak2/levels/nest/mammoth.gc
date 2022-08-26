@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: mammoth.gc
-;; name in dgo: mammoth
-;; dgos: NESTT, NES
-
-;; DECOMP BEGINS
-

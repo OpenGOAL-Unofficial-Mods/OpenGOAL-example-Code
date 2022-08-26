@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: texture.gc
-;; name in dgo: texture
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: display-h.gc
-;; name in dgo: display-h
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

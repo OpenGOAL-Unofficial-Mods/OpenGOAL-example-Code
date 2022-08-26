@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: transformq.gc
-;; name in dgo: transformq
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

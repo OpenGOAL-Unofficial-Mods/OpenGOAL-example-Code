@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: pad.gc
-;; name in dgo: pad
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

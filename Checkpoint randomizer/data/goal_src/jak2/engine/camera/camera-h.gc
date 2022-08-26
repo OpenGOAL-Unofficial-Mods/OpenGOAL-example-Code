@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: camera-h.gc
-;; name in dgo: camera-h
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-
