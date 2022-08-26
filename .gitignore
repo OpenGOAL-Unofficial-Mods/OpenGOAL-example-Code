@@ -1,19 +1,19 @@
-Checkpoint randomizer/data/assets/*
-Checkpoint randomizer/data/decompiler_out/*
-Checkpoint randomizer/data/iso_data/*
-Checkpoint randomizer/data/out/*
-Checkpoint randomizer/data/log/*
+opengoal-modded/data/assets/*
+opengoal-modded/data/decompiler_out/*
+opengoal-modded/data/iso_data/*
+opengoal-modded/data/out/*
+opengoal-modded/data/log/*
 
-Checkpoint randomizer/data/log/game.txt
+opengoal-modded/data/log/game.txt
 
-Checkpoint randomizer/data/texture_replacements/*
-Checkpoint randomizer/reshade-shaders/*
-Checkpoint randomizer/AG1k's_Ultimate_Jak_and_Daxter_Preset_V1.ini
-Checkpoint randomizer/ReShade.ini
-Checkpoint randomizer/ReShade.log
-Checkpoint randomizer/opengl32.dll
-Checkpoint randomizer/ReShadePreset.ini
-Checkpoint randomizer/data/extractor.log
-Checkpoint randomizer/data/extractor.log
-Checkpoint randomizer/.env
-Checkpoint randomizer/Zedbottwitchintegration.exe
+opengoal-modded/data/texture_replacements/*
+opengoal-modded/reshade-shaders/*
+opengoal-modded/AG1k's_Ultimate_Jak_and_Daxter_Preset_V1.ini
+opengoal-modded/ReShade.ini
+opengoal-modded/ReShade.log
+opengoal-modded/opengl32.dll
+opengoal-modded/ReShadePreset.ini
+opengoal-modded/data/extractor.log
+opengoal-modded/data/extractor.log
+opengoal-modded/.env
+opengoal-modded/Zedbottwitchintegration.exe

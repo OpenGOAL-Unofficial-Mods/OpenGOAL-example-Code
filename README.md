@@ -6,3 +6,4 @@ Serves as a base template for openGOAL mods that will be supported via [opengoal
   - the executable binaries (`goalc.exe`, `gk.exe`, `extractor.exe`)
   - GOAL code (`/data/goal_src`)
   - Assets specific to the PC Port (`/data/game/assets/jak1/`)
+  - Decompiler config (`/data/decompiler/config`)
