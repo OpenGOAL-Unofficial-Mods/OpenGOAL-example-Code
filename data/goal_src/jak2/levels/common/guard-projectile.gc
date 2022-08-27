@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: guard-projectile.gc
-;; name in dgo: guard-projectile
-;; dgos: GAME, COMMON
-
-;; DECOMP BEGINS
-

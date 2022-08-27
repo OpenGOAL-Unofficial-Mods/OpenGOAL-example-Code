@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: voicebox.gc
-;; name in dgo: voicebox
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

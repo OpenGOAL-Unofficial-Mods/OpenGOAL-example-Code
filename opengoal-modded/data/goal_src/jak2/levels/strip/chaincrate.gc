@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: chaincrate.gc
+;; name in dgo: chaincrate
+;; dgos: STR
+
+;; DECOMP BEGINS
+

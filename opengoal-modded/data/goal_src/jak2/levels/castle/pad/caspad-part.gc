@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: caspad-part.gc
+;; name in dgo: caspad-part
+;; dgos: CAP
+
+;; DECOMP BEGINS
+

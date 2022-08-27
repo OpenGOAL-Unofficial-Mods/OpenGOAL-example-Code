@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: squid-setup.gc
+;; name in dgo: squid-setup
+;; dgos: PALBOSS
+
+;; DECOMP BEGINS
+

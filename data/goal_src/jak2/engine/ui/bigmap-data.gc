@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: bigmap-data.gc
-;; name in dgo: bigmap-data
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

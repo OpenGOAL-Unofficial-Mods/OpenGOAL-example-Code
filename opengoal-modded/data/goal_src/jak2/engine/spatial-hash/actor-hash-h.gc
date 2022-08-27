@@ -1,0 +1,12 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: actor-hash-h.gc
+;; name in dgo: actor-hash-h
+;; dgos: ENGINE, GAME
+
+;; DECOMP BEGINS
+
+(define *actor-list* (malloc 'global 1024))
+(define *actor-list-length* 0)
+

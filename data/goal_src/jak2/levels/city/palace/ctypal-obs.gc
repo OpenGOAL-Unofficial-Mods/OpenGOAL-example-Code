@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: ctypal-obs.gc
-;; name in dgo: ctypal-obs
-;; dgos: CPA
-
-;; DECOMP BEGINS
-

@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: debug-sphere.gc
-;; name in dgo: debug-sphere
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

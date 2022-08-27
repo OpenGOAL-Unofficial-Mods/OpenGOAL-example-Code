@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: collide-reaction-target.gc
-;; name in dgo: collide-reaction-target
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: kid-h.gc
+;; name in dgo: kid-h
+;; dgos: CTYKORA
+
+;; DECOMP BEGINS
+
