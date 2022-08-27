@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: sniper.gc
+;; name in dgo: sniper
+;; dgos: ATE
+
+;; DECOMP BEGINS
+

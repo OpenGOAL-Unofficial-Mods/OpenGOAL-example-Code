@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: mechtest-obs.gc
+;; name in dgo: mechtest-obs
+;; dgos: RUI
+
+;; DECOMP BEGINS
+

@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: gungame-part.gc
-;; name in dgo: gungame-part
-;; dgos: GGA
-
-;; DECOMP BEGINS
-

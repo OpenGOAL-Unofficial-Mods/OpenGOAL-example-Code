@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: yakow.gc
+;; name in dgo: yakow
+;; dgos: CFB, CFA
+
+;; DECOMP BEGINS
+

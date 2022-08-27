@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: enemy.gc
-;; name in dgo: enemy
-;; dgos: GAME, COMMON
-
-;; DECOMP BEGINS
-

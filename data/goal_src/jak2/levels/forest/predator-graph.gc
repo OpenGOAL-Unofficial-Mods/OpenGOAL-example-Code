@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: predator-graph.gc
-;; name in dgo: predator-graph
-;; dgos: FOR
-
-;; DECOMP BEGINS
-

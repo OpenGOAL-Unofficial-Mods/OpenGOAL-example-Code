@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: hideout-part.gc
+;; name in dgo: hideout-part
+;; dgos: HIDEOUT
+
+;; DECOMP BEGINS
+

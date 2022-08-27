@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: nav-graph.gc
-;; name in dgo: nav-graph
-;; dgos: CWI
-
-;; DECOMP BEGINS
-

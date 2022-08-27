@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: casboss-texture.gc
+;; name in dgo: casboss-texture
+;; dgos: CAB
+
+;; DECOMP BEGINS
+

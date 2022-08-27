@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: ginsu.gc
+;; name in dgo: ginsu
+;; dgos: DMI
+
+;; DECOMP BEGINS
+
