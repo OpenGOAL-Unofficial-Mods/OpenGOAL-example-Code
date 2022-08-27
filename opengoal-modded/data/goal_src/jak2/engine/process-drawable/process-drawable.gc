@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: process-drawable.gc
-;; name in dgo: process-drawable
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

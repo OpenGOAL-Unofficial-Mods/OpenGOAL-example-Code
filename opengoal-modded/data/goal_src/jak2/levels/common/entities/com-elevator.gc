@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: com-elevator.gc
-;; name in dgo: com-elevator
-;; dgos: PAS, TOD
-
-;; DECOMP BEGINS
-

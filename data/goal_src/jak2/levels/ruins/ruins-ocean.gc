@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: ruins-ocean.gc
+;; name in dgo: ruins-ocean
+;; dgos: RUI
+
+;; DECOMP BEGINS
+

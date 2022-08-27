@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: font.gc
-;; name in dgo: font
-;; dgos: ENGINE, GAME
-
-;; DECOMP BEGINS
-

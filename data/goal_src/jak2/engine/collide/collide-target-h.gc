@@ -1,0 +1,17 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: collide-target-h.gc
+;; name in dgo: collide-target-h
+;; dgos: ENGINE, GAME
+
+;; DECOMP BEGINS
+
+(deftype control-info (collide-shape-moving)
+  ((pad uint8  :offset 6415)
+   )
+  :method-count-assert 68
+  :size-assert         #x1910
+  :flag-assert         #x4400001910
+  )
+

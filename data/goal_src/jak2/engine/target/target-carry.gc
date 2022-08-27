@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: target-carry.gc
+;; name in dgo: target-carry
+;; dgos: ENGINE, GAME
+
+;; DECOMP BEGINS
+

@@ -1,0 +1,18 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: cam-interface-h.gc
+;; name in dgo: cam-interface-h
+;; dgos: ENGINE, GAME
+
+(define-extern camera-pos (function vector))
+
+;; DECOMP BEGINS
+
+(define-perm *camera-init-mat* matrix #f)
+
+(define-perm *camera* camera-master #f)
+
+(define-perm *camera-combiner* camera-combiner #f)
+
+(define-extern math-camera-pos (function vector))

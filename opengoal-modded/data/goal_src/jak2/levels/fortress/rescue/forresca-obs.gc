@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: forresca-obs.gc
-;; name in dgo: forresca-obs
-;; dgos: FRA
-
-;; DECOMP BEGINS
-

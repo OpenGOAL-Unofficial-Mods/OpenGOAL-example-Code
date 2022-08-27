@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: strip-part.gc
-;; name in dgo: strip-part
-;; dgos: STR
-
-;; DECOMP BEGINS
-

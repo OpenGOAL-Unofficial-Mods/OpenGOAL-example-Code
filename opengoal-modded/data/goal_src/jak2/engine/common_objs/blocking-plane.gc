@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: blocking-plane.gc
-;; name in dgo: blocking-plane
-;; dgos: GAME, COMMON
-
-;; DECOMP BEGINS
-
