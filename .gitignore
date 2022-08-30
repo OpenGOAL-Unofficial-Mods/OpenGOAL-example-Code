@@ -1,19 +1,19 @@
-opengoal-modded/data/assets/*
-opengoal-modded/data/decompiler_out/*
-opengoal-modded/data/iso_data/*
-opengoal-modded/data/out/*
-opengoal-modded/data/log/*
+data/assets/*
+data/decompiler_out/*
+data/iso_data/*
+data/out/*
+data/log/*
 
-opengoal-modded/data/log/game.txt
+data/log/game.txt
 
-opengoal-modded/data/texture_replacements/*
-opengoal-modded/reshade-shaders/*
-opengoal-modded/AG1k's_Ultimate_Jak_and_Daxter_Preset_V1.ini
-opengoal-modded/ReShade.ini
-opengoal-modded/ReShade.log
-opengoal-modded/opengl32.dll
-opengoal-modded/ReShadePreset.ini
-opengoal-modded/data/extractor.log
-opengoal-modded/data/extractor.log
-opengoal-modded/.env
-opengoal-modded/Zedbottwitchintegration.exe
+data/texture_replacements/*
+reshade-shaders/*
+AG1k's_Ultimate_Jak_and_Daxter_Preset_V1.ini
+ReShade.ini
+ReShade.log
+opengl32.dll
+ReShadePreset.ini
+data/extractor.log
+data/extractor.log
+.env
+Zedbottwitchintegration.exe
