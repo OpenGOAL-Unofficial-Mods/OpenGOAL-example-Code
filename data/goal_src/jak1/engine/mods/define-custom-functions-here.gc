@@ -14,7 +14,27 @@
  the powercell count by one when it is called
  |#
 
+
+(define *currentCheckpoint* "")
+(define *currentLevel* "")
+(define *currentCellCount* 0.0 )
+(define *currentORBCount* 0.0 )
+(define *currentCutsceneName* "")
+(define *currentHintName* "")
+(define *currentCutsceneFrame* 0)
+
+
 (defun increase-power-cell-by-one ()
 (set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
 (none)
 )
+
+(defun update-variables ()
+;; This function is called in main.gc everyframe it should NOT be called manually
+(set! *currentCheckpoint* (-> (-> *game-info* current-continue) name) ) 
+(set! *currentLevel* (symbol->string (-> (level-get-target-inside *level*) name)))
+(set! *currentCellCount* (-> *game-info* fuel))
+(set! *currentORBCount* (-> *game-info* money))
+(set! *currentCutsceneName* (-> *art-control* active-stream))
+(set! *currentHintName* *level-hint-spool-name*)
+(none))
