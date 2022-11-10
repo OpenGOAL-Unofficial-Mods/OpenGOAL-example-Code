@@ -23,7 +23,6 @@
 Checks the condition and if it is true it does first argument if false it does optional second argument
 (if (condition) (do if true) (do if false))
 
-
 Gives a random FLOAT or INT between the provided ranges when called
 (rand-vu-float-range 0.0 2.0)
 (rand-vu-int-range 0 10)
@@ -34,6 +33,10 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 
 |#
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Define Custom Variables to use in mods
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (define *currentCheckpoint* "")
 (define *currentLevel* "")
 (define *currentCellCount* 0.0 )
@@ -42,6 +45,9 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 (define *currentHintName* "")
 (define *currentCutsceneFrame* 0)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Define Custom Functions to call in mods
+;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun increase-power-cell-by-one ()
 (set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
