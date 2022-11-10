@@ -23,6 +23,7 @@ an orb |#
 
 (defun runs-every-frame ()
 ;;(increase-power-cell-by-one) This is a call to increase-power-cell-by-one defined in define-custom-functions-here.gc
+
 (none)
 )
 
@@ -42,3 +43,11 @@ an orb |#
 
 (none)
 )
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; deperciated function defintions.
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#| these are no longer recommended/supported however we include them anyways to not break anyones mods.
+|#
