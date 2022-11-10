@@ -1,0 +1,20 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: define-custom-functions-here.gc
+;; name in dgo: define-custom-functions-here
+;; dgos: TODO
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; What is this file for.
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#| This file is a place where you can define custom functions and GOAL code
+ to call inside of put-custom-code-here.gc for example I have defined a function that increases
+ the powercell count by one when it is called
+ |#
+
+(defun increase-power-cell-by-one ()
+(set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
+(none)
+)

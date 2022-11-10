@@ -6,7 +6,7 @@
 ;; dgos: GAME, ENGINE
 
 ;; DECOMP BEGINS
-
+(define-extern run-on-jak-spawn (function none))
 (import "goal_src/jak1/import/deathcam-ag.gc")
 
 (defskelgroup *deathcam-sg* deathcam deathcam-lod0-jg deathcam-idle-ja
@@ -454,6 +454,7 @@
     (ja :group! eichar-stance-loop-ja)
     (suspend)
     (logior! (-> self control status) (cshape-moving-flags onsurf onground tsurf))
+    (run-on-jak-spawn) ;; trigger hook for mod base
     (go target-stance)
     (none)
     )

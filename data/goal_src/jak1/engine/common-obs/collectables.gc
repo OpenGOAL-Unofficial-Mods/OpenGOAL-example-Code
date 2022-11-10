@@ -7,6 +7,8 @@
 
 (declare-type vent process-drawable)
 (declare-type eco eco-collectable)
+(define-extern runs-on-orb-pickup (function none))
+(define-extern runs-on-cell-pickup (function none))
 
 (defenum collectable-flags
   :bitfield #t
@@ -1198,7 +1200,9 @@
     (logclear! (-> self mask) (process-mask actor-pause))
     (clear-collide-with-as (-> self root-override))
     (process-entity-status! self (entity-perm-status dead) #t)
+    (runs-on-orb-pickup) ;; trigger hook for mod base
     (convert-to-hud-object self (the-as hud (ppointer->process (-> *hud-parts* money))))
+
     (none)
     )
   )
@@ -1681,6 +1685,7 @@
     (ja-channel-set! 0)
     (suspend)
     (suspend)
+    (runs-on-cell-pickup) ;; triger hook for mod base
     (process-spawn-function
       process
       (lambda :behavior collectable

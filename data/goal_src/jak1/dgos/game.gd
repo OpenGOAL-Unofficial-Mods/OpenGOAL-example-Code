@@ -339,4 +339,7 @@
   ("ropebridge.o" "ropebridge")
   ("ticky.o" "ticky")
   ("hud-classes-pc.o" "hud-classes-pc") ;; added
+  ("define-custom-functions-here.o" "define-custom-functions-here") ;; added
+  ("put-custom-code-here.o" "put-custom-code-here") ;; added
   )
+  
