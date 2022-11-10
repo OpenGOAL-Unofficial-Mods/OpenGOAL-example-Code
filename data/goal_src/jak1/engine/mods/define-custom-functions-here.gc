@@ -38,7 +38,7 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define *currentCheckpoint* "")
-(define *currentLevel* "")
+(define *currentLevel* #f)
 (define *currentCellCount* 0.0 )
 (define *currentORBCount* 0.0 )
 (define *currentCutsceneName* "")
@@ -50,13 +50,27 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun update-variables ()
-;; This function is called in main.gc everyframe it should NOT be called manually
+;;This function is called in main.gc everyframe to track varaibles for use in mods 
+;;it should NOT be called manually
+
 (set! *currentCheckpoint* (-> (-> *game-info* current-continue) name) ) 
-(set! *currentLevel* (symbol->string (-> (level-get-target-inside *level*) name)))
+(set! *currentLevel* (-> (level-get-target-inside *level*) name))
 (set! *currentCellCount* (-> *game-info* fuel))
 (set! *currentORBCount* (-> *game-info* money))
 (set! *currentCutsceneName* (-> *art-control* active-stream))
 (set! *currentHintName* *level-hint-spool-name*)
+(none))
+
+(defun update-game-info-from-variables ()
+;;This function is called in main.gc everyframe to update game info from  varaibles for use in mods 
+;;it should NOT be called manually
+;; Line 609 of main.gc does not work yet
+(set! (-> (-> *game-info* current-continue) name) *currentCheckpoint*) 
+(set! (-> (level-get-target-inside *level*) name) *currentLevel*)
+(set! (-> *game-info* fuel) *currentCellCount*)
+(set! (-> *game-info* money) *currentORBCount*)
+(set! (-> *art-control* active-stream) *currentCutsceneName*)
+(set! *level-hint-spool-name* *currentHintName*)
 (none))
 
 (defun increase-power-cell-by-one ()
