@@ -49,11 +49,6 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 ;; Define Custom Functions to call in mods
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun increase-power-cell-by-one ()
-(set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
-(none)
-)
-
 (defun update-variables ()
 ;; This function is called in main.gc everyframe it should NOT be called manually
 (set! *currentCheckpoint* (-> (-> *game-info* current-continue) name) ) 
@@ -63,3 +58,11 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 (set! *currentCutsceneName* (-> *art-control* active-stream))
 (set! *currentHintName* *level-hint-spool-name*)
 (none))
+
+(defun increase-power-cell-by-one ()
+;;this function sets argument one (-> *game-info* fuel) to the value of argument two
+;;(+ (-> *game-info* fuel) 1)   (the current powercell count + 1)
+(set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
+(none)
+)
+
