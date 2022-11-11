@@ -87,6 +87,9 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 (set! *level-hint-spool-name* *currentHintName*)
 (none))
 
+
+;;This function moves an actor to the given coordinates
+;;example (move-actor farmer-3 3.0 74.0 -120.0)
 (defun move-actor ((actor-name string) (x float) (y float) (z float))
   (when (entity-by-name actor-name)
     (let* ((entity-actor (entity-by-name actor-name))
@@ -171,6 +174,7 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
   (none)
   )
 
+;;This function moves a given actor to jaks current position, then prints a (move-actors) call in gk.exe
 (defun move-to-jak ((arg0 string))
 (format #t "move-actor code:  (move-actor ~a ~m ~m ~m)~%" arg0(-> (target-pos 0) x) (-> (target-pos 0) y) (-> (target-pos 0) z))
   (when (process-by-ename arg0)
@@ -198,12 +202,7 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
   )
 )
 
-   
-    
-  
-    
-
-
+;;This function moves an actor based on jaks position + an offset
 (defun move-to-behind-jak ((arg0 string) (arg1 meters) (arg2 meters))
  (when (process-by-ename arg0)
     (set-vector!  (-> (-> (the process-drawable (process-by-ename arg0))root)trans) (-(-> (target-pos 0) x) (meters arg1)) (+ (-> (target-pos 0) y) (meters arg2)) (-(-> (target-pos 0) z)(meters arg1)) 1.0)
@@ -222,29 +221,35 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
   )
 )
 
+;;This turns on play hints
 (defun turnonplayhints ()
 (set! (-> *setting-control* default play-hints) #t)
 )
 
+;;This turns off playhints
 (defun turnoffplayhints()
 (set! (-> *setting-control* default play-hints) #f)
 )
 
+;;This turns on collision render when called
 (defun turnonCollisionmode()
   (set! *collision-renderer* #t)
   (logclear! *vu1-enable-user-menu* (vu1-renderer-mask tfrag trans-tfrag tie tie-near))
 )
 
+;;This turns off collision render when called
 (defun turnoffCollisionmode()
   (set! *collision-renderer* #f)
   (logior! *vu1-enable-user-menu* (vu1-renderer-mask tfrag trans-tfrag tie tie-near))
 )
 
+;;This makes it thunder in the current level
 (defun thunderTime()
   (set! (-> (level-get-target-inside *level*) mood-func)update-mood-village2)
   (set! (-> (level-get-target-inside *level*) mood) *village2-mood*)
 )
 
+;;This makes the current level dark when called
 (defun DarkesetGlitchTime()
   (set! (-> (level-get-target-inside *level*) mood-func)update-mood-finalboss )
   (set! (-> (level-get-target-inside *level*) mood) *finalboss-mood*)
@@ -262,17 +267,21 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
   (set! (-> (level-get-target-inside *level*) mood) *snow-mood*)
 )
 
+;;This makes the current levels weather the same as village1
 (defun defaultWeatherTime()
   (set! (-> (level-get-target-inside *level*) mood-func)update-mood-village1)
   (set! (-> (level-get-target-inside *level*) mood) *village1-mood*)
 )
 
+;;This moves jak to a provided coordinate example call
+;;(tp-jak 0.0 12.0 32.32)
 (defun tp-jak ((arg0 float)(arg1 float)(arg2 float))
   (set! (-> (target-pos 0) x) (meters arg0))
   (set! (-> (target-pos 0) y) (meters arg1))
   (set! (-> (target-pos 0) z) (meters arg2))
 )
 
+;;This returns true or false depending on if jak is within a provided distance from an actor
 (defun close? ((arg0 string)(arg1 float))
   (set! *obj-x* (/ (-> (-> (-> (the process-drawable (process-by-ename arg0))root)trans)x) (meters 1)))
   (set! *obj-y* (/ (-> (-> (-> (the process-drawable (process-by-ename arg0))root)trans)y) (meters 1)))
@@ -288,6 +297,7 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
   )
 )
 
+;;This returns true or false if jak is within a bubble defined by coordiantes and width
 (defun in-bubble? ((arg0 float)(arg1 float)(arg2 float)(arg3 float))
 (if (and
       (<= (abs (- arg0 (/ (-> (target-pos 0) x) (meters 1)))) arg3)

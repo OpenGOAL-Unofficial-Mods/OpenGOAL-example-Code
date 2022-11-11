@@ -1,54 +1,54 @@
-;;-*-Lisp-*-
-(in-package goal)
+    ;;-*-Lisp-*-
+    (in-package goal)
 
-;; name: put-custom-code-here.gc
-;; name in dgo: put-custom-code-here
-;; dgos: TODO
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; What is this file for.
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-#| This file containts function defenitions that are pre placed in the mod base,
-so if you place custom code inside of these functions, it will exectue based on
-the name of the function, for example, if you place (set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
-to the function named runs-on-orb-pickup, then jaks powercell count will increase each time you collect
-an orb |#
+    ;; name: put-custom-code-here.gc
+    ;; name in dgo: put-custom-code-here
+    ;; dgos: TODO
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Begin function defintions.
-;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; What is this file for.
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun runs-every-frame ()
-;;(increase-power-cell-by-one) This is a call to increase-power-cell-by-one defined in define-custom-functions-here.gc
-
-(none)
-)
-
-(defun runs-on-orb-pickup ()
-;;Code here runs on orb pickup
-
-(none)
-)
-
-(defun runs-on-cell-pickup ()
-;;Code here runs on cell pickup
-
-(none)
-)
-
-(defun run-on-jak-spawn ()
-;;Code here runs every time jak spawns (loading a file new game or death)   
-
-(none)
-)
+    #| This file containts function defenitions that are pre placed in the mod base,
+    so if you place custom code inside of these functions, it will exectue based on
+    the name of the function, for example, if you place (set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
+    to the function named runs-on-orb-pickup, then jaks powercell count will increase each time you collect
+    an orb |#
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; deperciated function defintions.
-;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Begin function defintions.
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-#| these are no longer recommended/supported however we include them anyways to not break anyones mods.
-|#
+    (defun runs-every-frame ()
+    ;;(increase-power-cell-by-one) This is a call to increase-power-cell-by-one defined in define-custom-functions-here.gc
+
+    (none)
+    )
+
+    (defun runs-on-orb-pickup ()
+    ;;Code here runs on orb pickup
+
+    (none)
+    )
+
+    (defun runs-on-cell-pickup ()
+    ;;Code here runs on cell pickup
+
+    (none)
+    )
+
+    (defun run-on-jak-spawn ()
+    ;;Code here runs every time jak spawns (loading a file new game or death)   
+
+    (none)
+    )
+
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; deperciated function defintions.
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    #| these are no longer recommended/supported however we include them anyways to not break anyones mods.
+    |#
