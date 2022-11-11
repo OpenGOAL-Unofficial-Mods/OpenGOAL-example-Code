@@ -49,10 +49,24 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 ;; Define Custom Functions to call in mods
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; add your own unique custom functions here!
+
+(defun increase-power-cell-by-one ()
+;;this function sets argument one (-> *game-info* fuel) to the value of argument two
+;;(+ (-> *game-info* fuel) 1)   (the current powercell count + 1)
+(set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
+(none)
+)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Define Approved Custom Functions to call in all mods
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;These functions are included with the mod base and you are welcome to use them in your mods!
+
 (defun update-variables ()
 ;;This function is called in main.gc everyframe to track varaibles for use in mods 
 ;;it should NOT be called manually
-
 (set! *currentCheckpoint* (-> (-> *game-info* current-continue) name) ) 
 (set! *currentLevel* (-> (level-get-target-inside *level*) name))
 (set! *currentCellCount* (-> *game-info* fuel))
@@ -73,10 +87,218 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 (set! *level-hint-spool-name* *currentHintName*)
 (none))
 
-(defun increase-power-cell-by-one ()
-;;this function sets argument one (-> *game-info* fuel) to the value of argument two
-;;(+ (-> *game-info* fuel) 1)   (the current powercell count + 1)
-(set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
-(none)
+(defun move-actor ((actor-name string) (x float) (y float) (z float))
+  (when (entity-by-name actor-name)
+    (let* ((entity-actor (entity-by-name actor-name))
+           (actor (-> entity-actor extra process))
+           )
+      (when actor
+        (case (-> actor type)
+          ((fuel-cell)
+              (set-vector! (-> entity-actor trans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> entity-actor extra trans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> (the process-drawable actor) root trans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> (the fuel-cell actor) base) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> (the fuel-cell actor) root-override trans) (meters x) (meters y) (meters z) 1.0)
+            (when (name= (-> (the fuel-cell actor) state name) 'wait)
+              ;; only move collision when idle (messes up glowing in cutscene)
+              (set! (-> (the fuel-cell actor) root-override root-prim world-sphere x) (meters x))
+              (set! (-> (the fuel-cell actor) root-override root-prim world-sphere y) (meters y))
+              (set! (-> (the fuel-cell actor) root-override root-prim world-sphere z) (meters z))
+              )
+            )
+          ((orb-cache-top)
+            ;; don't move while its activated (let it go up/down)
+            (when (not (name= (-> (the orb-cache-top actor) state name) 'orb-cache-top-activate))
+              (set-vector! (-> entity-actor trans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> entity-actor extra trans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> (the process-drawable actor) root trans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> (the orb-cache-top actor) basetrans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> (the orb-cache-top actor) root-override trans) (meters x) (meters y) (meters z) 1.0)
+              (set! (-> (the orb-cache-top actor) root-override root-prim world-sphere x) (meters x))
+              (set! (-> (the orb-cache-top actor) root-override root-prim world-sphere y) (meters y))
+              (set! (-> (the orb-cache-top actor) root-override root-prim world-sphere z) (meters z))
+              (set-vector! (-> (the orb-cache-top actor) draw origin) (meters x) (meters y) (meters z) 1.0)
+              (let ((radius (-> (the process-drawable actor) draw radius))
+                    (bounds (res-lump-data entity-actor 'visvol (inline-array vector)))
+                    )
+                (set-vector! (-> bounds 0) (- (meters x) radius) (meters y) (- (meters z) radius) 1.0)
+                (set-vector! (-> bounds 1) (+ (meters x) radius) (meters y) (+ (meters z) radius) 1.0)
+                )
+              )
+            )
+          ((money)
+            ;; don't move orbs if being blue-eco-sucked
+            (when (not (logtest? (-> (the money actor) flags) (collectable-flags suck)))
+              (set-vector! (-> entity-actor trans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> entity-actor extra trans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> (the process-drawable actor) root trans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> (the money actor) base) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> (the money actor) root-override trans) (meters x) (meters y) (meters z) 1.0)
+              (set! (-> (the money actor) root-override root-prim world-sphere x) (meters x))
+              (set! (-> (the money actor) root-override root-prim world-sphere y) (meters y))
+              (set! (-> (the money actor) root-override root-prim world-sphere z) (meters z))
+              )
+            )
+          ((crate crate-buzzer)
+            ;; only move crates if they're not jumping
+            (when (= (-> (the crate actor) smush amp) 0.0)
+              (set-vector! (-> entity-actor trans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> entity-actor extra trans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> (the process-drawable actor) root trans) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> (the crate actor) base) (meters x) (meters y) (meters z) 1.0)
+              (set-vector! (-> (the crate actor) root-override trans) (meters x) (meters y) (meters z) 1.0)
+              (set! (-> (the crate actor) root-override root-prim world-sphere x) (meters x))
+              (set! (-> (the crate actor) root-override root-prim world-sphere y) (meters y))
+              (set! (-> (the crate actor) root-override root-prim world-sphere z) (meters z))
+              )
+            )
+          ((darkvine)
+            (set-vector! (-> entity-actor trans) (meters x) (meters y) (meters z) 1.0)
+            (set-vector! (-> entity-actor extra trans) (meters x) (meters y) (meters z) 1.0)
+            (set-vector! (-> (the process-drawable actor) root trans) (meters x) (meters y) (meters z) 1.0)
+          )
+          (else
+            (format 0 "unexpected actor type ~S ~S ~S~%" actor-name (-> entity-actor type) (-> actor type))
+            (set-vector! (-> entity-actor trans) (meters x) (meters y) (meters z) 1.0)
+            (set-vector! (-> entity-actor extra trans) (meters x) (meters y) (meters z) 1.0)
+            ;; (set-vector! (-> (the process-drawable actor) root trans) (meters x) (meters y) (meters z) 1.0)
+            )
+          )
+        )
+      )
+    )
+  (none)
+  )
+
+(defun move-to-jak ((arg0 string))
+(format #t "move-actor code:  (move-actor ~a ~m ~m ~m)~%" arg0(-> (target-pos 0) x) (-> (target-pos 0) y) (-> (target-pos 0) z))
+  (when (process-by-ename arg0)
+    (set-vector!  (-> (-> (the process-drawable (process-by-ename arg0))root)trans) (-> (target-pos 0) x) (-> (target-pos 0) y) (-> (target-pos 0) z) 1.0)
+    (if (type-type? (-> (process-by-ename arg0) type) crate)
+    (begin
+        (set! (-> (the crate (process-by-ename arg0)) base y) (-> (target-pos 0) y))
+    )
+    (none)
+    )
+
+     (if (type-type? (-> (process-by-ename arg0) type) money)
+    (begin
+        (set! (-> (the money (process-by-ename arg0)) base y) (-> (target-pos 0) y))
+    )
+    (none)
+    )
+
+     (if (type-type? (-> (process-by-ename arg0) type) fuel-cell)
+    (begin
+        (set! (-> (the fuel-cell (process-by-ename arg0)) base y) (-> (target-pos 0) y))
+    )
+    (none)
+    )
+  )
 )
+
+   
+    
+  
+    
+
+
+(defun move-to-behind-jak ((arg0 string) (arg1 meters) (arg2 meters))
+ (when (process-by-ename arg0)
+    (set-vector!  (-> (-> (the process-drawable (process-by-ename arg0))root)trans) (-(-> (target-pos 0) x) (meters arg1)) (+ (-> (target-pos 0) y) (meters arg2)) (-(-> (target-pos 0) z)(meters arg1)) 1.0)
+    (if (type-type? (-> (process-by-ename arg0) type) money)
+    (begin
+        (set! (-> (the money (process-by-ename arg0)) base y) (->  (target-pos 0) y) )
+    )
+    (none)
+    )
+    (if (type-type? (-> (process-by-ename arg0) type) fuel-cell)
+    (begin
+        (set! (-> (the fuel-cell (process-by-ename arg0)) base y) (->  (target-pos 0) y) )
+    )
+    (none)
+    )
+  )
+)
+
+(defun turnonplayhints ()
+(set! (-> *setting-control* default play-hints) #t)
+)
+
+(defun turnoffplayhints()
+(set! (-> *setting-control* default play-hints) #f)
+)
+
+(defun turnonCollisionmode()
+  (set! *collision-renderer* #t)
+  (logclear! *vu1-enable-user-menu* (vu1-renderer-mask tfrag trans-tfrag tie tie-near))
+)
+
+(defun turnoffCollisionmode()
+  (set! *collision-renderer* #f)
+  (logior! *vu1-enable-user-menu* (vu1-renderer-mask tfrag trans-tfrag tie tie-near))
+)
+
+(defun thunderTime()
+  (set! (-> (level-get-target-inside *level*) mood-func)update-mood-village2)
+  (set! (-> (level-get-target-inside *level*) mood) *village2-mood*)
+)
+
+(defun DarkesetGlitchTime()
+  (set! (-> (level-get-target-inside *level*) mood-func)update-mood-finalboss )
+  (set! (-> (level-get-target-inside *level*) mood) *finalboss-mood*)
+)
+
+;;This needs fixed
+(defun rainyTime()
+  (set! (-> (level-get-target-inside *level*) mood-func)update-mood-swamp)
+  (set! (-> (level-get-target-inside *level*) mood) *swamp-mood*)
+)
+
+;;This needs fixed
+(defun snowingTime()
+  (set! (-> (level-get-target-inside *level*) mood-func)update-mood-snow)
+  (set! (-> (level-get-target-inside *level*) mood) *snow-mood*)
+)
+
+(defun defaultWeatherTime()
+  (set! (-> (level-get-target-inside *level*) mood-func)update-mood-village1)
+  (set! (-> (level-get-target-inside *level*) mood) *village1-mood*)
+)
+
+(defun tp-jak ((arg0 float)(arg1 float)(arg2 float))
+  (set! (-> (target-pos 0) x) (meters arg0))
+  (set! (-> (target-pos 0) y) (meters arg1))
+  (set! (-> (target-pos 0) z) (meters arg2))
+)
+
+(defun close? ((arg0 string)(arg1 float))
+  (set! *obj-x* (/ (-> (-> (-> (the process-drawable (process-by-ename arg0))root)trans)x) (meters 1)))
+  (set! *obj-y* (/ (-> (-> (-> (the process-drawable (process-by-ename arg0))root)trans)y) (meters 1)))
+  (set! *obj-z* (/ (-> (-> (-> (the process-drawable (process-by-ename arg0))root)trans)z) (meters 1)))
+
+  (if (and
+      (process-by-ename arg0)
+      (<= (abs (- *obj-x* (/ (-> (target-pos 0) x) (meters 1)))) arg1)
+      (<= (abs (- *obj-y* (/ (-> (target-pos 0) y) (meters 1)))) arg1)
+      (<= (abs (- *obj-z* (/ (-> (target-pos 0) z) (meters 1)))) arg1)
+      )
+  #t
+  )
+)
+
+(defun in-bubble? ((arg0 float)(arg1 float)(arg2 float)(arg3 float))
+(if (and
+      (<= (abs (- arg0 (/ (-> (target-pos 0) x) (meters 1)))) arg3)
+      (<= (abs (- arg1 (/ (-> (target-pos 0) y) (meters 1)))) arg3)
+      (<= (abs (- arg2 (/ (-> (target-pos 0) z) (meters 1)))) arg3)
+      )
+  #t
+  )
+)
+
+
+
+
 
