@@ -10,6 +10,8 @@
 
 ;; The "perm" data is saved to the memory card.
 
+(define-extern runs-on-orb-pickup (function none))
+(define-extern runs-on-cell-pickup (function none))
 
 ;;;;;;;;;;;;;;;;;;
 ;; border plane
