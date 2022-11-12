@@ -602,6 +602,7 @@
      ;; get money.
      (when (< 0.0 amount)
        ;; play sound.
+     (runs-on-orb-pickup) ;; trigger hook for mod base
        (if (>= (- (-> *display* base-frame-counter) (-> obj money-pickup-time)) (seconds 0.05))
            (sound-play "money-pickup")
            )
@@ -610,6 +611,7 @@
      (adjust (-> (the-as target (-> obj process)) game) 'money amount source-handle)
      )
     (((pickup-type fuel-cell))
+     (runs-on-cell-pickup) ;; triger hook for mod base
      ;; the amount is actually the index of the task.
      (let ((s4-2 (the int amount)))
        (if (not (or (task-complete? (-> (the-as target (-> obj process)) game) (the-as game-task s4-2))
