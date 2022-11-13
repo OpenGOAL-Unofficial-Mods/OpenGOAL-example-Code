@@ -11,6 +11,7 @@
 (defun-extern runs-every-frame (none))
 (defun-extern update-variables (none))
 (defun-extern update-game-info-from-variables (none))
+(define *currentORBCount* 0.0)
 
 (defun set-letterbox-frames ((arg0 time-frame))
   "Set the letterbox frame counter for arg0 frames in the future"
@@ -627,8 +628,18 @@
 
 
     (while *run*
+
+    #|(if (= (rem (-> *display* base-frame-counter) 2) 0)
+    (update-game-info-from-variables)
+    (update-variables)
+    )
+|#
+  
+    
+   
       (update-variables)
       (runs-every-frame) ;; trigger hook for mod base
+    
       ;; start immediately after all process updates finish.
       (profiler-instant-event "display-loop-top")
 
@@ -970,7 +981,7 @@
       
       ;; suspend
       (suspend)
-      (update-game-info-from-variables) ;; this doesnt work yet
+
       )
     )
 

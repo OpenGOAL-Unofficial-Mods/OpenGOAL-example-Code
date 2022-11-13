@@ -67,6 +67,9 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 (defun update-variables ()
 ;;This function is called in main.gc everyframe to track varaibles for use in mods 
 ;;it should NOT be called manually
+(if (not(= (-> *game-info* money) *currentORBCount*))
+(format #t "Updating current orb count ~F to  game info ~F as they are different in update-variable~%" *currentORBCount* (-> *game-info* money))
+)
 (set! *currentCheckpoint* (-> (-> *game-info* current-continue) name) ) 
 (set! *currentLevel* (-> (level-get-target-inside *level*) name))
 (set! *currentCellCount* (-> *game-info* fuel))
@@ -81,6 +84,10 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 ;; Line 609 of main.gc does not work yet
 (set! (-> (-> *game-info* current-continue) name) *currentCheckpoint*) 
 (set! (-> *game-info* fuel) *currentCellCount*)
+(if (not (= (-> *game-info* money) *currentORBCount*))
+(format #t "Upating game info ~F to  currentOrbCount ~F as they are different in update-GAME-INFO~%"  (-> *game-info* money) *currentORBCount*)
+)
+
 (set! (-> *game-info* money) *currentORBCount*)
 (set! (-> *art-control* active-stream) *currentCutsceneName*)
 (set! *level-hint-spool-name* *currentHintName*)
