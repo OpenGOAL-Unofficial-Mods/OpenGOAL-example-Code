@@ -80,7 +80,6 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 ;;it should NOT be called manually
 ;; Line 609 of main.gc does not work yet
 (set! (-> (-> *game-info* current-continue) name) *currentCheckpoint*) 
-(set! (-> (level-get-target-inside *level*) name) *currentLevel*)
 (set! (-> *game-info* fuel) *currentCellCount*)
 (set! (-> *game-info* money) *currentORBCount*)
 (set! (-> *art-control* active-stream) *currentCutsceneName*)
@@ -281,6 +280,9 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
   (set! (-> (target-pos 0) z) (meters arg2))
 )
 
+(define *obj-x* 0.0)
+(define *obj-y* 0.0)
+(define *obj-z* 0.0) ;; Change these to a Let local variable inside of function later
 ;;This returns true or false depending on if jak is within a provided distance from an actor
 (defun close? ((arg0 string)(arg1 float))
   (set! *obj-x* (/ (-> (-> (-> (the process-drawable (process-by-ename arg0))root)trans)x) (meters 1)))
@@ -308,6 +310,41 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
   )
 )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Jak Color functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun draw-xyz ((jak target) (x float) (y float) (z float))
+  (set! (-> jak draw color-mult x) x)
+  (set! (-> jak draw color-mult y) y)
+  (set! (-> jak draw color-mult z) z)
+)
+(defun draw-normal ((jak target))
+  (draw-xyz jak 1.0 1.0 1.0)
+)
+(defun draw-white ((jak target))
+  (draw-xyz jak 10.0 10.0 10.0)
+)
+(defun draw-black ((jak target))
+  (draw-xyz jak 0.0 0.0 0.0)
+)
+(defun draw-red ((jak target))
+  (draw-xyz jak 3.0 0.0 0.0)
+)
+(defun draw-green ((jak target))
+  (draw-xyz jak 0.0 3.0 0.0)
+)
+(defun draw-blue ((jak target))
+  (draw-xyz jak 0.0 0.0 3.0)
+)
+(defun draw-yellow ((jak target))
+  (draw-xyz jak 3.0 3.0 0.0)
+)
+(defun draw-pink ((jak target))
+  (draw-xyz jak 3.0 0.0 3.0)
+)
+(defun draw-light-blue ((jak target))
+  (draw-xyz jak 0.0 3.0 3.0)
+)
 
 
 
