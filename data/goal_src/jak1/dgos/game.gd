@@ -341,5 +341,22 @@
   ("hud-classes-pc.o" "hud-classes-pc") ;; added
   ("define-custom-functions-here.o" "define-custom-functions-here") ;; added
   ("put-custom-code-here.o" "put-custom-code-here") ;; added
+  ;; keep zoomer stuff loaded
+  ("target-racer-h.o" "target-racer-h")
+  ("racer-part.o" "racer-part")
+  ("racer.o" "racer")
+  ("target-racer.o" "target-racer")
+  ("racer-states.o" "racer-states")
+  ("collide-reaction-racer.o" "collide-reaction-racer")
+  ("racer-ag.go" "racer")
+  ("eichar-racer+0-ag.go" "eichar-racer+0")
+  ("tpage-1119.go" "tpage-1119")
+  ;; keep flutflut stuff loaded
+  ("flut-part.o" "flut-part")
+  ("flutflut.o" "flutflut")
+  ("target-flut.o" "target-flut")
+  ("flut-saddle-ag.go" "flut-saddle")
+  ("eichar-flut+0-ag.go" "eichar-flut+0")
+
   )
   
