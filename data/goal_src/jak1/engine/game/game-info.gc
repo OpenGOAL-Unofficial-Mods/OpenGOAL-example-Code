@@ -10,8 +10,7 @@
 
 ;; The "perm" data is saved to the memory card.
 
-(define-extern runs-on-orb-pickup (function none))
-(define-extern runs-on-cell-pickup (function none))
+(define-extern runs-on-jak-death (function symbol none))
 
 ;;;;;;;;;;;;;;;;;;
 ;; border plane
@@ -206,6 +205,7 @@
          (goto cfg-50)
          )
        )
+       (runs-on-jak-death 'blackout)
      )
     )
   (kill-current-level-hint '() '() 'die)
@@ -604,7 +604,6 @@
      ;; get money.
      (when (< 0.0 amount)
        ;; play sound.
-     (runs-on-orb-pickup) ;; trigger hook for mod base
        (if (>= (- (-> *display* base-frame-counter) (-> obj money-pickup-time)) (seconds 0.05))
            (sound-play "money-pickup")
            )
@@ -613,7 +612,6 @@
      (adjust (-> (the-as target (-> obj process)) game) 'money amount source-handle)
      )
     (((pickup-type fuel-cell))
-     (runs-on-cell-pickup) ;; triger hook for mod base
      ;; the amount is actually the index of the task.
      (let ((s4-2 (the int amount)))
        (if (not (or (task-complete? (-> (the-as target (-> obj process)) game) (the-as game-task s4-2))
