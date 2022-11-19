@@ -37,13 +37,6 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 ;; Define Custom Variables to use in mods
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define *currentCheckpoint* "")
-(define *currentLevel* #f)
-(define *currentCellCount* 0.0 )
-(define *currentORBCount* 0.0 )
-(define *currentCutsceneName* "")
-(define *currentHintName* "")
-(define *currentCutsceneFrame* 0)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Define Custom Functions to call in mods
@@ -51,48 +44,47 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
 
 ;; add your own unique custom functions here!
 
+;; Macros can be used more-or-less just like functions
+(defmacro current-cell-count ()
+  `(-> *game-info* fuel)
+  )
+
+(defmacro set-current-cell-count (count)
+  `(set! (-> *game-info* fuel) ,count)
+  )
+  
 (defun increase-power-cell-by-one ()
-;;this function sets argument one (-> *game-info* fuel) to the value of argument two
-;;(+ (-> *game-info* fuel) 1)   (the current powercell count + 1)
-(set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
-(none)
-)
+  (set-current-cell-count (+ (current-cell-count) 1))
+  ;; with the two macros defined above, this is equivalent to
+  ;; (set! (-> *game-info* fuel) (+ (-> *game-info* fuel) 1))
+  (none)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Define Approved Custom Functions to call in all mods
+;; Define Approved Custom Functions/Macros to call in all mods
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;These functions are included with the mod base and you are welcome to use them in your mods!
+;; These are included with the mod base and you are welcome to use them in your mods!
 
-(defun update-variables ()
-;;This function is called in main.gc everyframe to track varaibles for use in mods 
-;;it should NOT be called manually
-(if (not(= (-> *game-info* money) *currentORBCount*))
-(format #t "Updating current orb count ~F to  game info ~F as they are different in update-variable~%" *currentORBCount* (-> *game-info* money))
-)
-(set! *currentCheckpoint* (-> (-> *game-info* current-continue) name) ) 
-(set! *currentLevel* (-> (level-get-target-inside *level*) name))
-(set! *currentCellCount* (-> *game-info* fuel))
-(set! *currentORBCount* (-> *game-info* money))
-(set! *currentCutsceneName* (-> *art-control* active-stream))
-(set! *currentHintName* *level-hint-spool-name*)
-(none))
+(defmacro current-checkpoint-name ()
+  `(-> *game-info* current-continue name)
+  )
 
-(defun update-game-info-from-variables ()
-;;This function is called in main.gc everyframe to update game info from  varaibles for use in mods 
-;;it should NOT be called manually
-;; Line 609 of main.gc does not work yet
-(set! (-> (-> *game-info* current-continue) name) *currentCheckpoint*) 
-(set! (-> *game-info* fuel) *currentCellCount*)
-(if (not (= (-> *game-info* money) *currentORBCount*))
-(format #t "Upating game info ~F to  currentOrbCount ~F as they are different in update-GAME-INFO~%"  (-> *game-info* money) *currentORBCount*)
-)
+(defun set-current-checkpoint-by-name ((name string))
+  (set-continue! *game-info* name)
+  )
 
-(set! (-> *game-info* money) *currentORBCount*)
-(set! (-> *art-control* active-stream) *currentCutsceneName*)
-(set! *level-hint-spool-name* *currentHintName*)
-(none))
+(defmacro current-level-name ()
+  `(-> (level-get-target-inside *level*) name)
+  )
+  
+(defmacro current-orb-count ()
+  `(-> *game-info* money)
+  )
 
+(defmacro current-cutscene ()
+  `(-> *art-control* active-stream)
+  )
 
 ;;This function moves an actor to the given coordinates
 ;;example (move-actor farmer-3 3.0 74.0 -120.0)
@@ -287,35 +279,31 @@ if the result of rand-vu-int-range is 1, then DANCE! if it is not 1, then Don't 
   (set! (-> (target-pos 0) z) (meters arg2))
 )
 
-(define *obj-x* 0.0)
-(define *obj-y* 0.0)
-(define *obj-z* 0.0) ;; Change these to a Let local variable inside of function later
 ;;This returns true or false depending on if jak is within a provided distance from an actor
-(defun close? ((arg0 string)(arg1 float))
-  (set! *obj-x* (/ (-> (-> (-> (the process-drawable (process-by-ename arg0))root)trans)x) (meters 1)))
-  (set! *obj-y* (/ (-> (-> (-> (the process-drawable (process-by-ename arg0))root)trans)y) (meters 1)))
-  (set! *obj-z* (/ (-> (-> (-> (the process-drawable (process-by-ename arg0))root)trans)z) (meters 1)))
-
-  (if (and
-      (process-by-ename arg0)
-      (<= (abs (- *obj-x* (/ (-> (target-pos 0) x) (meters 1)))) arg1)
-      (<= (abs (- *obj-y* (/ (-> (target-pos 0) y) (meters 1)))) arg1)
-      (<= (abs (- *obj-z* (/ (-> (target-pos 0) z) (meters 1)))) arg1)
+(defun close? ((actor-ename string) (dist float))
+  (and 
+    (process-by-ename actor-ename)
+    (<= 
+      (vector-vector-distance 
+        (target-pos 0) 
+        (-> (the process-drawable (process-by-ename actor-ename)) root trans)
+        )
+      dist
       )
-  #t
+    )
   )
-)
+
 
 ;;This returns true or false if jak is within a bubble defined by coordiantes and width
-(defun in-bubble? ((arg0 float)(arg1 float)(arg2 float)(arg3 float))
-(if (and
-      (<= (abs (- arg0 (/ (-> (target-pos 0) x) (meters 1)))) arg3)
-      (<= (abs (- arg1 (/ (-> (target-pos 0) y) (meters 1)))) arg3)
-      (<= (abs (- arg2 (/ (-> (target-pos 0) z) (meters 1)))) arg3)
+(defun in-bubble? ((x float) (y float) (z float) (w float))
+  (<= 
+    (vector-vector-distance 
+      (target-pos 0) 
+      (set-vector! (new-stack-vector0) x y z 1.0)
       )
-  #t
+    (/ w 2.0)
+    )
   )
-)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Jak Color functions
