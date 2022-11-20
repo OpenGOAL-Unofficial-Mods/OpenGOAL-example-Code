@@ -10,6 +10,7 @@
 
 ;; The "perm" data is saved to the memory card.
 
+(define-extern runs-on-jak-death (function symbol none))
 
 ;;;;;;;;;;;;;;;;;;
 ;; border plane
@@ -204,6 +205,7 @@
          (goto cfg-50)
          )
        )
+       (runs-on-jak-death 'blackout)
      )
     )
   (kill-current-level-hint '() '() 'die)
