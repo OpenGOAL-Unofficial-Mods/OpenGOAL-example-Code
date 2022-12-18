@@ -1,9 +1,3 @@
-# OpenGoal-Mod-Base
-Serves as a base template for openGOAL mods that will be supported via [opengoal-mod-launcher](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-launcher).
-
-- Please ensure you are not committing copyrighted material to your repo (the `.gitignore` should help prevent this). 
-- Generally speaking you should only be updating certain directories/files:
-  - the executable binaries (`goalc.exe`, `gk.exe`, `extractor.exe`)
-  - GOAL code (`/data/goal_src`)
-  - Assets specific to the PC Port (`/data/game/assets/jak1/`)
-  - Decompiler config (`/data/decompiler/config`)
+# Jak The Chicken
+Port all levels from Mort the Chicken into OpenGOAL Jak 1 extracting the levels using https://github.com/mike309game/PmdView by 7F.
+![Alternate image text](https://github.com/OpenGOAL-Unofficial-Mods/Jak-the-Chicken/raw/main/ModImage.png)
