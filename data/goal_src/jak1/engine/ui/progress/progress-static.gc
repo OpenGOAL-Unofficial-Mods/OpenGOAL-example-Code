@@ -178,6 +178,7 @@
     14
     15 ;; citadel?
     15 ;; finalboss?
+    16 ;; blockworld ;; TAGMORT
     4 ;; demo?
     4 ;; intro?
     )
@@ -405,6 +406,7 @@
                         )
                    )
               )
+              ;; TAGMORT
          (new 'static 'level-tasks-info
               :level-name-id (game-text-id jungle-level-name)
               :text-group-index 1
@@ -1349,6 +1351,45 @@
                              (game-text-id citadel-buzzer)
                              (game-text-id citadel-buzzer)
                              (game-text-id citadel-buzzer)
+                             (game-text-id zero)
+                             )
+                        )
+                   )
+              )
+          (new 'static 'level-tasks-info
+              :level-name-id (game-text-id blockworld-level-name)
+              :text-group-index 1
+              :nb-of-tasks 3
+              :buzzer-task-index 2
+              :task-info
+              (new 'static 'array task-info-data 8
+                   (new 'static 'task-info-data
+                        :task-id (game-task blockworld-gimmie)
+                        :task-name
+                        (new 'static 'array game-text-id 4
+                             (game-text-id blockworld-gimmie-task-name)
+                             (game-text-id blockworld-gimmie-task-name)
+                             (game-text-id blockworld-gimmie-task-name)
+                             (game-text-id zero)
+                             )
+                        )
+                   (new 'static 'task-info-data
+                        :task-id (game-task blockworld-secondtask)
+                        :task-name
+                        (new 'static 'array game-text-id 4
+                             (game-text-id blockworld-secondtask-task-name)
+                             (game-text-id blockworld-secondtask-task-name)
+                             (game-text-id blockworld-secondtask-task-name)
+                             (game-text-id zero)
+                             )
+                        )
+                   (new 'static 'task-info-data
+                        :task-id (game-task blockworld-buzzer)
+                        :task-name
+                        (new 'static 'array game-text-id 4
+                             (game-text-id blockworld-buzzer-task-name)
+                             (game-text-id blockworld-buzzer-task-name)
+                             (game-text-id blockworld-buzzer-task-name)
                              (game-text-id zero)
                              )
                         )

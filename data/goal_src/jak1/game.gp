@@ -1629,6 +1629,12 @@
 ;; the DGO file
 (custom-level-cgo "TSZ.DGO" "test-zone/testzone.gd")
 
+;; TAGMORT
+;; it should point to the .jsonc file that specifies the level.
+(build-custom-level "block-world")
+;; the DGO file
+(custom-level-cgo "BWD.DGO" "block-world/block-world.gd")
+
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Game Engine Code
 ;;;;;;;;;;;;;;;;;;;;;
