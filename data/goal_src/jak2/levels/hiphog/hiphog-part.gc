@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: hiphog-part.gc
-;; name in dgo: hiphog-part
-;; dgos: HIPHOG
-
-;; DECOMP BEGINS
-

@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: plat.gc
-;; name in dgo: plat
-;; dgos: GAME, COMMON
-
-;; DECOMP BEGINS
-

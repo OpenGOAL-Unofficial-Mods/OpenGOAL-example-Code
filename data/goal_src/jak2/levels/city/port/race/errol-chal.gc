@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: errol-chal.gc
-;; name in dgo: errol-chal
-;; dgos: LERLCHAL, LPRTRACE
-
-;; DECOMP BEGINS
-

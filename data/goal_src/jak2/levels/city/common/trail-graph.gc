@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: trail-graph.gc
-;; name in dgo: trail-graph
-;; dgos: CWI
-
-;; DECOMP BEGINS
-

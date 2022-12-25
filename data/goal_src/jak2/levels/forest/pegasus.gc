@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: pegasus.gc
-;; name in dgo: pegasus
-;; dgos: FOR
-
-;; DECOMP BEGINS
-

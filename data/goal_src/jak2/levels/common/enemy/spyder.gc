@@ -1,9 +1,0 @@
-;;-*-Lisp-*-
-(in-package goal)
-
-;; name: spyder.gc
-;; name in dgo: spyder
-;; dgos: FOR, ATE
-
-;; DECOMP BEGINS
-
