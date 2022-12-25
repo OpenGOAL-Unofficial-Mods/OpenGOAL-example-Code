@@ -1,0 +1,88 @@
+
+;;This is how you would add a custom warpgate name to any level, if you do not do this it will default to the 
+;;Levels "code name" Village1/Village2/Rolling etc
+;;Just add a :customname field to any level (even vanilla levels!)
+(define sunken
+  (new 'static 'level-load-info
+    :index 9
+    :name 'sunken
+    :customname "My new level!"
+    :visname 'sunken-vis
+    :nickname 'sun
+    :packages '(sunken)
+    :sound-banks '(sunken)
+    :music-bank 'sunken
+    :ambient-sounds '()
+    :mood '*sunken-mood*
+    :mood-func 'update-mood-sunken
+    :ocean '*ocean-map-sunken*
+    :sky #f
+    :continues '((new 'static 'continue-point
+        :name "sunken-start"
+        :level 'sunken
+        :trans (new 'static 'vector :x 2172095.2 :y -591749.94 :z -6721553.0 :w 1.0)
+        :quat (new 'static 'quaternion :y -0.5083 :w 0.8611)
+        :camera-trans (new 'static 'vector :x 2138871.5 :y -572296.4 :z -6751967.5 :w 1.0)
+        :camera-rot (new 'static 'array float 9 0.7575 0.0 -0.6527 0.0858 0.9913 0.0995 0.647 -0.1314 0.7509)
+        :load-commands '()
+        :vis-nick 'sun
+        :lev0 'sunken
+        :disp0 'display
+        :lev1 'village2
+        :disp1 'display
+        )
+      (new 'static 'continue-point
+        :name "sunken1"
+        :level 'sunken
+        :trans (new 'static 'vector :x 3062988.5 :y -536575.56 :z -6527484.0 :w 1.0)
+        :quat (new 'static 'quaternion :y 0.5304 :w 0.8477)
+        :camera-trans (new 'static 'vector :x 3015461.2 :y -515480.38 :z -6546573.5 :w 1.0)
+        :camera-rot (new 'static 'array float 9 0.3725 0.0 -0.928 0.1121 0.9926 0.045 0.9212 -0.1208 0.3697)
+        :load-commands '()
+        :vis-nick 'sun
+        :lev0 'sunken
+        :disp0 'display
+        :lev1 'sunkenb
+        :disp1 #f
+        )
+      (new 'static 'continue-point
+        :name "sunken2"
+        :level 'sunken
+        :trans (new 'static 'vector :x 3133625.5 :y -569343.56 :z -6909587.5 :w 1.0)
+        :quat (new 'static 'quaternion :y -0.9512 :w 0.3083)
+        :camera-trans (new 'static 'vector :x 3170833.2 :y -548244.25 :z -6874378.0 :w 1.0)
+        :camera-rot (new 'static 'array float 9 -0.6872 0.0 0.7263 -0.0878 0.9926 -0.0831 -0.721 -0.1209 -0.6822)
+        :load-commands '()
+        :vis-nick 'sun
+        :lev0 'sunken
+        :disp0 'display
+        :lev1 'sunkenb
+        :disp1 #f
+        )
+      (new 'static 'continue-point
+        :name "sunken-tube1"
+        :level 'sunken
+        :trans (new 'static 'vector :x 2649601.8 :y -569343.56 :z -7132970.0 :w 1.0)
+        :quat (new 'static 'quaternion :y 0.9936 :w 0.1124)
+        :camera-trans (new 'static 'vector :x 2636150.2 :y -555656.4 :z -7114732.5 :w 1.0)
+        :camera-rot (new 'static 'array float 9 -0.8024 0.0 -0.5967 0.1721 0.9574 -0.2315 0.5713 -0.2885 -0.7683)
+        :load-commands '()
+        :vis-nick 'sun
+        :lev0 'sunken
+        :disp0 'display
+        :lev1 'sunkenb
+        :disp1 #f
+        )
+      )
+    :tasks '()
+    :priority 100
+    :load-commands '()
+    :alt-load-commands '()
+    :bsp-mask #xffffffffffffffff
+    :bsphere (new 'static 'sphere :x 2867200.0 :y -2048000.0 :z -6553600.0 :w 2048000.0)
+    :buzzer 49
+    :bottom-height (meters -500)
+    :run-packages '("common")
+    :wait-for-load #f
+    )
+  )

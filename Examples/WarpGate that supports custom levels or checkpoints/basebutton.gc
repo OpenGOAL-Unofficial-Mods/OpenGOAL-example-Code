@@ -1,0 +1,18 @@
+
+;;This is where you would add a custom checkpoint to the list
+(define *warp-info* (the-as (array string) (new 'static 'boxed-array :type string 
+                                             "training-warp"
+                                             "village1-warp"
+                                             "swamp-start"
+                                             "village2-warp"
+                                             "village3-warp"
+                                             "citadel-warp"
+                                             "beach-start"
+                                             "sunken-start"
+                                             "jungle-start"
+                                             )
+                                           )
+        )
+
+
+

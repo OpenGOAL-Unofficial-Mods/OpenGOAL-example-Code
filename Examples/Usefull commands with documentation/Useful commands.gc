@@ -1,0 +1,5 @@
+;;Spawn a specified pickup at Jaks location
+(birth-pickup-at-point 
+    (vector+float! (new-stack-vector0) (-> *target* root trans) 5.0)
+    (pickup-type eco-yellow) 3576.0 #f *target* (the-as fact-info #f)
+    )
