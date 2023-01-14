@@ -2028,7 +2028,7 @@
                            :continues '((new 'static 'continue-point
                                              :name "my-first-level-start"                                                        ;; Good practice to have level name + specific checkpoint
                                              :level 'my-first-level                                                              ;; Level the checkpoint is from
-                                             :trans (new 'static 'vector :x 0.0 :y (meters 10.) :z (meters 10.) :w 1.0)          ;; Jak's spawn position
+                                             :trans (new 'static 'vector :x (meters -500.0) :y (meters 5.0) :z (meters 400.0) :w 1.0) ;; Jak's spawn position
                                              :quat (new 'static 'quaternion  :w 1.0)                                             ;; Jak's rotation when spawning
                                              :camera-trans (new 'static 'vector :x 0.0 :y 4096.0 :z 0.0 :w 1.0)                  ;; Camera's position
                                              :camera-rot (new 'static 'array float 9 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0)        ;; Camera's rotation
