@@ -1,17 +1,17 @@
 {
   // The "in-game" name of the level. Should be lower case, with dashes (GOAL symbol name)
   // the name of this file, and the folder this file is in must have the same name.
-  "long_name": "test-zone",
+  "long_name": "my-first-level",  // Make sure it is the same as the one found in the .gd file included next to the .go
   // The file name, should be upper case and 8 characters or less.
-  "iso_name": "TESTZONE",
+  "iso_name": "MYFIRSTLEVEL",
   // The nickname, should be exactly 3 characters
-  "nickname": "TSZ", // 3 char name, all uppercase
+  "nickname": "MFL", // 3 char name, all uppercase same as the one found in the .gd file as the name of the DGO 
 
   // Background mesh file.
   // Must have vertex colors. Use the blender cycles renderer, bake, diffuse, uncheck color,
   // and bake to vertex colors. For now, only the first vertex color group is used, so make sure you
   // only have 1.
-  "gltf_file": "custom_levels/test-zone/test-zone2.glb",
+  "gltf_file": "custom_levels/my-first-level/my-first-level.glb",  // File path to the .glb of your level
   "automatic_wall_detection": true,
   "automatic_wall_angle": 45.0,
 
