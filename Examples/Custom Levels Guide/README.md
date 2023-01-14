@@ -2,4 +2,4 @@
 
 This example folder serve as an example for my custom level guide.
 
-Check the guide here : https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/tree/main/Examples
+Check the guide here : https://docs.google.com/document/d/1oPPV4U8iq8yjarE_9EyDScY3UkHUY2ZKX5vHazkcXCc
