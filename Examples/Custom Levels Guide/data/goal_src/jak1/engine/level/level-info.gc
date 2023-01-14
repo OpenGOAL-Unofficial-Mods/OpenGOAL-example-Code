@@ -2012,4 +2012,43 @@
                            )
         )
 
+(define my-first-level (new 'static 'level-load-info         ;;level name same as everywhere else
+                           :index 26
+                           :name 'my-first-level             ;; name
+                           :visname 'my-first-level-vis      ;; name + -vis
+                           :nickname 'mfl                    ;; nickname in lower case
+                           :packages '()
+                           :sound-banks '()
+                           :music-bank #f                    ;; Set the music in the level
+                           :ambient-sounds '()
+                           :mood '*default-mood*             ;; Set the mood table for actor light, fog and sun
+                           :mood-func 'update-mood-default   ;; Set the function to update the mood
+                           :ocean #t                         ;; Set to display #t or not #f the ocean
+                           :sky #t                           ;; Set to display #t or not #f the sky
+                           :continues '((new 'static 'continue-point
+                                             :name "my-first-level-start"                                                        ;; Good practice to have level name + specific checkpoint
+                                             :level 'my-first-level                                                              ;; Level the checkpoint is from
+                                             :trans (new 'static 'vector :x 0.0 :y (meters 10.) :z (meters 10.) :w 1.0)          ;; Jak's spawn position
+                                             :quat (new 'static 'quaternion  :w 1.0)                                             ;; Jak's rotation when spawning
+                                             :camera-trans (new 'static 'vector :x 0.0 :y 4096.0 :z 0.0 :w 1.0)                  ;; Camera's position
+                                             :camera-rot (new 'static 'array float 9 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0)        ;; Camera's rotation
+                                             :load-commands '()
+                                             :vis-nick 'none
+                                             :lev0 'my-first-level                                                               ;; First level to load (this should be your custom level)
+                                             :disp0 'display                                                                     ;; How to display first level
+                                             :lev1 'village1                                                                     ;; Second level to load
+                                             :disp1 'display                                                                     ;; How to display second level
+                                             ))
+                           :tasks '()
+                           :priority 100
+                           :load-commands '()
+                           :alt-load-commands '()
+                           :bsp-mask #xffffffffffffffff
+                           :bsphere (new 'static 'sphere :w 167772160000.0)
+                           :bottom-height (meters -20)          ;; Set the height of the void when in this level
+                           :run-packages '()
+                           :wait-for-load #t
+                           )
+        )
+
 (cons! *level-load-list* 'test-zone)
