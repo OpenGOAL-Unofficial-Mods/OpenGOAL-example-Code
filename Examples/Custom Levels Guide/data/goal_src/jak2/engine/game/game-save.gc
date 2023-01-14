@@ -1,0 +1,12 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: game-save.gc
+;; name in dgo: game-save
+;; dgos: ENGINE, GAME
+
+;; NOTE - for default-menu
+(define-extern auto-save-command (function symbol int int process-tree symbol none))
+
+;; DECOMP BEGINS
+

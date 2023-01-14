@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: fort-floor-spike.gc
+;; name in dgo: fort-floor-spike
+;; dgos: FRB, FDB
+
+;; DECOMP BEGINS
+

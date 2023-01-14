@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: intro-ocean.gc
+;; name in dgo: intro-ocean
+;; dgos: INTROCST
+
+;; DECOMP BEGINS
+

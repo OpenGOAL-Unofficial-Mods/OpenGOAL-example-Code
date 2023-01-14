@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: widow-part.gc
+;; name in dgo: widow-part
+;; dgos: TOA
+
+;; DECOMP BEGINS
+

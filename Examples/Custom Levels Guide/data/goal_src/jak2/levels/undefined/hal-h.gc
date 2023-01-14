@@ -1,0 +1,9 @@
+;;-*-Lisp-*-
+(in-package goal)
+
+;; name: hal-h.gc
+;; name in dgo: hal-h
+;; dgos: SEB, SWB, LKIDDOGE, UNB, CTYKORA
+
+;; DECOMP BEGINS
+
