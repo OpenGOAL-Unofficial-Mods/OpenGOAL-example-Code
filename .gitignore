@@ -18,6 +18,7 @@ data/extractor.log
 .env
 Zedbottwitchintegration.exe
 
+# ALL ISO AND DECOMP OUT IGNORE FOR THE CUSTOM LEVEL GUIDE :
 Examples/Custom Levels Guide/data/decompiler_out
 Examples/Custom Levels Guide/data/iso_data
 Examples/Custom Levels Guide/data/log
