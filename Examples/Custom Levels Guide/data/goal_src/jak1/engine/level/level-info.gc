@@ -2013,7 +2013,7 @@
         )
 
 (define my-first-level (new 'static 'level-load-info         ;;level name same as everywhere else
-                           :index 26
+                           :index 27                         ;; Index need to unique
                            :name 'my-first-level             ;; name
                            :visname 'my-first-level-vis      ;; name + -vis
                            :nickname 'mfl                    ;; nickname in lower case
@@ -2023,7 +2023,7 @@
                            :ambient-sounds '()
                            :mood '*default-mood*             ;; Set the mood table for actor light, fog and sun
                            :mood-func 'update-mood-default   ;; Set the function to update the mood
-                           :ocean #t                         ;; Set to display #t or not #f the ocean
+                           :ocean #f                         ;; Set to display #t or not #f the ocean
                            :sky #t                           ;; Set to display #t or not #f the sky
                            :continues '((new 'static 'continue-point
                                              :name "my-first-level-start"                                                        ;; Good practice to have level name + specific checkpoint
@@ -2052,3 +2052,4 @@
         )
 
 (cons! *level-load-list* 'test-zone)
+(cons! *level-load-list* 'my-first-level)  ;; Add our level and continue-points to the list
