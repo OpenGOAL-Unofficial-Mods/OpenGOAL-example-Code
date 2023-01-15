@@ -228,7 +228,7 @@
                             startingDebugContinuePoint
                             )
                           (*debug-segment*
-                            "village1-hut"
+                            "my-first-level-start"  ;; Change to your level's continue-point for fast testing
                             )
                           (else
                             "title-start"
