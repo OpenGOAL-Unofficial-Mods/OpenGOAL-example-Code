@@ -61,6 +61,142 @@
       "lump": {
         "name":"MFL-fuel-cell-01"
       }
+    },
+    // crate
+    //// crate-type 'wood
+    {
+      "trans": [-500.0, 5.0, 390.0], // translation
+      "etype": "crate",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-500.0, 5.0, 390.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-crate-wood-01", 
+        "crate-type":"'wood"
+      }
+    },
+    {
+      "trans": [-500.0, 5.0, 393.0], // translation
+      "etype": "crate",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-500.0, 5.0, 3930.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-crate-wood-02", 
+        "crate-type":"'wood",
+        "eco-info": ["int32", 1, 1] // Contains 1 Yellow eco
+      }
+    },
+    {
+      "trans": [-500.0, 5.0, 396.0], // translation
+      "etype": "crate",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-500.0, 5.0, 396.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-crate-wood-03", 
+        "crate-type":"'wood",
+        "eco-info": ["int32", 3, 1] // Contains 1 Blue eco
+      }
+    },
+    {
+      "trans": [-470.0, 6.5092, 390.0], // translation
+      "etype": "crate",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0.153, 0.690, 0.153, 0.690], // quaternion
+      "bsphere": [-470.0, 6.5092, 390.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-crate-wood-04", 
+        "crate-type":"'wood"
+      }
+    },
+    //// crate-type 'iron
+    {
+      "trans": [-495.0, 5.0, 390.0], // translation
+      "etype": "crate",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-495.0, 5.0, 390.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-crate-iron-01", 
+        "crate-type":"'iron",
+        "eco-info": ["int32", 8, 1], // contain a scout fly (the 1 isn't for quantity but task)
+        "movie-pos": ["meters", -495.0, 5.0, 400.0] // position where the cell fall to
+      }
+    },
+    //// crate-type 'steel
+    {
+      "trans": [-490.0, 5.0, 390.0], // translation
+      "etype": "crate",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-490.0, 5.0, 390.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-crate-steel-01", 
+        "crate-type":"'steel",
+        "eco-info": ["int32", 5, 4] // Contains 4 orbs
+      }
+    },
+    {
+      "trans": [-490.0, 5.0, 393.0], // translation
+      "etype": "crate",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-490.0, 5.0, 393.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-crate-steel-02", 
+        "crate-type":"'steel",
+        "eco-info": ["int32", 2, 1] // Contains 1 Red eco blob
+      }
+    },
+    {
+      "trans": [-490.0, 5.0, 396.0], // translation
+      "etype": "crate",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-490.0, 5.0, 396.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-crate-steel-03", 
+        "crate-type":"'steel",
+        "eco-info": ["int32", 6, 1], // Contains 1 Power cell (the 1 isn't for quantity but task)
+        "movie-pos": ["meters", -490.0, 5.0, 400.0] // position where the cell fall to
+      }
+    },
+    //// crate-type 'bucket
+    {
+      "trans": [-485.0, 5.0, 390.0], // translation
+      "etype": "bucket",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-485.0, 5.0, 390.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-crate-bucket-01", 
+        "crate-type":"'bucket"
+      }
+    },
+    //// crate-type 'barrel
+    {
+      "trans": [-480.0, 5.0, 390.0], // translation
+      "etype": "crate",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-480.0, 5.0, 390.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-crate-barrel-01", 
+        "crate-type":"'barrel"
+      }
+    },
+    //// crate-type 'darkeco
+    {
+      "trans": [-475.0, 5.0, 390.0], // translation
+      "etype": "crate",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-475.0, 5.0, 390.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-crate-darkeco-01", 
+        "crate-type":"'darkeco"
+      }
     }
   ]
 }
