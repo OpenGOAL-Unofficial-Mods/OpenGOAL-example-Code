@@ -336,6 +336,29 @@
         "eco-info": ["int32", 3, 1], // Blue eco vent
         "alt-actor": "MFL-crate-bucket-02" // Blocked until that actor is broken
       }
+    },
+    //// Vents with other collectables
+    {
+      "trans": [-445.0, 5.0, 410.0], // translation
+      "etype": "ecovent",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-445.0, 5.0, 410.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-ecovent-06",
+        "eco-info": ["int32", 5, 1] // Infinite orbs vent
+      }
+    },
+    {
+      "trans": [-438.0, 5.0, 410.0], // translation
+      "etype": "ecovent",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-438.0, 5.0, 410.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-ecovent-07",
+        "eco-info": ["int32", 7, 1] // Green eco pills vent
+      }
     }
   ]
 }
