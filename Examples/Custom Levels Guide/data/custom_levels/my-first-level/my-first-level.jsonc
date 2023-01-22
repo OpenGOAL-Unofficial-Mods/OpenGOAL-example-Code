@@ -359,6 +359,18 @@
         "name":"MFL-ecovent-07",
         "eco-info": ["int32", 7, 1] // Green eco pills vent
       }
+    },
+    // Launcher aka blue eco jump pads
+    {
+      "trans": [-463.0, 5.0, 390.0], // translation
+      "etype": "launcher",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-463.0, 5.0, 390.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-launcher-01",
+        "spring-height": ["meters", 60.0] // Set the height of the jump
+      }
     }
   ]
 }
