@@ -20,6 +20,7 @@
   "double_sided_collide": false,
 
   "actors" : [
+    // money (orbs) :
     {
       "trans": [-510.0, 6.5, 390.0], // translation
       "etype": "money",  // actor type
@@ -48,6 +49,17 @@
       "bsphere": [-510.0, 6.5, 400.0, 10], // bounding sphere
       "lump": {
         "name":"MFL-money-03"
+      }
+    },
+    // fuel-cell (Power cells)
+    {
+      "trans": [-505.0, 7.0, 390.0], // translation
+      "etype": "fuel-cell",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-505.0, 7.0, 390.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-fuel-cell-01"
       }
     }
   ]
