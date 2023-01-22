@@ -371,6 +371,18 @@
         "name":"MFL-launcher-01",
         "spring-height": ["meters", 60.0] // Set the height of the jump
       }
+    },
+    {
+      "trans": [-456.0, 5.0, 390.0], // translation
+      "etype": "launcher",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-456.0, 5.0, 390.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-launcher-02",
+        "spring-height": ["meters", 60.0], // Set the height of the jump
+        "alt-vector":["vector4m", [-500, 5.0, 400.0, 5.0]] // Set the landing position
+      }
     }
   ]
 }
