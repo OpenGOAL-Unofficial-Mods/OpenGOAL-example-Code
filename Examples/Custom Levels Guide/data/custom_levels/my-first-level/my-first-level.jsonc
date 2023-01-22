@@ -197,6 +197,76 @@
         "name":"MFL-crate-darkeco-01", 
         "crate-type":"'darkeco"
       }
+    },
+    // eco :
+    //// Full blobs 
+    {
+      "trans": [-510.0, 7.0, 410.0], // translation
+      "etype": "eco",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-510.0, 7.0, 410.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-eco-01",
+        "eco-info": ["int32", 1, 1] // 1 Yellow eco blob
+      }
+    },
+    {
+      "trans": [-505.0, 7.0, 410.0], // translation
+      "etype": "eco",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-505.0, 7.0, 410.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-eco-02",
+        "eco-info": ["int32", 2, 1] // 1 Red eco blob
+      }
+    },
+    {
+      "trans": [-500.0, 7.0, 410.0], // translation
+      "etype": "eco",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-500.0, 7.0, 410.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-eco-03",
+        "eco-info": ["int32", 3, 1] // 1 Blue eco blob
+      }
+    },
+    {
+      "trans": [-495.0, 7.0, 410.0], // translation
+      "etype": "eco",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-495.0, 7.0, 410.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-eco-04",
+        "eco-info": ["int32", 4, 1] // 1 Green eco blob
+      }
+    },
+    //// Green eco pills
+    {
+      "trans": [-490.0, 7.0, 410.0], // translation
+      "etype": "eco",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-490.0, 7.0, 410.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-eco-05",
+        "eco-info": ["int32", 7, 1] // 1 Green eco pill
+      }
+    },
+    //// Eco quantity increase
+    {
+      "trans": [-485.0, 7.0, 410.0], // translation
+      "etype": "eco",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-485.0, 7.0, 410.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-eco-06",
+        "eco-info": ["int32", 7, 10] // 1 Green eco pill which gives you 10x
+      }
     }
   ]
 }
