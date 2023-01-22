@@ -174,6 +174,17 @@
         "crate-type":"'bucket"
       }
     },
+    {
+      "trans": [-452.0, 5.0, 410.0], // translation
+      "etype": "crate",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-452.0, 5.0, 410.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-crate-bucket-02", 
+        "crate-type":"'bucket"
+      }
+    },
     //// crate-type 'barrel
     {
       "trans": [-480.0, 5.0, 390.0], // translation
@@ -311,6 +322,19 @@
       "lump": {
         "name":"MFL-ecovent-04",
         "eco-info": ["int32", 4, 1] // Green eco vent
+      }
+    },
+    //// Blocked eco vent
+    {
+      "trans": [-452.0, 5.0, 410.0], // translation
+      "etype": "ecovent",  // actor type
+      "game_task": 0, // associated game task (for powercells, etc)
+      "quat" : [0, 0, 0, 1], // quaternion
+      "bsphere": [-452.0, 5.0, 410.0, 10], // bounding sphere
+      "lump": {
+        "name":"MFL-ecovent-05",
+        "eco-info": ["int32", 3, 1], // Blue eco vent
+        "alt-actor": "MFL-crate-bucket-02" // Blocked until that actor is broken
       }
     }
   ]
