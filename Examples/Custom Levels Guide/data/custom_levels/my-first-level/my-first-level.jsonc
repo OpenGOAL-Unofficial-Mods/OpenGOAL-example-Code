@@ -20,39 +20,5 @@
   "double_sided_collide": false,
 
   "actors" : [
-    {
-      "trans": [-490.0, 5.0, 390.0], // translation
-      "etype": "fuel-cell",  // actor type
-      "game_task": 0, // associated game task (for powercells, etc)
-      "quat" : [0, 0, 0, 1], // quaternion
-      "bsphere": [-490.0, 5.0, 390.0, 10], // bounding sphere
-      "lump": {
-        "name":"test-fuel-cell"
-      }
-    },
-
-    {
-      "trans": [-490.0, 5.0, 394.0], // translation
-      "etype": "crate",  // actor type
-      "game_task": 0, // associated game task (for powercells, etc)
-      "quat" : [0, 0, 0, 1], // quaternion
-      "bsphere": [-490.0, 5.0, 394.0, 10], // bounding sphere
-      "lump": {
-        "name":"test-crate",
-        "crate-type":"'steel",
-        "eco-info": ["int32", 5, 10]
-      }
-    },
-
-    {
-      "trans": [-490.0, 5.0, 398.0], // translation
-      "etype": "eco-yellow",  // actor type
-      "game_task": 0, // associated game task (for powercells, etc)
-      "quat" : [0, 0, 0, 1], // quaternion
-      "bsphere": [-490.0, 5.0, 398.0, 10], // bounding sphere
-      "lump": {
-        "name":"test-eco"
-      }
-    }
   ]
 }
